@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Platform Attribution Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body onload="calculateAttribution()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Cross-Platform Attribution Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Analyze the effectiveness of your marketing campaigns across multiple platforms.</p>
+        <h5>Formula:</h5>
+        <p><strong>Attribution (%) = (Conversions from Platform / Total Conversions) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose your campaign generated 10,000 total conversions: 4,000 from Google Ads, 3,000 from Facebook Ads, and 3,000 from other sources.</p>
+        <p>Attribution for Google Ads = (4,000 / 10,000) × 100 = 40%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" placeholder="10000" value="10000" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td>Google Ads Conversions</td>
+                        <td><input type="number" id="googleConversions" class="form-control" placeholder="4000" value="4000" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td>Facebook Ads Conversions</td>
+                        <td><input type="number" id="facebookConversions" class="form-control" placeholder="3000" value="3000" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td>Attribution</td>
+                        <td><h4 class="text-primary" id="attributionResult">40.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="attributionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Cross-Platform Attribution?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Cross-platform attribution measures the contribution of each marketing channel to the overall conversions.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Why is Cross-Platform Attribution important?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">It helps marketers allocate budgets efficiently by understanding which channels drive the most conversions.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Cross-Platform Attribution Calculator. All rights reserved.</p>
+    </footer>
+    <script>
+        let chart;
+        function calculateAttribution() {
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+            let googleConversions = parseFloat(document.getElementById('googleConversions').value) || 0;
+            let facebookConversions = parseFloat(document.getElementById('facebookConversions').value) || 0;
+            let otherConversions = totalConversions - googleConversions - facebookConversions;
+
+            let attribution = (googleConversions / totalConversions) * 100;
+            document.getElementById('attributionResult').innerText = attribution.toFixed(2) + '%';
+            updateChart(googleConversions, facebookConversions, otherConversions);
+        }
+
+        function updateChart(googleConversions, facebookConversions, otherConversions) {
+            let ctx = document.getElementById('attributionChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Google Ads', 'Facebook Ads', 'Other Conversions'],
+                    datasets: [{
+                        label: 'Attribution',
+                        data: [googleConversions, facebookConversions, otherConversions],
+                        backgroundColor: ['#36a2eb', '#ff6384', '#ffcd56'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

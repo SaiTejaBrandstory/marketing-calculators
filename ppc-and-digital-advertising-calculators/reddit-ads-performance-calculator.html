@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Ads Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body onload="calculatePerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Reddit Ads Performance Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the performance of your Reddit Ads based on ad spend, impressions, and engagement.</p>
+        <h5>Formula:</h5>
+        <p><strong>Engagement Rate (%) = (Total Engagements / Total Impressions) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose your ad received 50,000 impressions and 2,500 engagements.</p>
+        <p>Engagement Rate = (2,500 / 50,000) × 100 = 5%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Ad Spend (INR)</td>
+                        <td><input type="number" id="adSpend" class="form-control" placeholder="5000" value="5000" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Impressions</td>
+                        <td><input type="number" id="totalImpressions" class="form-control" placeholder="50000" value="50000" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Engagements</td>
+                        <td><input type="number" id="totalEngagements" class="form-control" placeholder="2500" value="2500" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Engagement Rate</td>
+                        <td><h4 class="text-primary" id="performanceResult">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Engagement Rate in Reddit Ads?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Engagement rate measures how many users interacted with your ad compared to the total number of impressions.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How can I improve Reddit Ads engagement?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">You can improve engagement by using eye-catching creatives, targeting the right audience, and optimizing ad copy.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Reddit Ads Performance Calculator. All rights reserved.</p>
+    </footer>
+    <script>
+        let chart;
+        function calculatePerformance() {
+            let adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            let totalImpressions = parseFloat(document.getElementById('totalImpressions').value) || 0;
+            let totalEngagements = parseFloat(document.getElementById('totalEngagements').value) || 0;
+            
+            let engagementRate = (totalEngagements / totalImpressions) * 100;
+            document.getElementById('performanceResult').innerText = engagementRate.toFixed(2) + '%';
+            updateChart(adSpend, engagementRate);
+        }
+
+        function updateChart(adSpend, engagementRate) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Ad Spend', 'Engagement Rate'],
+                    datasets: [{
+                        label: 'Performance',
+                        data: [adSpend, engagementRate],
+                        backgroundColor: ['#ff6384', '#36a2eb'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

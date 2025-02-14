@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Calculators</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Royal&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Royal', sans-serif;
+            background: linear-gradient(135deg, #eb5515, #e1885c);
+            color: #fff;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            opacity: 0;
+        }
+
+        .category-section {
+            padding: 60px 0;
+        }
+
+        .category-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+
+        .calculator-card {
+            background: #fff;
+            color: #333;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .calculator-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section (Main Heading) -->
+    <section class="hero">
+        <div>
+            <h1 id="hero-title">Marketing Calculators</h1>
+        </div>
+    </section>
+
+    <!-- PPC & Digital Advertising Calculators Section -->
+    <section id="ppc-calculators" class="category-section container">
+        <h2 class="category-title">PPC & Digital Advertising Calculators</h2>
+        <div class="row" id="calculator-list"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white">
+        <p>&copy; 2025 Marketing Calculators. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // GSAP Animation for Hero Section
+            gsap.to("#hero-title", { opacity: 1, y: -10, duration: 1 });
+
+            const calculators = [
+                { name: "Google Ads CPC Calculator", link: "google-ads-cpc-calculator.html", icon: "fa-chart-line" },
+                { name: "Quality Score Impact Calculator", link: "quality-score-impact-calculator.html", icon: "fa-star" },
+                { name: "YouTube Ad Engagement Rate Calculator", link: "youtube-ad-engagement-rate-calculator.html", icon: "fa-video" },
+                { name: "Amazon Ads Profitability Calculator", link: "amazon-ads-profitability-calculator.html", icon: "fa-dollar-sign" },
+                { name: "Reddit Ads Performance Calculator", link: "reddit-ads-performance-calculator.html", icon: "fa-reddit" },
+                { name: "Display Ads Viewability Calculator", link: "display-ads-viewability-calculator.html", icon: "fa-eye" },
+                { name: "Ad Fatigue Detector", link: "ad-fatigue-detector.html", icon: "fa-tired" },
+                { name: "Cross-Platform Attribution Calculator", link: "cross-platform-attribution-calculator.html", icon: "fa-network-wired" },
+                { name: "Ad Budget Allocation Calculator", link: "ad-budget-allocation-calculator.html", icon: "fa-wallet" },
+                { name: "Conversion Window Analysis Calculator", link: "conversion-window-analysis-calculator.html", icon: "fa-clock" },
+                { name: "Geotargeting Impact Calculator", link: "geotargeting-impact-calculator.html", icon: "fa-map-marked-alt" },
+                { name: "Customer Journey Touchpoint Calculator", link: "customer-journey-touchpoint-calculator.html", icon: "fa-route" }
+            ];
+
+            const listContainer = document.getElementById("calculator-list");
+            calculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-4 col-md-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="ppc-and-digital-advertising-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                listContainer.appendChild(col);
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

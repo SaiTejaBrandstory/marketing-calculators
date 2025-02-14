@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Budget Allocation Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body onload="calculateBudgetAllocation()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Ad Budget Allocation Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Optimize your advertising budget by allocating funds effectively across multiple platforms.</p>
+        <h5>Formula:</h5>
+        <p><strong>Allocation (%) = (Budget for Platform / Total Budget) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you have a total budget of $50,000: $20,000 for Google Ads, $15,000 for Facebook Ads, and $15,000 for other platforms.</p>
+        <p>Allocation for Google Ads = ($20,000 / $50,000) × 100 = 40%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Budget ($)</td>
+                        <td><input type="number" id="totalBudget" class="form-control" placeholder="50000" value="50000" oninput="calculateBudgetAllocation()"></td>
+                    </tr>
+                    <tr>
+                        <td>Google Ads Budget ($)</td>
+                        <td><input type="number" id="googleBudget" class="form-control" placeholder="20000" value="20000" oninput="calculateBudgetAllocation()"></td>
+                    </tr>
+                    <tr>
+                        <td>Facebook Ads Budget ($)</td>
+                        <td><input type="number" id="facebookBudget" class="form-control" placeholder="15000" value="15000" oninput="calculateBudgetAllocation()"></td>
+                    </tr>
+                    <tr>
+                        <td>Budget Allocation (%)</td>
+                        <td><h4 class="text-primary" id="allocationResult">40.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="budgetChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Ad Budget Allocation?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Ad budget allocation determines how your marketing funds are distributed across different advertising platforms.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Why is Budget Allocation Important?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Proper allocation ensures maximum return on investment (ROI) by prioritizing the most effective channels.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Ad Budget Allocation Calculator. All rights reserved.</p>
+    </footer>
+    <script>
+        let chart;
+        function calculateBudgetAllocation() {
+            let totalBudget = parseFloat(document.getElementById('totalBudget').value) || 0;
+            let googleBudget = parseFloat(document.getElementById('googleBudget').value) || 0;
+            let facebookBudget = parseFloat(document.getElementById('facebookBudget').value) || 0;
+            let otherBudget = totalBudget - googleBudget - facebookBudget;
+
+            let allocation = (googleBudget / totalBudget) * 100;
+            document.getElementById('allocationResult').innerText = allocation.toFixed(2) + '%';
+            updateChart(googleBudget, facebookBudget, otherBudget);
+        }
+
+        function updateChart(googleBudget, facebookBudget, otherBudget) {
+            let ctx = document.getElementById('budgetChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Google Ads', 'Facebook Ads', 'Other Platforms'],
+                    datasets: [{
+                        label: 'Budget Allocation',
+                        data: [googleBudget, facebookBudget, otherBudget],
+                        backgroundColor: ['#36a2eb', '#ff6384', '#ffcd56'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

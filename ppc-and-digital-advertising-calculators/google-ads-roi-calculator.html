@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Ads ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body onload="calculateROI()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Google Ads ROI Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the return on investment (ROI) for your Google Ads campaigns and optimize your ad spend efficiently.</p>
+        <h5>Formula:</h5>
+        <p><strong>ROI (%) = ((Total Revenue - Ad Spend) / Ad Spend) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you spend ₹10,000 on ads, with a CPC of ₹50, a conversion rate of 10%, and a revenue per conversion of ₹500.</p>
+        <p>Total Clicks = 10,000 / 50 = 200</p>
+        <p>Total Conversions = 200 × (10 / 100) = 20</p>
+        <p>Total Revenue = 20 × 500 = ₹10,000</p>
+        <p>ROI = ((10,000 - 10,000) / 10,000) × 100 = 0%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Ad Spend (INR)</td>
+                        <td><input type="number" id="adSpend" class="form-control" placeholder="10000" value="10000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Cost Per Click (CPC) (INR)</td>
+                        <td><input type="number" id="cpc" class="form-control" placeholder="50" value="50" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (%)</td>
+                        <td><input type="number" id="conversionRate" class="form-control" placeholder="10" value="10" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Per Conversion (INR)</td>
+                        <td><input type="number" id="revenuePerConversion" class="form-control" placeholder="500" value="500" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI</td>
+                        <td><h4 class="text-primary" id="roiResult">₹ 0.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is ROI in Google Ads?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">ROI (Return on Investment) in Google Ads measures the profitability of your campaigns by comparing revenue to ad spend.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How do I improve my Google Ads ROI?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">You can improve ROI by optimizing ad targeting, reducing CPC, improving conversion rates, and increasing revenue per conversion.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Google Ads ROI Calculator. All rights reserved.</p>
+    </footer>
+    <script>
+        let chart;
+        function calculateROI() {
+            let adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            let cpc = parseFloat(document.getElementById('cpc').value) || 0;
+            let conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+            let revenuePerConversion = parseFloat(document.getElementById('revenuePerConversion').value) || 0;
+            
+            let totalClicks = adSpend / cpc;
+            let totalConversions = totalClicks * (conversionRate / 100);
+            let totalRevenue = totalConversions * revenuePerConversion;
+            let roi = ((totalRevenue - adSpend) / adSpend) * 100;
+            document.getElementById('roiResult').innerText = '₹ ' + roi.toFixed(2) + '%';
+            updateChart(adSpend, totalRevenue);
+        }
+
+        function updateChart(adSpend, totalRevenue) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Ad Spend', 'Total Revenue'],
+                    datasets: [{
+                        label: 'INR',
+                        data: [adSpend, totalRevenue],
+                        backgroundColor: ['#ff6384', '#36a2eb'],
+                        borderWidth: 2,
+                        hoverOffset: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

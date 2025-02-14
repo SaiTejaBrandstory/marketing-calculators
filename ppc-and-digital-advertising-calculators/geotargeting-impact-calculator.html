@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geotargeting Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body onload="calculateGeotargetingImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Geotargeting Impact Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Analyze the impact of geotargeting on your conversions and optimize your location-based marketing efforts.</p>
+        <h5>Formula:</h5>
+        <p><strong>Geotargeting Impact (%) = (Conversions from Targeted Locations / Total Conversions) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you have 1,500 total conversions, and 900 came from targeted locations.</p>
+        <p>Geotargeting Impact = (900 / 1,500) × 100 = 60%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" placeholder="1500" value="1500" oninput="calculateGeotargetingImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions from Targeted Locations</td>
+                        <td><input type="number" id="geoConversions" class="form-control" placeholder="900" value="900" oninput="calculateGeotargetingImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Geotargeting Impact (%)</td>
+                        <td><h4 class="text-primary" id="geoImpactResult">60.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="geoChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Geotargeting in Digital Marketing?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Geotargeting is a marketing strategy that delivers content or ads to users based on their geographic location.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can Geotargeting Improve My Campaigns?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Geotargeting allows advertisers to focus on specific locations, increasing relevance, engagement, and ROI.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Geotargeting Impact Calculator. All rights reserved.</p>
+    </footer>
+    <script>
+        let chart;
+        function calculateGeotargetingImpact() {
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+            let geoConversions = parseFloat(document.getElementById('geoConversions').value) || 0;
+            
+            let geoImpact = (geoConversions / totalConversions) * 100;
+            document.getElementById('geoImpactResult').innerText = geoImpact.toFixed(2) + '%';
+            updateChart(geoConversions, totalConversions - geoConversions);
+        }
+
+        function updateChart(geoConversions, otherConversions) {
+            let ctx = document.getElementById('geoChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Targeted Conversions', 'Non-Targeted Conversions'],
+                    datasets: [{
+                        label: 'Geotargeting Impact',
+                        data: [geoConversions, otherConversions],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
