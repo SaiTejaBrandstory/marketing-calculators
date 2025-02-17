@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Mention Sentiment Score Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateSentimentScore()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Mention Sentiment Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the sentiment score of brand mentions on social media.</p>
+        
+        <h5>Formula:</h5>
+        <p><strong>Sentiment Score = (Positive Mentions - Negative Mentions) / Total Mentions × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <p><strong>Example:</strong> If a brand has 800 positive mentions, 100 negative mentions, and 1000 total mentions:</p>
+        <p><strong>Sentiment Score = (800 - 100) / 1000 × 100 = 70%</strong></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Mentions</td>
+                        <td><input type="number" id="totalMentions" class="form-control" placeholder="1000" value="1000" oninput="calculateSentimentScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Positive Mentions</td>
+                        <td><input type="number" id="positiveMentions" class="form-control" placeholder="800" value="800" oninput="calculateSentimentScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Negative Mentions</td>
+                        <td><input type="number" id="negativeMentions" class="form-control" placeholder="100" value="100" oninput="calculateSentimentScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Sentiment Score (%)</td>
+                        <td><h4 class="text-primary" id="sentimentScoreResult">70.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Graph Section -->
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="sentimentChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is Sentiment Score?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Sentiment score is a metric that evaluates the emotional tone of mentions about a brand, determining if they are positive or negative.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Mention Sentiment Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let sentimentChart;
+        function calculateSentimentScore() {
+            let totalMentions = parseFloat(document.getElementById('totalMentions').value) || 0;
+            let positiveMentions = parseFloat(document.getElementById('positiveMentions').value) || 0;
+            let negativeMentions = parseFloat(document.getElementById('negativeMentions').value) || 0;
+
+            if (totalMentions === 0) {
+                document.getElementById('sentimentScoreResult').innerText = 'Invalid number of mentions';
+                return;
+            }
+
+            // Sentiment score calculation
+            let sentimentScore = ((positiveMentions - negativeMentions) / totalMentions) * 100;
+            document.getElementById('sentimentScoreResult').innerText = sentimentScore.toFixed(2) + '%';
+
+            updateChart(sentimentScore);
+        }
+
+        function updateChart(sentimentScore) {
+            let ctx = document.getElementById('sentimentChart').getContext('2d');
+            if (sentimentChart) {
+                sentimentChart.destroy();
+            }
+            sentimentChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Positive Sentiment', 'Negative Sentiment', 'Neutral Sentiment'],
+                    datasets: [{
+                        data: [sentimentScore, 100 - sentimentScore, 0],
+                        backgroundColor: ['#4CAF50', '#FF6347', '#FFEB3B'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

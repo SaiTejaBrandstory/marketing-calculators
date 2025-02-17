@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashtag Performance Estimator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="estimatePerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Hashtag Performance Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-5">Estimate the performance of your hashtags on social media platforms.</p>
+        
+        <!-- Formula and Example Calculation -->
+        <h5>Formula:</h5>
+        <p><strong>Predicted Reach = ((Likes + Comments + Shares) / Followers) × 1000</strong></p>
+        
+        <h5>Example Calculation:</h5>
+        <p>Suppose your post receives 1000 likes, 50 comments, 30 shares, and has 5000 followers.</p>
+        <p><strong>Predicted Reach = ((1000 + 50 + 30) / 5000) × 1000 = 216</strong></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Likes</td>
+                        <td><input type="number" id="totalLikes" class="form-control" placeholder="1000" value="1000" oninput="estimatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Comments</td>
+                        <td><input type="number" id="totalComments" class="form-control" placeholder="50" value="50" oninput="estimatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Shares</td>
+                        <td><input type="number" id="totalShares" class="form-control" placeholder="30" value="30" oninput="estimatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Followers</td>
+                        <td><input type="number" id="totalFollowers" class="form-control" placeholder="5000" value="5000" oninput="estimatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Predicted Reach</td>
+                        <td><h4 class="text-primary" id="performanceResult">216</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is Hashtag Performance?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Hashtag performance refers to the engagement that posts with a specific hashtag receive, measured by the number of likes, comments, shares, and overall interaction.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            How does the formula work?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The formula estimates the reach of your hashtag based on the total engagement (likes, comments, shares) relative to the number of followers. A higher value indicates better engagement with your audience.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Hashtag Performance Estimator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function estimatePerformance() {
+            let totalLikes = parseFloat(document.getElementById('totalLikes').value) || 0;
+            let totalComments = parseFloat(document.getElementById('totalComments').value) || 0;
+            let totalShares = parseFloat(document.getElementById('totalShares').value) || 0;
+            let totalFollowers = parseFloat(document.getElementById('totalFollowers').value) || 0;
+
+            if (totalFollowers === 0) {
+                document.getElementById('performanceResult').innerText = 'Invalid number of followers';
+                return;
+            }
+
+            // Estimate hashtag performance (Predicted Reach)
+            let predictedReach = ((totalLikes + totalComments + totalShares) / totalFollowers) * 1000;
+            document.getElementById('performanceResult').innerText = predictedReach.toFixed(0);
+
+            updateChart(totalLikes, totalComments, totalShares, totalFollowers);
+        }
+
+        function updateChart(totalLikes, totalComments, totalShares, totalFollowers) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Engagements (Likes, Comments, Shares)', 'Non-Engagements'],
+                    datasets: [{
+                        label: 'Hashtag Performance Breakdown',
+                        data: [totalLikes + totalComments + totalShares, totalFollowers - (totalLikes + totalComments + totalShares)],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

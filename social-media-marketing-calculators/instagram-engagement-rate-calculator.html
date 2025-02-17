@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Engagement Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateEngagementRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Instagram Engagement Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the engagement rate of your Instagram account based on likes, comments, and followers.</p>
+        <h5>Formula:</h5>
+        <p><strong>Engagement Rate (%) = ((Likes + Comments) / Followers) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you received 1000 likes, 50 comments, and have 5000 followers.</p>
+        <p>Engagement Rate = ((1000 + 50) / 5000) × 100 = 21.00%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Likes</td>
+                        <td><input type="number" id="totalLikes" class="form-control" placeholder="1000" value="1000" oninput="calculateEngagementRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Comments</td>
+                        <td><input type="number" id="totalComments" class="form-control" placeholder="50" value="50" oninput="calculateEngagementRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Followers</td>
+                        <td><input type="number" id="totalFollowers" class="form-control" placeholder="5000" value="5000" oninput="calculateEngagementRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Engagement Rate (%)</td>
+                        <td><h4 class="text-primary" id="engagementRateResult">21.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="engagementChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is the Engagement Rate on Instagram?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The engagement rate on Instagram is a metric used to measure the level of interaction a post or account receives relative to its followers. It is calculated using likes, comments, and followers.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Why is my engagement rate low?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A low engagement rate can result from various factors, including a high number of followers who are not actively engaging, irrelevant content, or a lack of consistent posting.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqThree">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Can I increase my engagement rate?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! Posting engaging content, interacting with your audience, and using the right hashtags can help increase your engagement rate. Additionally, posting at optimal times for your audience can make a big difference.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Instagram Engagement Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateEngagementRate() {
+            let totalLikes = parseFloat(document.getElementById('totalLikes').value) || 0;
+            let totalComments = parseFloat(document.getElementById('totalComments').value) || 0;
+            let totalFollowers = parseFloat(document.getElementById('totalFollowers').value) || 0;
+            
+            if (totalFollowers === 0) {
+                document.getElementById('engagementRateResult').innerText = 'Invalid number of followers';
+                return;
+            }
+
+            let engagementRate = ((totalLikes + totalComments) / totalFollowers) * 100;
+            document.getElementById('engagementRateResult').innerText = engagementRate.toFixed(2) + '%';
+            updateChart(totalLikes, totalComments, totalFollowers);
+        }
+
+        function updateChart(totalLikes, totalComments, totalFollowers) {
+            let ctx = document.getElementById('engagementChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Engagements', 'Non-Engagements'],
+                    datasets: [{
+                        label: 'Instagram Engagement',
+                        data: [totalLikes + totalComments, totalFollowers - (totalLikes + totalComments)],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

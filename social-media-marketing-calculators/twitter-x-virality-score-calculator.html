@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter/X Virality Score Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateVirality()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Twitter/X Virality Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-5">Predict the virality score of your Twitter/X post based on engagement factors.</p>
+        <h5>Formula:</h5>
+        <p><strong>Virality Score = ((Likes + Retweets + Replies) / Followers) × 1000</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose your post gets 500 likes, 50 retweets, 20 replies, and you have 3000 followers.</p>
+        <p>Virality Score = ((500 + 50 + 20) / 3000) × 1000 = 190.00</p>
+
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Likes</td>
+                        <td><input type="number" id="totalLikes" class="form-control" placeholder="500" value="500" oninput="calculateVirality()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Retweets</td>
+                        <td><input type="number" id="totalRetweets" class="form-control" placeholder="50" value="50" oninput="calculateVirality()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Replies</td>
+                        <td><input type="number" id="totalReplies" class="form-control" placeholder="20" value="20" oninput="calculateVirality()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Followers</td>
+                        <td><input type="number" id="totalFollowers" class="form-control" placeholder="3000" value="3000" oninput="calculateVirality()"></td>
+                    </tr>
+                    <tr>
+                        <td>Virality Score</td>
+                        <td><h4 class="text-primary" id="viralityResult">190.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="viralityChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is a Virality Score on Twitter/X?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The virality score measures how likely a post is to spread virally based on interactions such as likes, retweets, and replies, relative to the account's follower count.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            What factors affect the virality score?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The virality score is mainly influenced by likes, retweets, replies, and the number of followers an account has. Engagement rate plays a key role in determining the virality of a post.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Twitter/X Virality Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateVirality() {
+            let totalLikes = parseFloat(document.getElementById('totalLikes').value) || 0;
+            let totalRetweets = parseFloat(document.getElementById('totalRetweets').value) || 0;
+            let totalReplies = parseFloat(document.getElementById('totalReplies').value) || 0;
+            let totalFollowers = parseFloat(document.getElementById('totalFollowers').value) || 0;
+
+            if (totalFollowers === 0) {
+                document.getElementById('viralityResult').innerText = 'Invalid number of followers';
+                return;
+            }
+
+            let viralityScore = ((totalLikes + totalRetweets + totalReplies) / totalFollowers) * 1000;
+            document.getElementById('viralityResult').innerText = viralityScore.toFixed(2);
+
+            updateChart(totalLikes, totalRetweets, totalReplies, totalFollowers);
+        }
+
+        function updateChart(totalLikes, totalRetweets, totalReplies, totalFollowers) {
+            let ctx = document.getElementById('viralityChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Engagements (Likes, Retweets, Replies)', 'Non-Engagements'],
+                    datasets: [{
+                        label: 'Virality Breakdown',
+                        data: [totalLikes + totalRetweets + totalReplies, totalFollowers - (totalLikes + totalRetweets + totalReplies)],
+                        backgroundColor: ['#32CD32', '#ff6384'],  // Unique color
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

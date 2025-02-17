@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User-Generated Content ROI Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateROI()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>User-Generated Content ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the ROI for User-Generated Content (UGC) based on engagement and costs.</p>
+        
+        <h5>Formula:</h5>
+        <p><strong>ROI (%) = ((Revenue from UGC - Cost of UGC) / Cost of UGC) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <p><strong>Example:</strong> If the revenue from UGC is $5000 and the cost is $1000:</p>
+        <p><strong>ROI = ((5000 - 1000) / 1000) × 100 = 400%</strong></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Revenue from UGC</td>
+                        <td><input type="number" id="ugcRevenue" class="form-control" placeholder="5000" value="5000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Cost of UGC</td>
+                        <td><input type="number" id="ugcCost" class="form-control" placeholder="1000" value="1000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI (%)</td>
+                        <td><h4 class="text-primary" id="roiResult">400.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Graph Section -->
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is ROI for User-Generated Content?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            ROI for UGC refers to the financial return you gain from user-generated content compared to the cost of producing or acquiring it. A high ROI indicates that UGC is an effective investment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 User-Generated Content ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let roiChart;
+        function calculateROI() {
+            let ugcRevenue = parseFloat(document.getElementById('ugcRevenue').value) || 0;
+            let ugcCost = parseFloat(document.getElementById('ugcCost').value) || 0;
+
+            if (ugcCost === 0) {
+                document.getElementById('roiResult').innerText = 'Invalid cost value';
+                return;
+            }
+
+            // ROI calculation
+            let roi = ((ugcRevenue - ugcCost) / ugcCost) * 100;
+            document.getElementById('roiResult').innerText = roi.toFixed(2) + '%';
+
+            updateChart(ugcRevenue, ugcCost, roi);
+        }
+
+        function updateChart(ugcRevenue, ugcCost, roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+            roiChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Revenue from UGC', 'Cost of UGC'],
+                    datasets: [{
+                        data: [ugcRevenue, ugcCost],
+                        backgroundColor: ['#4CAF50', '#FF6347'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -72,9 +72,21 @@
             /* color: #ff0000; */
         }
 
-        #calculator-list{
+        #calculator-list, #social-media-list{
             margin: 10px;
         }
+
+        @media (max-width: 767px) {
+            h1 { font-size: 28px; }
+            h2 { font-size: 24px; }
+            h3 { font-size: 22px; }
+            h4 { font-size: 20px; }
+            h5 { font-size: 16px; }
+            h6 { font-size: 14px; }
+            p, span, a, label { font-size: 13px; }
+            button, input { font-size: 13px; }
+        }
+
 
         
     </style>
@@ -95,6 +107,12 @@
     <section id="ppc-calculators" class="category-section container">
         <h2 class="category-title">PPC & Digital Advertising Calculators</h2>
         <div class="row" id="calculator-list"></div>
+    </section>
+
+     <!-- Social Media Marketing Calculators Section -->
+     <section id="social-media-calculators" class="category-section container">
+        <h2 class="category-title">Social Media Marketing Calculators</h2>
+        <div class="row" id="social-media-list"></div>
     </section>
 
     <!-- Footer -->
@@ -158,8 +176,20 @@
                 { name: "UTM Tracking Effectiveness Calculator", link: "utm-tracking-effectiveness-calculator.html", icon: "fa-link", color: "#FFA500" },
                 { name: "Video Ad Engagement Cost Calculator", link: "video-ad-engagement-cost-calculator.html", icon: "fa-video", color: "#FF4500" },
                 { name: "Google Display Network Placement Effectiveness Calculator", link: "google-display-network-placement-effectiveness-calculator.html", icon: "fa-flag", color: "#FF8C00" },
+            ];
 
 
+            const socialMediaCalculators = [
+                { name: "Instagram Engagement Rate Calculator", link: "instagram-engagement-rate-calculator.html", icon: "fa-brands fa-instagram", color: "#E1306C" },
+                { name: "Facebook Organic Reach Predictor", link: "facebook-organic-reach-predictor.html", icon: "fa-brands fa-facebook-f", color: "#1877F2" },
+                { name: "Twitter/X Virality Score Calculator", link: "twitter-x-virality-score-calculator.html", icon: "fa-brands fa-x-twitter", color: "#000000" },
+                { name: "LinkedIn InMail Conversion Rate Calculator", link: "linkedin-inmail-conversion-rate-calculator.html", icon: "fa-brands fa-linkedin-in", color: "#1DA1F2" },
+                { name: "YouTube Retention Rate Calculator", link: "youtube-retention-rate-calculator.html", icon: "fa-brands fa-youtube", color: "#FF0000" },
+                { name: "Hashtag Performance Estimator", link: "hashtag-performance-estimator.html", icon: "fa-brands fa-hashtag", color: "#00BFFF" },
+                { name: "Reels & Shorts Watch Time Growth Calculator", link: "reels-shorts-watch-time-growth-calculator.html", icon: "fa-brands fa-youtube", color: "#FF0000" },
+                { name: "Brand Mention Sentiment Score Calculator", link: "brand-mention-sentiment-score-calculator.html", icon: "fa-solid fa-comment-dots", color: "#008C8C" },
+                { name: "User-Generated Content ROI Calculator", link: "ugc-roi-calculator.html", icon: "fa-calculator", color: "#FF6347" },
+                { name: "Social Media Shareability Index", link: "shareability-index-calculator.html", icon: "fa-share-alt", color: "#FF6347" },
 
             ];
 
@@ -174,6 +204,20 @@
                     </a>
                 `;
                 listContainer.appendChild(col);
+            });
+
+
+            socialMediaCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="social-media-marketing-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const socialMediaListContainer = document.getElementById("social-media-list");
+                socialMediaListContainer.appendChild(col);
             });
 
         });
