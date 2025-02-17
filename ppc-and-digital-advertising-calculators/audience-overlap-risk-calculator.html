@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audience Overlap Risk Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body onload="calculateOverlapRisk()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Audience Overlap Risk Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the risk of audience overlap between your ad campaigns.</p>
+        <h5>Formula:</h5>
+        <p><strong>Overlap Risk (%) = (Overlap Audience / Total Audience) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose Campaign 1 has 1000 audience members, Campaign 2 has 1200, and there is an overlap of 200.</p>
+        <p>Overlap Risk = (200 / (1000 + 1200 - 200)) × 100 = 14.29%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Audience Campaign 1</td>
+                        <td><input type="number" id="totalAudienceCampaign1" class="form-control" placeholder="1000" value="1000" oninput="calculateOverlapRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Audience Campaign 2</td>
+                        <td><input type="number" id="totalAudienceCampaign2" class="form-control" placeholder="1200" value="1200" oninput="calculateOverlapRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Overlap Audience</td>
+                        <td><input type="number" id="overlapAudience" class="form-control" placeholder="200" value="200" oninput="calculateOverlapRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Overlap Risk (%)</td>
+                        <td><h4 class="text-primary" id="overlapRiskResult">14.29%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="overlapChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Audience Overlap Risk?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Audience overlap risk measures how much of the target audience in two campaigns is shared. High overlap could lead to wasted ad spend.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can I Reduce Overlap Risk?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">To reduce overlap, refine your audience targeting by excluding overlapping segments, adjusting demographics, or using unique targeting parameters for each campaign.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Audience Overlap Risk Calculator. All rights reserved.</p>
+    </footer>
+    <script>
+        let chart;
+        function calculateOverlapRisk() {
+            let totalAudienceCampaign1 = parseFloat(document.getElementById('totalAudienceCampaign1').value) || 0;
+            let totalAudienceCampaign2 = parseFloat(document.getElementById('totalAudienceCampaign2').value) || 0;
+            let overlapAudience = parseFloat(document.getElementById('overlapAudience').value) || 0;
+
+            let totalAudience = (totalAudienceCampaign1 + totalAudienceCampaign2) - overlapAudience;
+
+            let overlapRisk = (overlapAudience / totalAudience) * 100;
+            document.getElementById('overlapRiskResult').innerText = overlapRisk.toFixed(2) + '%';
+            updateChart(overlapAudience, totalAudience - overlapAudience);
+        }
+
+        function updateChart(overlapAudience, uniqueAudience) {
+            let ctx = document.getElementById('overlapChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Overlap Audience', 'Unique Audience'],
+                    datasets: [{
+                        label: 'Audience Overlap Risk',
+                        data: [overlapAudience, uniqueAudience],
+                        backgroundColor: ['#ff6384', '#36a2eb'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

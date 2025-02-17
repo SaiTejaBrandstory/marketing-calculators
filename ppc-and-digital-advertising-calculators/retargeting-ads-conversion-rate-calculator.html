@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retargeting Ads Conversion Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+                <link rel="stylesheet" href="../styles.css">
+
+</head>
+<body onload="calculateConversionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Retargeting Ads Conversion Rate Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the conversion rate for your retargeting ads campaign.</p>
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate (%) = (Conversions / Clicks) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you received 500 clicks and 50 conversions.</p>
+        <p>Conversion Rate = (50 / 500) × 100 = 10%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Clicks</td>
+                        <td><input type="number" id="totalClicks" class="form-control" placeholder="500" value="500" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" placeholder="50" value="50" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (%)</td>
+                        <td><h4 class="text-primary" id="conversionRateResult">10.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="conversionRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Conversion Rate?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Conversion rate measures the percentage of clicks that lead to a desired action or conversion (e.g., purchase, sign-up).</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can I Improve My Conversion Rate?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Improving conversion rates involves optimizing ad creatives, targeting the right audience, and improving landing page experiences.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Retargeting Ads Conversion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateConversionRate() {
+            let totalClicks = parseFloat(document.getElementById('totalClicks').value) || 0;
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+            
+            let conversionRate = (totalConversions / totalClicks) * 100;
+            document.getElementById('conversionRateResult').innerText = conversionRate.toFixed(2) + '%';
+            updateChart(totalConversions, totalClicks);
+        }
+
+        function updateChart(totalConversions, totalClicks) {
+            let ctx = document.getElementById('conversionRateChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Conversions', 'Remaining Clicks'],
+                    datasets: [{
+                        label: 'Conversion Rate Efficiency',
+                        data: [totalConversions, totalClicks - totalConversions],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

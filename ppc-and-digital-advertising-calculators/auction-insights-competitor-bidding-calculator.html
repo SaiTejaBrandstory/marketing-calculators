@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Insights & Competitor Bidding Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body onload="calculateAuctionInsights()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Auction Insights & Competitor Bidding Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Evaluate your ad auction insights and competitor bidding strategy.</p>
+        <h5>Formula:</h5>
+        <p><strong>Bid Comparison (%) = (Your Bid / Competitor's Bid) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose your bid is ₹200 and your competitor's bid is ₹150.</p>
+        <p>Bid Comparison = (200 / 150) × 100 = 133.33%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Your Bid (₹)</td>
+                        <td><input type="number" id="yourBid" class="form-control" placeholder="200" value="200" oninput="calculateAuctionInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td>Competitor's Bid (₹)</td>
+                        <td><input type="number" id="competitorBid" class="form-control" placeholder="150" value="150" oninput="calculateAuctionInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td>Bid Comparison (%)</td>
+                        <td><h4 class="text-primary" id="bidComparisonResult">133.33%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="bidChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Bid Comparison?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Bid comparison shows how your bid stacks up against a competitor's bid in an auction, indicating your competitiveness.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Do I Optimize My Bid Strategy?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">To optimize your bid, consider factors like competitor behavior, keyword relevance, and historical performance data.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Auction Insights & Competitor Bidding Calculator. All rights reserved.</p>
+    </footer>
+    <script>
+        let chart;
+        function calculateAuctionInsights() {
+            let yourBid = parseFloat(document.getElementById('yourBid').value) || 0;
+            let competitorBid = parseFloat(document.getElementById('competitorBid').value) || 0;
+
+            let bidComparison = (yourBid / competitorBid) * 100;
+            document.getElementById('bidComparisonResult').innerText = bidComparison.toFixed(2) + '%';
+            updateChart(yourBid, competitorBid);
+        }
+
+        function updateChart(yourBid, competitorBid) {
+            let ctx = document.getElementById('bidChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Your Bid', 'Competitor\'s Bid'],
+                    datasets: [{
+                        label: 'Bid Comparison',
+                        data: [yourBid, competitorBid],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

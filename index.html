@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background: linear-gradient(135deg, #f40d0d, #e16f36, #daa78e);
+            background: linear-gradient(135deg, #f40d0d, #e16f36);
             color: #fff;
         }
 
@@ -60,8 +60,10 @@
         }
 
         .calculator-card:hover {
-            transform: translateY(-5px);
+            /* transform: scale(1.05);  */
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            background-color: #000;
+            color: #fff;
         }
 
         .calculator-card i {
@@ -120,7 +122,19 @@
                 { name: "Customer Journey Touchpoint Calculator", link: "customer-journey-touchpoint-calculator.html", icon: "fa-route", color: "#F39C12" },
                 { name: "Bid Strategy Optimizer Calculator", link: "bid-strategy-optimizer.html", icon: "fa-chart-line", color: "#4A90E2" },
                 { name: "Facebook Ads ROAS Calculator", link: "facebook-ads-roas-calculator.html", icon: "fa-brands fa-facebook", color: "#1877F2" },
-                { name: "Google Ads ROI Calculator", link: "google-ads-roi-calculator.html", icon: "fa-brands fa-google", color: "#4285F4" }
+                { name: "Google Ads ROI Calculator", link: "google-ads-roi-calculator.html", icon: "fa-brands fa-google", color: "#4285F4" },
+                { name: "Audience Overlap Risk Calculator", link: "audience-overlap-risk-calculator.html", icon: "fa-users", color: "#FF6347" },
+                { name: "Frequency Capping Efficiency Calculator", link: "frequency-capping-efficiency-calculator.html", icon: "fa-chart-pie", color: "#36a2eb" },
+                { name: "Lookalike Audience Reach Estimator", link: "lookalike-audience-reach-estimator.html", icon: "fa-users", color: "#FF6347" },
+                { name: "Cost-Per-Mille (CPM) Forecast Calculator", link: "cost-per-mille-forecast-calculator.html", icon: "fa-percent", color: "#FF5733" },
+                { name: "Auction Insights & Competitor Bidding Calculator", link: "auction-insights-competitor-bidding-calculator.html", icon: "fa-gavel", color: "#FF914D" },
+                { name: "Auction Insights & Competitor Bidding Calculator", link: "auction-insights-competitor-bidding-calculator.html", icon: "fa-gavel", color: "#36a2eb" },
+                { name: "Dayparting Ad Spend Optimizer", link: "dayparting-ad-spend-optimizer.html", icon: "fa-clock", color: "#FF6347" },
+                { name: "Retargeting Ads Conversion Rate Calculator", link: "retargeting-ads-conversion-rate-calculator.html", icon: "fa-sync-alt", color: "#36a2eb" },
+                { name: "YouTube Skippable vs. Non-Skippable Ad ROI Calculator", link: "youtube-ad-roi-calculator.html", icon: "fa-brands fa-youtube", color: "#FF0000" },
+
+
+
             ];
 
             const listContainer = document.getElementById("calculator-list");
