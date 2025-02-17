@@ -1,0 +1,45 @@
+/* Default (for large screens) */
+h1 { font-size: 36px; }
+h2 { font-size: 32px; }
+h3 { font-size: 28px; }
+h4 { font-size: 24px; }
+h5 { font-size: 20px; }
+h6 { font-size: 18px; }
+p, span, a, label { font-size: 16px; }
+button, input { font-size: 16px; }
+
+/* Medium screens (Tablets) */
+@media (max-width: 1199px) {
+    h1 { font-size: 32px; }
+    h2 { font-size: 28px; }
+    h3 { font-size: 24px; }
+    h4 { font-size: 22px; }
+    h5 { font-size: 18px; }
+    h6 { font-size: 16px; }
+    p, span, a, label { font-size: 14px; }
+    button, input { font-size: 14px; }
+}
+
+/* Small screens (Mobile devices) */
+@media (max-width: 767px) {
+    h1 { font-size: 28px; }
+    h2 { font-size: 24px; }
+    h3 { font-size: 22px; }
+    h4 { font-size: 20px; }
+    h5 { font-size: 16px; }
+    h6 { font-size: 14px; }
+    p, span, a, label { font-size: 13px; }
+    button, input { font-size: 13px; }
+}
+
+/* Extra small screens (Very small mobile devices) */
+@media (max-width: 480px) {
+    h1 { font-size: 24px; }
+    h2 { font-size: 22px; }
+    h3 { font-size: 20px; }
+    h4 { font-size: 18px; }
+    h5 { font-size: 14px; }
+    h6 { font-size: 12px; }
+    p, span, a, label { font-size: 12px; }
+    button, input { font-size: 12px; }
+}
