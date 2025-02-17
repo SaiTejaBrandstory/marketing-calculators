@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI vs. Manual Ad Performance Comparison Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateAdComparison()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI vs. Manual Ad Performance Comparison Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Compare the effectiveness of AI-driven ads versus manually managed ads.</p>
+        <h5>Formula:</h5>
+        <p><strong>AI Ad Performance (%) = (AI Ad Spend / Total Ad Spend) × 100</strong></p>
+        <p><strong>Manual Ad Performance (%) = (Manual Ad Spend / Total Ad Spend) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If you spent ₹1000 on ads, with ₹600 on AI and ₹400 on manual ads:</p>
+        <p>AI Ad Performance = (600 / 1000) × 100 = 60%</p>
+        <p>Manual Ad Performance = (400 / 1000) × 100 = 40%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Ad Spend (₹)</td>
+                        <td><input type="number" id="totalAdSpend" class="form-control" placeholder="1000" value="1000" oninput="calculateAdComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI Ad Spend (₹)</td>
+                        <td><input type="number" id="aiAdSpend" class="form-control" placeholder="600" value="600" oninput="calculateAdComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Manual Ad Spend (₹)</td>
+                        <td><input type="number" id="manualAdSpend" class="form-control" placeholder="400" value="400" oninput="calculateAdComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI Ad Performance (%)</td>
+                        <td><h4 class="text-primary" id="aiPerformanceResult">60.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Manual Ad Performance (%)</td>
+                        <td><h4 class="text-primary" id="manualPerformanceResult">40.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="adComparisonChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is AI Ad Performance?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">AI ad performance refers to the effectiveness of ads managed by AI algorithms, which aim to optimize ad targeting and budget allocation.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can I Improve My Manual Ad Performance?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">To improve manual ad performance, focus on refining targeting strategies, monitoring campaign results closely, and optimizing creatives for higher engagement.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI vs. Manual Ad Performance Comparison. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateAdComparison() {
+            let totalAdSpend = parseFloat(document.getElementById('totalAdSpend').value) || 0;
+            let aiAdSpend = parseFloat(document.getElementById('aiAdSpend').value) || 0;
+            let manualAdSpend = parseFloat(document.getElementById('manualAdSpend').value) || 0;
+            
+            let aiPerformance = (aiAdSpend / totalAdSpend) * 100;
+            let manualPerformance = (manualAdSpend / totalAdSpend) * 100;
+            document.getElementById('aiPerformanceResult').innerText = aiPerformance.toFixed(2) + '%';
+            document.getElementById('manualPerformanceResult').innerText = manualPerformance.toFixed(2) + '%';
+            updateChart(aiPerformance, manualPerformance);
+        }
+
+        function updateChart(aiPerformance, manualPerformance) {
+            let ctx = document.getElementById('adComparisonChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['AI Ad Performance', 'Manual Ad Performance'],
+                    datasets: [{
+                        label: 'Ad Performance Comparison',
+                        data: [aiPerformance, manualPerformance],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

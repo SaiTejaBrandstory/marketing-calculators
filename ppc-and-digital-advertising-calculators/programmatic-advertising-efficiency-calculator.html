@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmatic Advertising Efficiency Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateEfficiency()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Programmatic Advertising Efficiency Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Calculate how efficiently your programmatic advertising campaigns are performing based on your total ad spend and return.</p>
+        <h5>Formula:</h5>
+        <p><strong>Advertising Efficiency (%) = (Revenue / Ad Spend) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If your total ad spend is ₹5,000 and your revenue generated is ₹20,000:</p>
+        <p>Advertising Efficiency = (20,000 / 5,000) × 100 = 400%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Ad Spend (₹)</td>
+                        <td><input type="number" id="adSpend" class="form-control" placeholder="5000" value="5000" oninput="calculateEfficiency()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Revenue (₹)</td>
+                        <td><input type="number" id="totalRevenue" class="form-control" placeholder="20000" value="20000" oninput="calculateEfficiency()"></td>
+                    </tr>
+                    <tr>
+                        <td>Advertising Efficiency (%)</td>
+                        <td><h4 class="text-primary" id="efficiencyResult">400.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="efficiencyChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Programmatic Advertising Efficiency?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">It is a measure of how effectively your programmatic ad campaigns are converting ad spend into revenue.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How can I improve my advertising efficiency?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">You can improve efficiency by refining audience targeting, optimizing bidding strategies, and focusing on high-performing ad creatives.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Programmatic Advertising Efficiency Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateEfficiency() {
+            let adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            let totalRevenue = parseFloat(document.getElementById('totalRevenue').value) || 0;
+
+            let efficiency = (totalRevenue / adSpend) * 100;
+            document.getElementById('efficiencyResult').innerText = efficiency.toFixed(2) + '%';
+
+            updateChart(totalRevenue, adSpend);
+        }
+
+        function updateChart(totalRevenue, adSpend) {
+            let ctx = document.getElementById('efficiencyChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Revenue', 'Ad Spend'],
+                    datasets: [{
+                        data: [totalRevenue, adSpend],
+                        backgroundColor: ['#4CAF50', '#FF5733'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: true, position: 'bottom' }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

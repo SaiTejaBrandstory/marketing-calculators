@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Bidding Efficiency Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body onload="calculateRTB()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Real-Time Bidding Efficiency Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Estimate the efficiency of your real-time bidding strategy and optimize your bids for better returns.</p>
+        <h5>Formula:</h5>
+        <p><strong>RTB Efficiency (%) = (Bids Won / Total Bids) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you placed 500 bids and won 400 of them.</p>
+        <p>RTB Efficiency = (400 / 500) × 100 = 80%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Bids</td>
+                        <td><input type="number" id="totalBids" class="form-control" placeholder="500" value="500" oninput="calculateRTB()"></td>
+                    </tr>
+                    <tr>
+                        <td>Bids Won</td>
+                        <td><input type="number" id="wonBids" class="form-control" placeholder="400" value="400" oninput="calculateRTB()"></td>
+                    </tr>
+                    <tr>
+                        <td>RTB Efficiency (%)</td>
+                        <td><h4 class="text-primary" id="rtbEfficiencyResult">80.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="rtbChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Real-Time Bidding Efficiency?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">RTB efficiency measures how effective your bidding strategy is, based on the proportion of bids won out of the total placed.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can I Improve RTB Efficiency?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">To improve RTB efficiency, adjust your bid strategies by analyzing historical data and focusing on key factors like time, audience targeting, and ad creatives.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Real-Time Bidding Efficiency Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateRTB() {
+            let totalBids = parseFloat(document.getElementById('totalBids').value) || 0;
+            let wonBids = parseFloat(document.getElementById('wonBids').value) || 0;
+            
+            let rtbEfficiency = (wonBids / totalBids) * 100;
+            document.getElementById('rtbEfficiencyResult').innerText = rtbEfficiency.toFixed(2) + '%';
+            updateChart(wonBids, totalBids);
+        }
+
+        function updateChart(wonBids, totalBids) {
+            let ctx = document.getElementById('rtbChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Bids Won', 'Total Bids - Bids Won'],
+                    datasets: [{
+                        label: 'RTB Efficiency',
+                        data: [wonBids, totalBids - wonBids],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

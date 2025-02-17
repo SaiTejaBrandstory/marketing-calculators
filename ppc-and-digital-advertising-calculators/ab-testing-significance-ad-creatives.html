@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Testing Significance for Ad Creatives</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateSignificance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>A/B Testing Significance for Ad Creatives</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Determine if the performance difference between two ad creatives is statistically significant.</p>
+        <h5>Formula:</h5>
+        <p><strong>Z-score = (CTR A - CTR B) / Standard Error</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If Ad A has a CTR of 5% with 500 clicks, and Ad B has a CTR of 3.5% with 400 clicks, the significance can be computed using the Z-test.</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Clicks for Ad A</td>
+                        <td><input type="number" id="clicksA" class="form-control" placeholder="500" value="500" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Impressions for Ad A</td>
+                        <td><input type="number" id="impressionsA" class="form-control" placeholder="10000" value="10000" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Clicks for Ad B</td>
+                        <td><input type="number" id="clicksB" class="form-control" placeholder="400" value="400" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Impressions for Ad B</td>
+                        <td><input type="number" id="impressionsB" class="form-control" placeholder="10000" value="10000" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Significance Score (Z-Score)</td>
+                        <td><h4 class="text-primary" id="significanceResult">0.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="significanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is A/B Testing Significance?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">It measures whether the performance difference between two ad creatives is statistically significant or due to chance.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How do I know if my results are significant?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">If the Z-score is above 1.96 or below -1.96, the results are statistically significant at a 95% confidence level.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 A/B Testing Significance for Ad Creatives. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateSignificance() {
+            let clicksA = parseFloat(document.getElementById('clicksA').value) || 0;
+            let impressionsA = parseFloat(document.getElementById('impressionsA').value) || 0;
+            let clicksB = parseFloat(document.getElementById('clicksB').value) || 0;
+            let impressionsB = parseFloat(document.getElementById('impressionsB').value) || 0;
+
+            let ctrA = clicksA / impressionsA;
+            let ctrB = clicksB / impressionsB;
+
+            let stdError = Math.sqrt((ctrA * (1 - ctrA) / impressionsA) + (ctrB * (1 - ctrB) / impressionsB));
+            let zScore = stdError > 0 ? ((ctrA - ctrB) / stdError).toFixed(2) : 0;
+            document.getElementById('significanceResult').innerText = zScore;
+
+            updateChart(ctrA, ctrB);
+        }
+
+        function updateChart(ctrA, ctrB) {
+            let ctx = document.getElementById('significanceChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ad A CTR', 'Ad B CTR'],
+                    datasets: [{
+                        label: 'Click-Through Rate (%)',
+                        data: [(ctrA * 100).toFixed(2), (ctrB * 100).toFixed(2)],
+                        backgroundColor: ['#4CAF50', '#FF5733'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

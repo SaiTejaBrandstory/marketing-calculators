@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Bidding vs. Manual Bidding Profitability Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateProfitability()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Smart Bidding vs. Manual Bidding Profitability Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Compare the profitability of smart bidding and manual bidding strategies.</p>
+        <h5>Formula:</h5>
+        <p><strong>Profitability (%) = [(Revenue - Ad Spend) / Ad Spend] × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If smart bidding generates ₹50,000 in revenue with ₹10,000 ad spend, and manual bidding generates ₹45,000 with ₹12,000 ad spend:</p>
+        <p>Smart Bidding ROI = [(50,000 - 10,000) / 10,000] × 100 = 400%</p>
+        <p>Manual Bidding ROI = [(45,000 - 12,000) / 12,000] × 100 = 275%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Smart Bidding - Ad Spend (₹)</td>
+                        <td><input type="number" id="smartSpend" class="form-control" placeholder="10000" value="10000" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Smart Bidding - Revenue (₹)</td>
+                        <td><input type="number" id="smartRevenue" class="form-control" placeholder="50000" value="50000" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Manual Bidding - Ad Spend (₹)</td>
+                        <td><input type="number" id="manualSpend" class="form-control" placeholder="12000" value="12000" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Manual Bidding - Revenue (₹)</td>
+                        <td><input type="number" id="manualRevenue" class="form-control" placeholder="45000" value="45000" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Smart Bidding ROI (%)</td>
+                        <td><h4 class="text-success" id="smartROI">400.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Manual Bidding ROI (%)</td>
+                        <td><h4 class="text-primary" id="manualROI">275.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="biddingChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is the difference between Smart Bidding and Manual Bidding?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Smart Bidding uses AI to optimize bids automatically, while manual bidding requires direct bid adjustments.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Which bidding strategy is more profitable?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">It depends on the campaign. Smart bidding often improves efficiency, but manual bidding provides more control over spend.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Smart Bidding vs. Manual Bidding Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateProfitability() {
+            let smartSpend = parseFloat(document.getElementById('smartSpend').value) || 0;
+            let smartRevenue = parseFloat(document.getElementById('smartRevenue').value) || 0;
+            let manualSpend = parseFloat(document.getElementById('manualSpend').value) || 0;
+            let manualRevenue = parseFloat(document.getElementById('manualRevenue').value) || 0;
+
+            let smartROI = ((smartRevenue - smartSpend) / smartSpend) * 100;
+            let manualROI = ((manualRevenue - manualSpend) / manualSpend) * 100;
+
+            document.getElementById('smartROI').innerText = smartROI.toFixed(2) + '%';
+            document.getElementById('manualROI').innerText = manualROI.toFixed(2) + '%';
+
+            updateChart(smartROI, manualROI);
+        }
+
+        function updateChart(smartROI, manualROI) {
+            let ctx = document.getElementById('biddingChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Smart Bidding ROI', 'Manual Bidding ROI'],
+                    datasets: [{
+                        label: 'Profitability Comparison',
+                        data: [smartROI, manualROI],
+                        backgroundColor: ['#4caf50', '#36a2eb'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

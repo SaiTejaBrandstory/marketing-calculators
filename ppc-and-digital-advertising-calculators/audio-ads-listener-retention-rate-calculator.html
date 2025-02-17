@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Ads Listener Retention Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateRetentionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Audio Ads Listener Retention Rate Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Calculate the retention rate of listeners for your audio ads based on the number of listeners and the number of completions.</p>
+        <h5>Formula:</h5>
+        <p><strong>Listener Retention Rate (%) = (Number of Completions / Number of Listeners) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If you had 500 listeners and 400 completions:</p>
+        <p>Listener Retention Rate = (400 / 500) × 100 = 80%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Number of Listeners</td>
+                        <td><input type="number" id="numListeners" class="form-control" placeholder="500" value="500" oninput="calculateRetentionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Number of Completions</td>
+                        <td><input type="number" id="numCompletions" class="form-control" placeholder="400" value="400" oninput="calculateRetentionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Listener Retention Rate (%)</td>
+                        <td><h4 class="text-primary" id="retentionRateResult">80.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="retentionRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Listener Retention Rate?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Listener retention rate measures how many listeners complete your audio ad as a percentage of the total number of listeners.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can I Improve Listener Retention Rate?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">To improve retention, make your audio ads more engaging and relevant to the audience, and consider shorter ad durations.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Audio Ads Listener Retention Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateRetentionRate() {
+            let numListeners = parseFloat(document.getElementById('numListeners').value) || 0;
+            let numCompletions = parseFloat(document.getElementById('numCompletions').value) || 0;
+            
+            let retentionRate = (numCompletions / numListeners) * 100;
+            document.getElementById('retentionRateResult').innerText = retentionRate.toFixed(2) + '%';
+            updateChart(retentionRate, 100 - retentionRate);
+        }
+
+        function updateChart(retentionRate, dropOffRate) {
+            let ctx = document.getElementById('retentionRateChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Retention Rate', 'Drop-off Rate'],
+                    datasets: [{
+                        label: 'Listener Retention Rate',
+                        data: [retentionRate, dropOffRate],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

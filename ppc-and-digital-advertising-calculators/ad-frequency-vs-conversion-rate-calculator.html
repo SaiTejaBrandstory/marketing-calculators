@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Frequency vs. Conversion Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateConversionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Ad Frequency vs. Conversion Rate Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Analyze the impact of ad frequency on conversion rates and optimize your advertising strategy accordingly.</p>
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate (%) = (Conversions / Impressions) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If your ad was shown 5000 times and generated 200 conversions:</p>
+        <p>Conversion Rate = (200 / 5000) × 100 = 4%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Impressions</td>
+                        <td><input type="number" id="totalImpressions" class="form-control" placeholder="5000" value="5000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" placeholder="200" value="200" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (%)</td>
+                        <td><h4 class="text-primary" id="conversionRateResult">4.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="conversionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Ad Frequency?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Ad frequency refers to the average number of times a user sees your ad within a given period.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How does ad frequency affect conversion rate?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Higher ad frequency can increase brand awareness but may lead to ad fatigue. Finding the optimal frequency is key to maximizing conversions.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Ad Frequency vs. Conversion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateConversionRate() {
+            let totalImpressions = parseFloat(document.getElementById('totalImpressions').value) || 0;
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+
+            let conversionRate = (totalConversions / totalImpressions) * 100;
+            document.getElementById('conversionRateResult').innerText = conversionRate.toFixed(2) + '%';
+
+            updateChart(totalConversions, totalImpressions);
+        }
+
+        function updateChart(totalConversions, totalImpressions) {
+            let ctx = document.getElementById('conversionChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Conversions', 'Remaining Impressions'],
+                    datasets: [{
+                        data: [totalConversions, totalImpressions - totalConversions],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: true, position: 'bottom' }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Ads Click vs. Conversion Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculatePerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Shopping Ads Click vs. Conversion Rate Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Compare the click-through rate and conversion rate for your shopping ads.</p>
+        <h5>Formulas:</h5>
+        <p><strong>Click-Through Rate (CTR) = (Clicks / Impressions) × 100</strong></p>
+        <p><strong>Conversion Rate (CVR) = (Conversions / Clicks) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If you received 500 clicks out of 10000 impressions, CTR = (500 / 10000) × 100 = 5%. If 50 conversions were made, CVR = (50 / 500) × 100 = 10%.</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Impressions</td>
+                        <td><input type="number" id="impressions" class="form-control" placeholder="10000" value="10000" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Clicks</td>
+                        <td><input type="number" id="clicks" class="form-control" placeholder="500" value="500" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Click-Through Rate (CTR) (%)</td>
+                        <td><h4 class="text-primary" id="ctrResult">5.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions</td>
+                        <td><input type="number" id="conversions" class="form-control" placeholder="50" value="50" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (CVR) (%)</td>
+                        <td><h4 class="text-primary" id="cvrResult">10.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Click-Through Rate (CTR)?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Click-Through Rate (CTR) measures how often people click on your ad after seeing it. A higher CTR usually means your ad is relevant to your audience.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            What is Conversion Rate (CVR)?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Conversion Rate (CVR) measures how often people complete a desired action (such as a purchase) after clicking on your ad.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Shopping Ads Click vs. Conversion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculatePerformance() {
+            let impressions = parseFloat(document.getElementById('impressions').value) || 0;
+            let clicks = parseFloat(document.getElementById('clicks').value) || 0;
+            let conversions = parseFloat(document.getElementById('conversions').value) || 0;
+
+            let ctr = (clicks / impressions) * 100;
+            let cvr = (conversions / clicks) * 100;
+
+            document.getElementById('ctrResult').innerText = ctr.toFixed(2) + '%';
+            document.getElementById('cvrResult').innerText = cvr.toFixed(2) + '%';
+
+            updateChart(ctr, cvr);
+        }
+
+        function updateChart(ctr, cvr) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Click-Through Rate (CTR)', 'Conversion Rate (CVR)'],
+                    datasets: [{
+                        label: 'Rates (%)',
+                        data: [ctr, cvr],
+                        backgroundColor: ['#FF5733', '#4CAF50'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

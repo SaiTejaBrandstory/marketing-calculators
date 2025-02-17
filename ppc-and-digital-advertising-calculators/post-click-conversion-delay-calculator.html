@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Click Conversion Delay Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateDelay()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Post-Click Conversion Delay Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Measure the average time delay between a user clicking on an ad and completing a conversion.</p>
+        <h5>Formula:</h5>
+        <p><strong>Average Conversion Delay (Minutes) = Total Time to Convert / Total Conversions</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If your total time for all conversions is 300 minutes and you had 50 conversions:</p>
+        <p>Conversion Delay = 300 / 50 = 6 minutes</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Conversion Time (Minutes)</td>
+                        <td><input type="number" id="totalTime" class="form-control" placeholder="300" value="300" oninput="calculateDelay()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" placeholder="50" value="50" oninput="calculateDelay()"></td>
+                    </tr>
+                    <tr>
+                        <td>Average Conversion Delay (Minutes)</td>
+                        <td><h4 class="text-primary" id="delayResult">6.00 min</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="delayChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Post-Click Conversion Delay?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">It measures how long users take to convert after clicking an ad. A shorter delay often indicates high user intent.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How can I reduce conversion delay?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Optimizing landing pages, improving call-to-action clarity, and reducing form fields can help users convert faster.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Post-Click Conversion Delay Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateDelay() {
+            let totalTime = parseFloat(document.getElementById('totalTime').value) || 0;
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+
+            let delay = totalConversions > 0 ? (totalTime / totalConversions).toFixed(2) : 0;
+            document.getElementById('delayResult').innerText = delay + ' min';
+
+            updateChart(totalTime, totalConversions);
+        }
+
+        function updateChart(totalTime, totalConversions) {
+            let ctx = document.getElementById('delayChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Conversion Time', 'Total Conversions'],
+                    datasets: [{
+                        data: [totalTime, totalConversions],
+                        backgroundColor: ['#FF4500', '#4682B4'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: true, position: 'bottom' }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

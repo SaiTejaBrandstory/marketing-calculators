@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Ads Attribution Model Performance Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateAttributionModelPerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Google Ads Attribution Model Performance Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Evaluate the performance of your Google Ads attribution models to optimize conversion tracking.</p>
+        <h5>Formula:</h5>
+        <p><strong>Attribution Model Performance (%) = (Attributed Conversions / Total Conversions) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you had 500 conversions and attributed 200 conversions to a specific model.</p>
+        <p>Attribution Model Performance = (200 / 500) × 100 = 40%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" placeholder="500" value="500" oninput="calculateAttributionModelPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Attributed Conversions</td>
+                        <td><input type="number" id="attributedConversions" class="form-control" placeholder="200" value="200" oninput="calculateAttributionModelPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Attribution Model Performance (%)</td>
+                        <td><h4 class="text-primary" id="attributionPerformanceResult">40.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="attributionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Attribution Model Performance?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Attribution Model Performance refers to the percentage of conversions attributed to a particular model in your Google Ads campaign.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Why Is Attribution Important for Google Ads?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Attribution helps determine which touchpoints in the customer journey are driving conversions, allowing you to optimize your ads for better results.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Google Ads Attribution Model Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateAttributionModelPerformance() {
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+            let attributedConversions = parseFloat(document.getElementById('attributedConversions').value) || 0;
+            
+            let attributionPerformance = (attributedConversions / totalConversions) * 100;
+            document.getElementById('attributionPerformanceResult').innerText = attributionPerformance.toFixed(2) + '%';
+            updateChart(attributedConversions, totalConversions);
+        }
+
+        function updateChart(attributedConversions, totalConversions) {
+            let ctx = document.getElementById('attributionChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Attributed Conversions', 'Remaining Conversions'],
+                    datasets: [{
+                        label: 'Attribution Model Performance',
+                        data: [attributedConversions, totalConversions - attributedConversions],
+                        backgroundColor: ['#FF6347', '#36a2eb'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

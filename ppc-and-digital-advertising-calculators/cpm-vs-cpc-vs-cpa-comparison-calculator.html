@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPM vs. CPC vs. CPA Comparison Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateComparison()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>CPM vs. CPC vs. CPA Comparison Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Compare the performance of different advertising models: CPM, CPC, and CPA.</p>
+        <h5>Formula:</h5>
+        <p><strong>CPM: Cost Per 1000 Impressions</strong></p>
+        <p><strong>CPC: Cost Per Click</strong></p>
+        <p><strong>CPA: Cost Per Action</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>For CPM, if you spent ₹1000 on 200,000 impressions, your CPM is:</p>
+        <p>CPM = (1000 / 200000) × 1000 = ₹5</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Spend (₹)</td>
+                        <td><input type="number" id="totalSpend" class="form-control" placeholder="1000" value="1000" oninput="calculateComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Impressions</td>
+                        <td><input type="number" id="totalImpressions" class="form-control" placeholder="200000" value="200000" oninput="calculateComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Clicks</td>
+                        <td><input type="number" id="totalClicks" class="form-control" placeholder="1000" value="1000" oninput="calculateComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Actions</td>
+                        <td><input type="number" id="totalActions" class="form-control" placeholder="500" value="500" oninput="calculateComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>CPM (₹)</td>
+                        <td><h4 class="text-primary" id="cpmResult">5.00</h4></td>
+                    </tr>
+                    <tr>
+                        <td>CPC (₹)</td>
+                        <td><h4 class="text-primary" id="cpcResult">1.00</h4></td>
+                    </tr>
+                    <tr>
+                        <td>CPA (₹)</td>
+                        <td><h4 class="text-primary" id="cpaResult">2.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="comparisonChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is CPM (Cost Per 1000 Impressions)?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">CPM is a metric used to calculate the cost per 1000 impressions of an ad.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            What is CPC (Cost Per Click)?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">CPC is a metric that shows the cost of each click on your ad.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            What is CPA (Cost Per Action)?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">CPA measures the cost per action, such as a purchase, sign-up, or download, that happens after clicking the ad.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 CPM vs. CPC vs. CPA Comparison Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateComparison() {
+            let totalSpend = parseFloat(document.getElementById('totalSpend').value) || 0;
+            let totalImpressions = parseFloat(document.getElementById('totalImpressions').value) || 0;
+            let totalClicks = parseFloat(document.getElementById('totalClicks').value) || 0;
+            let totalActions = parseFloat(document.getElementById('totalActions').value) || 0;
+            
+            let cpm = (totalSpend / totalImpressions) * 1000;
+            let cpc = totalSpend / totalClicks;
+            let cpa = totalSpend / totalActions;
+
+            document.getElementById('cpmResult').innerText = cpm.toFixed(2);
+            document.getElementById('cpcResult').innerText = cpc.toFixed(2);
+            document.getElementById('cpaResult').innerText = cpa.toFixed(2);
+            
+            updateChart(cpm, cpc, cpa);
+        }
+
+        function updateChart(cpm, cpc, cpa) {
+            let ctx = document.getElementById('comparisonChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['CPM', 'CPC', 'CPA'],
+                    datasets: [{
+                        label: 'Cost Comparison (₹)',
+                        data: [cpm, cpc, cpa],
+                        backgroundColor: ['#36a2eb', '#ff6384', '#ff9f40'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

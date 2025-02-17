@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Display Network Placement Effectiveness Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body onload="calculatePlacementEffectiveness()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Google Display Network Placement Effectiveness Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the effectiveness of your Google Display Network placements based on impressions, clicks, and conversions.</p>
+        <h5>Formula:</h5>
+        <p><strong>Placement Effectiveness (%) = (Conversions / Clicks) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>Suppose you received 1000 clicks and 50 conversions from a placement.</p>
+        <p>Placement Effectiveness = (50 / 1000) × 100 = 5%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Clicks</td>
+                        <td><input type="number" id="totalClicks" class="form-control" placeholder="1000" value="1000" oninput="calculatePlacementEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" placeholder="50" value="50" oninput="calculatePlacementEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td>Placement Effectiveness (%)</td>
+                        <td><h4 class="text-primary" id="effectivenessResult">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="placementChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Placement Effectiveness in Google Display Network?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Placement Effectiveness measures how well a placement converts compared to the number of clicks it received, helping you assess the quality of your ad placements.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can I Improve Placement Effectiveness?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">To improve placement effectiveness, focus on high-converting placements, optimize your targeting, and continually test and refine your creatives.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Google Display Network Placement Effectiveness Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculatePlacementEffectiveness() {
+            let totalClicks = parseFloat(document.getElementById('totalClicks').value) || 0;
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+            
+            let effectiveness = (totalConversions / totalClicks) * 100;
+            document.getElementById('effectivenessResult').innerText = effectiveness.toFixed(2) + '%';
+            updateChart(totalConversions, totalClicks);
+        }
+
+        function updateChart(totalConversions, totalClicks) {
+            let ctx = document.getElementById('placementChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Conversions', 'Non-Conversions'],
+                    datasets: [{
+                        label: 'Placement Effectiveness',
+                        data: [totalConversions, totalClicks - totalConversions],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

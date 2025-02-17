@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Device Ad Performance Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCrossDevicePerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Cross-Device Ad Performance Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Evaluate the performance of your ads across different devices (mobile, desktop, tablet).</p>
+        <h5>Formula:</h5>
+        <p><strong>Performance Efficiency (%) = (Device-Specific Performance / Total Performance) × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If you have 1000 clicks, 600 from mobile, 300 from desktop, and 100 from tablet:</p>
+        <p>Mobile Performance = (600 / 1000) × 100 = 60%</p>
+        <p>Desktop Performance = (300 / 1000) × 100 = 30%</p>
+        <p>Tablet Performance = (100 / 1000) × 100 = 10%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Clicks</td>
+                        <td><input type="number" id="totalClicks" class="form-control" placeholder="1000" value="1000" oninput="calculateCrossDevicePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Mobile Clicks</td>
+                        <td><input type="number" id="mobileClicks" class="form-control" placeholder="600" value="600" oninput="calculateCrossDevicePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Desktop Clicks</td>
+                        <td><input type="number" id="desktopClicks" class="form-control" placeholder="300" value="300" oninput="calculateCrossDevicePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Tablet Clicks</td>
+                        <td><input type="number" id="tabletClicks" class="form-control" placeholder="100" value="100" oninput="calculateCrossDevicePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Mobile Performance (%)</td>
+                        <td><h4 class="text-success" id="mobilePerformanceResult">60.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Desktop Performance (%)</td>
+                        <td><h4 class="text-primary" id="desktopPerformanceResult">30.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Tablet Performance (%)</td>
+                        <td><h4 class="text-warning" id="tabletPerformanceResult">10.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is Cross-Device Ad Performance?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Cross-device ad performance refers to how your ads perform across various devices like mobile, desktop, and tablet.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How Can I Optimize Cross-Device Ad Performance?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Optimize by analyzing performance metrics across devices and adjusting your targeting and bidding strategy for each device.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Cross-Device Ad Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateCrossDevicePerformance() {
+            let totalClicks = parseFloat(document.getElementById('totalClicks').value) || 0;
+            let mobileClicks = parseFloat(document.getElementById('mobileClicks').value) || 0;
+            let desktopClicks = parseFloat(document.getElementById('desktopClicks').value) || 0;
+            let tabletClicks = parseFloat(document.getElementById('tabletClicks').value) || 0;
+            
+            let mobilePerformance = (mobileClicks / totalClicks) * 100;
+            let desktopPerformance = (desktopClicks / totalClicks) * 100;
+            let tabletPerformance = (tabletClicks / totalClicks) * 100;
+
+            document.getElementById('mobilePerformanceResult').innerText = mobilePerformance.toFixed(2) + '%';
+            document.getElementById('desktopPerformanceResult').innerText = desktopPerformance.toFixed(2) + '%';
+            document.getElementById('tabletPerformanceResult').innerText = tabletPerformance.toFixed(2) + '%';
+
+            updateChart(mobilePerformance, desktopPerformance, tabletPerformance);
+        }
+
+        function updateChart(mobilePerformance, desktopPerformance, tabletPerformance) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Mobile', 'Desktop', 'Tablet'],
+                    datasets: [{
+                        label: 'Device Performance',
+                        data: [mobilePerformance, desktopPerformance, tabletPerformance],
+                        backgroundColor: ['#36a2eb', '#ff6384', '#ffcd56'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

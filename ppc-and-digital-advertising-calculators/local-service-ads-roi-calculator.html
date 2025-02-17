@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Service Ads ROI Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateROI()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Local Service Ads ROI Calculator</h1>
+    </header>
+    <div class="container mt-5">
+        <p class="text-center py-4">Calculate the return on investment (ROI) for your local service ads campaign.</p>
+        <h5>Formula:</h5>
+        <p><strong>ROI (%) = [(Revenue - Ad Spend) / Ad Spend] × 100</strong></p>
+        <h6>Example Calculation:</h6>
+        <p>If you spend ₹5,000 on ads and earn ₹15,000 in revenue:</p>
+        <p>ROI = [(15,000 - 5,000) / 5,000] × 100 = 200%</p>
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Ad Spend (₹)</td>
+                        <td><input type="number" id="adSpend" class="form-control" placeholder="5000" value="5000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Generated (₹)</td>
+                        <td><input type="number" id="revenue" class="form-control" placeholder="15000" value="15000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI (%)</td>
+                        <td><h4 class="text-success" id="roiResult">200.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+        <section class="mt-4">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is ROI in Local Service Ads?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">ROI measures the profitability of your local service ads campaign by comparing revenue to ad spend.</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How can I improve my Local Service Ads ROI?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">Improve ROI by optimizing your ad targeting, increasing conversion rates, and refining ad creatives.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Local Service Ads ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+        function calculateROI() {
+            let adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+
+            let roi = ((revenue - adSpend) / adSpend) * 100;
+            document.getElementById('roiResult').innerText = roi.toFixed(2) + '%';
+
+            updateChart(adSpend, revenue - adSpend);
+        }
+
+        function updateChart(adSpend, profit) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Ad Spend', 'Profit'],
+                    datasets: [{
+                        label: 'ROI Breakdown',
+                        data: [adSpend, profit],
+                        backgroundColor: ['#ff6384', '#36a2eb'],
+                        borderWidth: 2,
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
