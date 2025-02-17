@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Story Completion Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCompletionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Instagram Story Completion Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-5">Calculate the completion rate of your Instagram Story based on the number of views and completions.</p>
+        <h5>Formula:</h5>
+        <p><strong>Completion Rate (%) = (Story Completions / Story Views) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <p><strong>Example:</strong> If your story has 10,000 views and 8,000 completions, then:</p>
+        <p><strong>Completion Rate = (8,000 / 10,000) × 100 = 80%</strong></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-5">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Story Views</td>
+                        <td><input type="number" id="storyViews" class="form-control" placeholder="10000" value="10000" oninput="calculateCompletionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Story Completions</td>
+                        <td><input type="number" id="storyCompletions" class="form-control" placeholder="8000" value="8000" oninput="calculateCompletionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Completion Rate (%)</td>
+                        <td><h4 class="text-primary" id="completionRateResult">80.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-5">
+                <canvas id="completionRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is Completion Rate?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Completion rate measures the percentage of viewers who watched your Instagram Story to the end. A higher completion rate means your audience is engaging with the content more fully.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Instagram Story Completion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let chart;
+
+        function calculateCompletionRate() {
+            let storyViews = parseFloat(document.getElementById('storyViews').value) || 0;
+            let storyCompletions = parseFloat(document.getElementById('storyCompletions').value) || 0;
+
+            if (storyViews === 0) {
+                document.getElementById('completionRateResult').innerText = 'Invalid story views';
+                return;
+            }
+
+            // Completion rate calculation
+            let completionRate = (storyCompletions / storyViews) * 100;
+            document.getElementById('completionRateResult').innerText = completionRate.toFixed(2) + '%';
+
+            updateChart(storyViews, storyCompletions, completionRate);
+        }
+
+        function updateChart(storyViews, storyCompletions, completionRate) {
+            let ctx = document.getElementById('completionRateChart').getContext('2d');
+            if (chart) {
+                chart.destroy();  // Destroy any existing chart to prevent multiple charts being created
+            }
+            chart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Completed Views', 'Uncompleted Views'],
+                    datasets: [{
+                        label: 'Completion Rate',
+                        data: [storyCompletions, storyViews - storyCompletions],
+                        backgroundColor: ['#36a2eb', '#ff6384'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
