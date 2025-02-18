@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Close Friends List Growth Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateGrowth()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Instagram Close Friends List Growth Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Instagram Close Friends List Growth Calculator helps track the growth of your Close Friends List over a given period. 
+            It calculates the percentage growth based on the number of new people added and the original list size.
+        </p>
+
+        <p>
+            This tool helps you assess how much your Close Friends List is expanding, giving insights into engagement and exclusivity.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Growth Percentage = ((New Additions / Original List Size) × 100)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Original List Size:</strong> 100</li>
+            <li><strong>New Additions:</strong> 25</li>
+            <li><strong>Growth Percentage:</strong> (25 / 100) × 100 = <b>25%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Original List Size</td>
+                        <td><input type="number" id="originalListSize" class="form-control" value="100" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td>New Additions</td>
+                        <td><input type="number" id="newAdditions" class="form-control" value="25" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Growth Percentage</strong></td>
+                        <td><h4 class="text-primary" id="growthResult">25%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="growthChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let growthChart;
+
+            function calculateGrowth() {
+                let originalListSize = parseFloat(document.getElementById('originalListSize').value) || 0;
+                let newAdditions = parseFloat(document.getElementById('newAdditions').value) || 0;
+
+                if (originalListSize === 0) {
+                    document.getElementById('growthResult').innerText = "N/A";
+                    return;
+                }
+
+                let growthPercentage = ((newAdditions / originalListSize) * 100);
+                document.getElementById('growthResult').innerText = growthPercentage.toFixed(2) + "%";
+
+                updateChart(growthPercentage);
+            }
+
+            function updateChart(growthPercentage) {
+                let ctx = document.getElementById('growthChart').getContext('2d');
+                if (growthChart) {
+                    growthChart.destroy();
+                }
+
+                growthChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Growth Percentage'],
+                        datasets: [{
+                            data: [growthPercentage],
+                            backgroundColor: ['#25D366'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <div class="mt-5"></div>
+
+        <section class="container mt-5">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+            <div class="accordion mt-4" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            Why track my Instagram Close Friends List growth?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Tracking growth helps you gauge engagement and determine the effectiveness of exclusive content shared with close friends.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How can I grow my Instagram Close Friends List?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can grow your list by engaging with your followers, offering exclusive content, and inviting people to join your Close Friends List.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            What does a higher growth percentage indicate?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A higher growth percentage indicates that your Close Friends List is expanding at a faster rate, which may correlate with better engagement.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <section class="bg-dark text-white py-4 mt-5">
+        <div class="text-center">
+            <p>&copy; 2025 Instagram Close Friends List Growth Calculator. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

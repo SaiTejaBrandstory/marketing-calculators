@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generated Content vs. Human Engagement Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateAIEngagement()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Generated Content vs. Human Engagement Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The AI-Generated Content vs. Human Engagement Calculator helps you understand the impact of AI-generated content on user engagement compared to content created by humans. 
+            This tool allows you to input key metrics like the number of AI-generated posts, human-generated posts, engagement per post, and views. 
+            By calculating the total engagement for both types, you can assess which content type is more effective in driving user interaction and engagement, allowing you to make informed decisions on your content strategy.
+        </p>
+
+        <p>
+            This calculator compares the engagement of content created by AI versus human creators by analyzing the total views and interactions each type generates. 
+            By entering data such as AI and human post counts, engagement rates, and views, you can calculate the total engagement and see the comparative impact of each. 
+            The result helps in identifying the strengths and weaknesses of using AI-generated content and human-driven posts within your content strategy.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>AI Engagement = (AI Posts × AI Engagement Rate × AI Views)</strong></p>
+        <p><strong>Human Engagement = (Human Posts × Human Engagement Rate × Human Views)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>AI Posts:</strong> 30</li>
+            <li><strong>AI Engagement Rate:</strong> 0.15</li>
+            <li><strong>AI Views:</strong> 2000</li>
+            <li><strong>Human Posts:</strong> 20</li>
+            <li><strong>Human Engagement Rate:</strong> 0.25</li>
+            <li><strong>Human Views:</strong> 2500</li>
+            <li><strong>AI Engagement:</strong> (30 × 0.15 × 2000) = <b>9000</b></li>
+            <li><strong>Human Engagement:</strong> (20 × 0.25 × 2500) = <b>12500</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>AI Posts</td>
+                        <td><input type="number" id="aiPosts" class="form-control" value="30" oninput="calculateAIEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI Engagement Rate</td>
+                        <td><input type="number" id="aiEngagementRate" class="form-control" value="0.15" oninput="calculateAIEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI Views</td>
+                        <td><input type="number" id="aiViews" class="form-control" value="2000" oninput="calculateAIEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Posts</td>
+                        <td><input type="number" id="humanPosts" class="form-control" value="20" oninput="calculateAIEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Engagement Rate</td>
+                        <td><input type="number" id="humanEngagementRate" class="form-control" value="0.25" oninput="calculateAIEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Views</td>
+                        <td><input type="number" id="humanViews" class="form-control" value="2500" oninput="calculateAIEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AI Engagement</strong></td>
+                        <td><h4 class="text-primary" id="aiEngagementResult">9000</h4></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Human Engagement</strong></td>
+                        <td><h4 class="text-primary" id="humanEngagementResult">12500</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="engagementComparisonChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let engagementComparisonChart;
+
+            function calculateAIEngagement() {
+                let aiPosts = parseFloat(document.getElementById('aiPosts').value) || 0;
+                let aiEngagementRate = parseFloat(document.getElementById('aiEngagementRate').value) || 0;
+                let aiViews = parseFloat(document.getElementById('aiViews').value) || 0;
+                let humanPosts = parseFloat(document.getElementById('humanPosts').value) || 0;
+                let humanEngagementRate = parseFloat(document.getElementById('humanEngagementRate').value) || 0;
+                let humanViews = parseFloat(document.getElementById('humanViews').value) || 0;
+
+                let aiEngagement = aiPosts * aiEngagementRate * aiViews;
+                let humanEngagement = humanPosts * humanEngagementRate * humanViews;
+
+                document.getElementById('aiEngagementResult').innerText = aiEngagement.toFixed(2);
+                document.getElementById('humanEngagementResult').innerText = humanEngagement.toFixed(2);
+
+                updateChart(aiEngagement, humanEngagement);
+            }
+
+            function updateChart(aiEngagement, humanEngagement) {
+                let ctx = document.getElementById('engagementComparisonChart').getContext('2d');
+                if (engagementComparisonChart) {
+                    engagementComparisonChart.destroy();
+                }
+
+                engagementComparisonChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['AI Engagement', 'Human Engagement'],
+                        datasets: [{
+                            data: [aiEngagement, humanEngagement],
+                            backgroundColor: ['#007bff', '#28a745'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the difference between AI-generated content and human-generated content in terms of engagement?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI-generated content tends to be more efficient in terms of producing a large volume of posts, but human-generated content often has higher engagement rates due to its personal touch and ability to connect with audiences on an emotional level. 
+                        This calculator helps compare the engagement impact of both.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can AI content improve user engagement?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI content can improve user engagement by providing consistent and high-volume content that can reach a broader audience. 
+                        Additionally, AI can optimize content to match user interests and trends, increasing the likelihood of engagement.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Generated Content vs. Human Engagement Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

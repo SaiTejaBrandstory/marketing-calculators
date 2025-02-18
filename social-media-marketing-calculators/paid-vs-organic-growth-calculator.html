@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paid vs. Organic Social Media Growth Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateGrowth()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Paid vs. Organic Social Media Growth Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-4">Compare the effectiveness of paid and organic social media strategies in terms of follower growth.</p>
+        
+        <h5>Formula:</h5>
+        <p><strong>Growth Rate (%) = (New Followers / Starting Followers) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Starting Followers:</strong> 10,000</li>
+            <li><strong>New Followers (Paid):</strong> 2,500</li>
+            <li><strong>New Followers (Organic):</strong> 1,000</li>
+            <li><strong>Paid Growth Rate:</strong> (2,500 / 10,000) × 100 = 25%</li>
+            <li><strong>Organic Growth Rate:</strong> (1,000 / 10,000) × 100 = 10%</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Starting Followers</td>
+                        <td><input type="number" id="startingFollowers" class="form-control" placeholder="10000" value="10000" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td>New Followers (Paid)</td>
+                        <td><input type="number" id="paidFollowers" class="form-control" placeholder="2500" value="2500" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td>New Followers (Organic)</td>
+                        <td><input type="number" id="organicFollowers" class="form-control" placeholder="1000" value="1000" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td>Paid Growth Rate (%)</td>
+                        <td><h4 class="text-primary" id="paidGrowthResult">25.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Organic Growth Rate (%)</td>
+                        <td><h4 class="text-success" id="organicGrowthResult">10.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="growthChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is the difference between paid and organic growth?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Paid growth comes from sponsored ads and promotions, while organic growth happens naturally through engagement, shares, and content visibility.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            How can I improve my organic social media growth?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            To improve organic growth, focus on quality content, engage with your audience, use hashtags effectively, and post consistently.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Paid vs. Organic Social Media Growth Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let growthChart;
+
+        function calculateGrowth() {
+            let startingFollowers = parseFloat(document.getElementById('startingFollowers').value) || 0;
+            let paidFollowers = parseFloat(document.getElementById('paidFollowers').value) || 0;
+            let organicFollowers = parseFloat(document.getElementById('organicFollowers').value) || 0;
+
+            if (startingFollowers === 0) {
+                document.getElementById('paidGrowthResult').innerText = 'Invalid input';
+                document.getElementById('organicGrowthResult').innerText = 'Invalid input';
+                return;
+            }
+
+            let paidGrowth = (paidFollowers / startingFollowers) * 100;
+            let organicGrowth = (organicFollowers / startingFollowers) * 100;
+
+            document.getElementById('paidGrowthResult').innerText = paidGrowth.toFixed(2) + '%';
+            document.getElementById('organicGrowthResult').innerText = organicGrowth.toFixed(2) + '%';
+
+            updateChart(paidGrowth, organicGrowth);
+        }
+
+        function updateChart(paidGrowth, organicGrowth) {
+            let ctx = document.getElementById('growthChart').getContext('2d');
+            if (growthChart) {
+                growthChart.destroy();
+            }
+
+            growthChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Paid Growth', 'Organic Growth'],
+                    datasets: [{
+                        data: [paidGrowth, organicGrowth],
+                        backgroundColor: ['#007bff', '#28a745'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

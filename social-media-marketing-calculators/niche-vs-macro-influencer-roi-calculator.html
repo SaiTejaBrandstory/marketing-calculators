@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niche Influencer vs. Macro Influencer ROI Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateInfluencerROI()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Niche Influencer vs. Macro Influencer ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Niche Influencer vs. Macro Influencer ROI Calculator allows you to compare the return on investment (ROI) of influencer marketing campaigns based on niche and macro influencers. 
+            By entering key metrics such as the number of posts, engagement rate, cost per post, and expected conversions, you can calculate and compare the ROI for both types of influencers. 
+            This helps in determining which type of influencer provides the best value for your marketing efforts and can guide decisions on future influencer collaborations.
+        </p>
+
+        <p>
+            This calculator calculates the ROI for both niche and macro influencers based on factors like the number of followers, engagement rates, and cost per post. 
+            By evaluating the total revenue expected from the campaigns in relation to the cost of collaboration, this tool will help you make informed decisions on which influencer type offers the highest return for your marketing budget.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>ROI = ((Revenue - Cost) / Cost) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Niche Influencer Revenue:</strong> 3000</li>
+            <li><strong>Niche Influencer Cost:</strong> 1000</li>
+            <li><strong>Macro Influencer Revenue:</strong> 6000</li>
+            <li><strong>Macro Influencer Cost:</strong> 2500</li>
+            <li><strong>Niche ROI:</strong> ((3000 - 1000) / 1000) × 100 = <b>200%</b></li>
+            <li><strong>Macro ROI:</strong> ((6000 - 2500) / 2500) × 100 = <b>140%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Niche Influencer Posts</td>
+                        <td><input type="number" id="nichePosts" class="form-control" value="15" oninput="calculateInfluencerROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Niche Engagement Rate</td>
+                        <td><input type="number" id="nicheEngagementRate" class="form-control" value="0.1" oninput="calculateInfluencerROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Niche Cost per Post</td>
+                        <td><input type="number" id="nicheCostPerPost" class="form-control" value="1000" oninput="calculateInfluencerROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Macro Influencer Posts</td>
+                        <td><input type="number" id="macroPosts" class="form-control" value="15" oninput="calculateInfluencerROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Macro Engagement Rate</td>
+                        <td><input type="number" id="macroEngagementRate" class="form-control" value="0.1" oninput="calculateInfluencerROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Macro Cost per Post</td>
+                        <td><input type="number" id="macroCostPerPost" class="form-control" value="2000" oninput="calculateInfluencerROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Niche ROI</strong></td>
+                        <td><h4 class="text-primary" id="nicheROIResult">200%</h4></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Macro ROI</strong></td>
+                        <td><h4 class="text-primary" id="macroROIResult">200%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="roiComparisonChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let roiComparisonChart;
+
+            function calculateInfluencerROI() {
+                let nichePosts = parseFloat(document.getElementById('nichePosts').value) || 0;
+                let nicheEngagementRate = parseFloat(document.getElementById('nicheEngagementRate').value) || 0;
+                let nicheCostPerPost = parseFloat(document.getElementById('nicheCostPerPost').value) || 0;
+                let macroPosts = parseFloat(document.getElementById('macroPosts').value) || 0;
+                let macroEngagementRate = parseFloat(document.getElementById('macroEngagementRate').value) || 0;
+                let macroCostPerPost = parseFloat(document.getElementById('macroCostPerPost').value) || 0;
+
+                let nicheRevenue = nichePosts * nicheEngagementRate * 12000; // Assuming 12000 views per post for Niche
+                let macroRevenue = macroPosts * macroEngagementRate * 25000; // Assuming 25000 views per post for Macro
+
+                let nicheROI = ((nicheRevenue - nicheCostPerPost * nichePosts) / (nicheCostPerPost * nichePosts)) * 100;
+                let macroROI = ((macroRevenue - macroCostPerPost * macroPosts) / (macroCostPerPost * macroPosts)) * 100;
+
+                document.getElementById('nicheROIResult').innerText = nicheROI.toFixed(2) + "%";
+                document.getElementById('macroROIResult').innerText = macroROI.toFixed(2) + "%";
+
+                updateChart(nicheROI, macroROI);
+            }
+
+            function updateChart(nicheROI, macroROI) {
+                let ctx = document.getElementById('roiComparisonChart').getContext('2d');
+                if (roiComparisonChart) {
+                    roiComparisonChart.destroy();
+                }
+
+                roiComparisonChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Niche Influencer ROI', 'Macro Influencer ROI'],
+                        datasets: [{
+                            data: [nicheROI, macroROI],
+                            backgroundColor: ['#007bff', '#28a745'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the difference between niche and macro influencers?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Niche influencers have a smaller but highly engaged audience that is specific to a particular interest or niche, while macro influencers have a larger general audience. 
+                        The ROI for niche influencers can sometimes be higher because they tend to have more trust and influence within their specific community.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do you calculate ROI for influencers?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI is calculated by comparing the revenue generated by the influencer’s campaign to the cost of the collaboration. 
+                        The formula used is: <strong>ROI = ((Revenue - Cost) / Cost) × 100</strong>. This helps assess which influencer provides the best return for your marketing investment.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Niche Influencer vs. Macro Influencer ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

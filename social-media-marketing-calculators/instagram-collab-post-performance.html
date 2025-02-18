@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Collab Post Performance Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateScore()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Instagram Collab Post Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p>
+            The Instagram Collab Post Performance Calculator helps influencers and marketers gauge the success of their collaborative posts. By calculating a score based on engagement metrics like likes, followers, and shares, this tool provides a quick and effective way to evaluate the performance of each post. A higher score signifies better performance, indicating strong engagement and reach. Use this calculator to optimize future collaborations and measure the impact of your content on your audience. 
+            Regularly assessing these metrics can help in building stronger partnerships and boosting visibility for brands.
+        </p>
+        
+        <p>
+            This calculator is particularly useful for influencers working with brands, as it helps track the effectiveness of posts based on audience interaction. By assigning weights to likes, followers, and shares, it highlights which factors contribute most to the post's overall performance. Whether you're an influencer or a brand manager, understanding these metrics allows for smarter campaign strategies. The score gives you a clear understanding of how well your post performed in terms of engagement and reach, guiding you toward more successful future collaborations.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Instagram Collab Post Performance Score = ((Likes × 0.5) + (Followers × 0.2) + (Shares × 0.3))</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Likes:</strong> 5</li>
+            <li><strong>Followers:</strong> 15,000</li>
+            <li><strong>Shares:</strong> 2,000</li>
+            <li><strong>Score:</strong> ((5 × 0.5) + (15,000 × 0.2) + (2,000 × 0.3)) = <b>3602.5</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Likes</td>
+                        <td><input type="number" id="likes" class="form-control" value="5" oninput="calculateScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Followers</td>
+                        <td><input type="number" id="followers" class="form-control" value="15000" oninput="calculateScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Shares</td>
+                        <td><input type="number" id="shares" class="form-control" value="2000" oninput="calculateScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Score</td>
+                        <td><h4 class="text-primary" id="scoreResult">3602.5</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="scoreChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let scoreChart;
+
+            function calculateScore() {
+                let likes = parseFloat(document.getElementById('likes').value) || 0;
+                let followers = parseFloat(document.getElementById('followers').value) || 0;
+                let shares = parseFloat(document.getElementById('shares').value) || 0;
+
+                let score = ((likes * 0.5) + (followers * 0.2) + (shares * 0.3));
+                document.getElementById('scoreResult').innerText = score.toFixed(2);
+
+                updateChart(score);
+            }
+
+            function updateChart(score) {
+                let ctx = document.getElementById('scoreChart').getContext('2d');
+                if (scoreChart) {
+                    scoreChart.destroy();
+                }
+
+                scoreChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Performance Score'],
+                        datasets: [{
+                            data: [score],
+                            backgroundColor: ['#0077b5'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 5000 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapse" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Instagram Collab Post Performance Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Instagram Collab Post Performance Score evaluates your post's engagement based on likes, followers, and shares. The score helps you measure how effectively your content is reaching and engaging your audience.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my Instagram Collab Post Performance Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your score, focus on increasing engagement by gaining more likes, shares, and followers. Consistently posting content that resonates with your audience will drive better engagement and, therefore, a higher performance score.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Instagram Collab Post Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

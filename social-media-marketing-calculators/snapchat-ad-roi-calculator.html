@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snapchat Ad ROI Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateROI()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Snapchat Ad ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="text-center py-4">Calculate the return on investment (ROI) from your Snapchat ad campaigns.</p>
+        
+        <h5>Formula:</h5>
+        <p><strong>ROI (%) = ((Revenue - Ad Spend) / Ad Spend) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Ad Spend:</strong> ₹10,000</li>
+            <li><strong>Revenue Generated:</strong> ₹25,000</li>
+            <li><strong>ROI:</strong> ((₹25,000 - ₹10,000) / ₹10,000) × 100 = 150%</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Ad Spend (₹)</td>
+                        <td><input type="number" id="adSpend" class="form-control" placeholder="10000" value="10000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Generated (₹)</td>
+                        <td><input type="number" id="revenue" class="form-control" placeholder="25000" value="25000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI (%)</td>
+                        <td><h4 class="text-primary" id="roiResult">150.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="mt-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is ROI in Snapchat ads?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            ROI (Return on Investment) in Snapchat ads measures the effectiveness of your campaign by calculating the profit generated from the ad spend.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faqTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            How can I improve my Snapchat Ad ROI?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            To improve Snapchat Ad ROI, optimize targeting, use engaging creatives, experiment with different ad formats, and track performance metrics regularly.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Snapchat Ad ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+
+            if (adSpend === 0) {
+                document.getElementById('roiResult').innerText = 'Invalid input';
+                return;
+            }
+
+            let roi = ((revenue - adSpend) / adSpend) * 100;
+            document.getElementById('roiResult').innerText = roi.toFixed(2) + '%';
+
+            updateChart(roi);
+        }
+
+        function updateChart(roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ROI (%)'],
+                    datasets: [{
+                        data: [roi],
+                        backgroundColor: ['#007bff'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 300 }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

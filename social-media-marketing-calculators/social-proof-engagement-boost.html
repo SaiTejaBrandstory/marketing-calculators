@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Proof Engagement Boost Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateBoost()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Social Proof Engagement Boost Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Social Proof Engagement Boost Calculator helps assess the effect of social proof on your social media engagement. 
+            Social proof refers to the influence of others' actions, such as likes, comments, and shares, on the likelihood that others will engage with your content. 
+            This calculator evaluates how an increase in social proof (such as more likes or shares) can boost engagement with your posts. 
+            Understanding this relationship can help you optimize content to leverage social proof and increase interaction with your posts. 
+            The tool uses input data like the increase in likes, comments, and shares to estimate the potential boost in engagement. 
+            A higher score indicates that the social proof has a more significant impact on engagement, suggesting a higher likelihood of positive interaction. 
+            By adjusting your social media strategies to generate more social proof, you can improve visibility and engagement rates. 
+            This calculator can help you determine how changes in social proof metrics might influence overall performance. 
+            Keeping track of these metrics will help you fine-tune your content to meet the demands of your audience and increase engagement over time.
+        </p>
+
+        <p>
+            Social proof has become a powerful factor in digital marketing, as users are more likely to engage with content that others have already interacted with. 
+            The Social Proof Engagement Boost Calculator helps quantify how social proof impacts your social media results. 
+            By increasing metrics like likes, comments, and shares, you can improve your chances of creating viral content. 
+            The tool calculates the impact of these changes by analyzing your baseline engagement and then predicting the boost based on new social proof. 
+            The results can guide your strategy for growing your audience and increasing engagement. 
+            Social proof not only helps with engagement but also builds trust and credibility with your audience, making them more likely to interact with your content. 
+            This tool uses real-time data to measure the potential impact of social proof, so you can continuously refine your social media approach. 
+            You can experiment with different approaches to see how varying levels of social proof affect engagement rates. 
+            The more you understand this dynamic, the better you can design content that resonates with your audience and leverages social proof effectively.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Boosted Engagement = ((Likes × 1.2) + (Shares × 1.5) + (Comments × 1.0))</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Likes:</strong> 50 (multiplied by 1.2)</li>
+            <li><strong>Shares:</strong> 30 (multiplied by 1.5)</li>
+            <li><strong>Comments:</strong> 20 (multiplied by 1.0)</li>
+            <li><strong>Boosted Engagement:</strong> ((50 × 1.2) + (30 × 1.5) + (20 × 1.0)) = <b>125</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Likes</td>
+                        <td><input type="number" id="likes" class="form-control" value="50" oninput="calculateBoost()"></td>
+                    </tr>
+                    <tr>
+                        <td>Shares</td>
+                        <td><input type="number" id="shares" class="form-control" value="30" oninput="calculateBoost()"></td>
+                    </tr>
+                    <tr>
+                        <td>Comments</td>
+                        <td><input type="number" id="comments" class="form-control" value="20" oninput="calculateBoost()"></td>
+                    </tr>
+                    <tr>
+                        <td>Boosted Engagement</td>
+                        <td><h4 class="text-primary" id="boostResult">125</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="boostChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let boostChart;
+
+            function calculateBoost() {
+                let likes = parseFloat(document.getElementById('likes').value) || 0;
+                let shares = parseFloat(document.getElementById('shares').value) || 0;
+                let comments = parseFloat(document.getElementById('comments').value) || 0;
+
+                let boostedEngagement = ((likes * 1.2) + (shares * 1.5) + (comments * 1.0));
+                document.getElementById('boostResult').innerText = boostedEngagement;
+
+                updateChart(boostedEngagement);
+            }
+
+            function updateChart(boostedEngagement) {
+                let ctx = document.getElementById('boostChart').getContext('2d');
+                if (boostChart) {
+                    boostChart.destroy();
+                }
+
+                boostChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Boosted Engagement'],
+                        datasets: [{
+                            data: [boostedEngagement],
+                            backgroundColor: ['#007bff'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 200 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Social Proof Engagement Boost Calculator?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse " aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This calculator helps you measure the effect of social proof (likes, comments, shares) on the engagement of your social media posts.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does social proof impact engagement?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Social proof, such as an increase in likes, shares, and comments, significantly boosts engagement by creating a sense of credibility and popularity.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Social Proof Engagement Boost Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

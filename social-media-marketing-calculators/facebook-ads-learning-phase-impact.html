@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ads Learning Phase Impact Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Facebook Ads Learning Phase Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Facebook Ads Learning Phase Impact Calculator helps advertisers measure how ad performance improves 
+            after the learning phase. Facebook’s algorithm optimizes delivery once enough conversion data is collected. 
+            This tool lets you compare ad costs before and after the learning phase to see improvements in cost efficiency 
+            and conversion rates.
+        </p>
+
+        <p>
+            Using this calculator, advertisers can analyze variations in **cost-per-action (CPA)** to determine whether 
+            their campaign is getting better results post-learning. The results help in adjusting bidding, targeting, 
+            and budget allocation to maximize returns from Facebook Ads.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Improvement Score = ((Pre-learning CPA - Post-learning CPA) / Pre-learning CPA) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Pre-learning Phase CPA:</strong> ₹500</li>
+            <li><strong>Post-learning Phase CPA:</strong> ₹350</li>
+            <li><strong>Improvement Score:</strong> ((500 - 350) / 500) × 100 = <b>30%</b> (better performance)</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Pre-learning Phase CPA (₹)</td>
+                        <td><input type="number" id="preCPA" class="form-control" value="500" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Post-learning Phase CPA (₹)</td>
+                        <td><input type="number" id="postCPA" class="form-control" value="350" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Improvement Score</strong></td>
+                        <td><h4 class="text-primary" id="impactResult">30%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="impactChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let impactChart;
+
+            function calculateImpact() {
+                let preCPA = parseFloat(document.getElementById('preCPA').value) || 0;
+                let postCPA = parseFloat(document.getElementById('postCPA').value) || 0;
+
+                if (preCPA === 0) {
+                    document.getElementById('impactResult').innerText = "N/A";
+                    return;
+                }
+
+                let improvementScore = ((preCPA - postCPA) / preCPA) * 100;
+                document.getElementById('impactResult').innerText = improvementScore.toFixed(2) + "%";
+
+                updateChart(improvementScore);
+            }
+
+            function updateChart(improvementScore) {
+                let ctx = document.getElementById('impactChart').getContext('2d');
+                if (impactChart) {
+                    impactChart.destroy();
+                }
+
+                impactChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Improvement Score'],
+                        datasets: [{
+                            data: [improvementScore],
+                            backgroundColor: ['#3b5998'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <div class="mt-5"></div>
+
+        <section class="container mt-5">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+            <div class="accordion mt-4" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is the learning phase in Facebook Ads?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The learning phase is when Facebook's algorithm optimizes ad delivery. 
+                            Performance may be unstable during this phase.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How does the learning phase impact ad performance?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Ads in the learning phase often have higher costs and lower efficiency. Once completed, 
+                            Facebook can optimize delivery for better results.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            How can I exit the learning phase faster?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            To exit the learning phase quickly, avoid making frequent ad changes, increase your 
+                            budget stability, and ensure high conversion volumes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <section class="bg-dark text-white py-4 mt-5">
+        <div class="text-center">
+            <p>&copy; 2025 Facebook Ads Learning Phase Impact Calculator. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

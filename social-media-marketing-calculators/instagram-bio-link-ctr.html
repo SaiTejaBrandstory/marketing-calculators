@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Bio Link Click-Through Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCTR()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Instagram Bio Link Click-Through Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Instagram Bio Link Click-Through Rate (CTR) Calculator helps social media marketers measure how 
+            effectively their audience engages with their bio link. The CTR is calculated by dividing the number 
+            of clicks on the bio link by the total profile visits and multiplying by 100 to get a percentage.
+        </p>
+
+        <p>
+            This tool is essential for influencers, brands, and businesses looking to optimize their Instagram 
+            profile strategy. A higher CTR indicates a more compelling profile that drives users to take action, 
+            such as visiting a website, landing page, or product page.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>CTR (%) = (Clicks on Bio Link / Profile Visits) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Profile Visits:</strong> 5,000</li>
+            <li><strong>Clicks on Bio Link:</strong> 750</li>
+            <li><strong>CTR:</strong> (750 / 5000) × 100 = <b>15%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Profile Visits</td>
+                        <td><input type="number" id="profileVisits" class="form-control" value="5000" oninput="calculateCTR()"></td>
+                    </tr>
+                    <tr>
+                        <td>Clicks on Bio Link</td>
+                        <td><input type="number" id="bioClicks" class="form-control" value="750" oninput="calculateCTR()"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Click-Through Rate (CTR)</strong></td>
+                        <td><h4 class="text-primary" id="ctrResult">15%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center align-items-center my-4">
+                <canvas id="ctrChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let ctrChart;
+
+            function calculateCTR() {
+                let profileVisits = parseFloat(document.getElementById('profileVisits').value) || 0;
+                let bioClicks = parseFloat(document.getElementById('bioClicks').value) || 0;
+
+                if (profileVisits === 0) {
+                    document.getElementById('ctrResult').innerText = "N/A";
+                    return;
+                }
+
+                let ctr = (bioClicks / profileVisits) * 100;
+                document.getElementById('ctrResult').innerText = ctr.toFixed(2) + "%";
+
+                updateChart(ctr);
+            }
+
+            function updateChart(ctr) {
+                let ctx = document.getElementById('ctrChart').getContext('2d');
+                if (ctrChart) {
+                    ctrChart.destroy();
+                }
+
+                ctrChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['CTR'],
+                        datasets: [{
+                            data: [ctr],
+                            backgroundColor: ['#E4405F'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <div class="mt-5"></div>
+
+        <section class="container mt-5">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+            <div class="accordion mt-4" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            What is a good Instagram bio link CTR?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A good CTR varies by industry but generally, anything above 10% is considered strong, 
+                            indicating that your profile is engaging enough to drive actions.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            How can I improve my Instagram bio link CTR?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can improve your CTR by making your call-to-action (CTA) more compelling, 
+                            using link-shortening tools, and placing the link strategically in your content.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Why is my Instagram bio link CTR low?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A low CTR might indicate that your bio link is not visible enough, your CTA is weak, 
+                            or your profile content is not engaging enough to drive traffic.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <section class="bg-dark text-white py-4 mt-5">
+        <div class="text-center">
+            <p>&copy; 2025 Instagram Bio Link CTR Calculator. All rights reserved.</p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
