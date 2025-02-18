@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microcopy Influence on Form Completion Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCompletionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Microcopy Influence on Form Completion Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Microcopy Influence on Form Completion Rate Calculator helps you determine how effective the microcopy on your forms is at encouraging users to complete them. Microcopy includes small pieces of text that guide users through the form fields. This calculator helps assess its impact on form completion.
+        </p>
+
+        <p>
+            By understanding the relationship between microcopy and completion rates, you can optimize form messaging and significantly improve conversion rates. Clear, concise, and persuasive microcopy can drastically reduce abandonment rates.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Completion Rate = (Form Completions / Form Starts) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Form Completions:</strong> 350</li>
+            <li><strong>Form Starts:</strong> 500</li>
+            <li><strong>Completion Rate:</strong> (350 / 500) × 100 = <b>70.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Form Completions</td>
+                        <td><input type="number" id="formCompletions" class="form-control" value="350" oninput="calculateCompletionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Form Starts</td>
+                        <td><input type="number" id="formStarts" class="form-control" value="500" oninput="calculateCompletionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Completion Rate</td>
+                        <td><h4 class="text-primary" id="completionRateResult">70.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="completionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let completionChart;
+
+            function calculateCompletionRate() {
+                let formCompletions = parseFloat(document.getElementById('formCompletions').value) || 0;
+                let formStarts = parseFloat(document.getElementById('formStarts').value) || 1;
+
+                let completionRate = (formCompletions / formStarts) * 100;
+                document.getElementById('completionRateResult').innerText = completionRate.toFixed(2) + "%";
+
+                updateChart(completionRate);
+            }
+
+            function updateChart(completionRate) {
+                let ctx = document.getElementById('completionChart').getContext('2d');
+                if (completionChart) {
+                    completionChart.destroy();
+                }
+
+                completionChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Completed', 'Abandoned'],
+                        datasets: [{
+                            data: [document.getElementById('formCompletions').value, document.getElementById('formStarts').value - document.getElementById('formCompletions').value],
+                            backgroundColor: ['#4CAF50', '#FF5733'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { position: 'top' }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Microcopy?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Microcopy refers to small snippets of text on websites, especially in forms, that guide users through the process. It can influence user behavior by clarifying the purpose of form fields, reducing anxiety, and encouraging users to complete the form.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my form completion rate with microcopy?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve form completion, make your microcopy clear, concise, and reassuring. Use language that builds trust, explains the benefits, and provides context for each field to help users understand what’s required.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Microcopy Influence on Form Completion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

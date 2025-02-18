@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Field Reduction Effect on CRO Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Form Field Reduction Effect on CRO Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Form Field Reduction Effect on Conversion Rate Optimization (CRO) Calculator helps you assess how reducing the number of form fields on your landing page or checkout process impacts your conversion rate. Fewer form fields can simplify the user experience and increase the likelihood of users completing the form.
+        </p>
+
+        <p>
+            Form field reduction can result in a higher conversion rate as it minimizes friction for the user. This calculator lets you compare conversion rates before and after reducing form fields, helping you understand the impact on your CRO.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate = (Conversions / Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Before Field Reduction Conversions:</strong> 350</li>
+            <li><strong>Before Field Reduction Visitors:</strong> 5000</li>
+            <li><strong>After Field Reduction Conversions:</strong> 450</li>
+            <li><strong>After Field Reduction Visitors:</strong> 5000</li>
+            <li><strong>Before Field Reduction Conversion Rate:</strong> (350 / 5000) × 100 = <b>7.00%</b></li>
+            <li><strong>After Field Reduction Conversion Rate:</strong> (450 / 5000) × 100 = <b>9.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Before Field Reduction Conversions</td>
+                        <td><input type="number" id="beforeConversions" class="form-control" value="350" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Before Field Reduction Visitors</td>
+                        <td><input type="number" id="beforeVisitors" class="form-control" value="5000" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>After Field Reduction Conversions</td>
+                        <td><input type="number" id="afterConversions" class="form-control" value="450" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>After Field Reduction Visitors</td>
+                        <td><input type="number" id="afterVisitors" class="form-control" value="5000" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Before Field Reduction Conversion Rate</td>
+                        <td><h4 class="text-primary" id="beforeRate">7.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>After Field Reduction Conversion Rate</td>
+                        <td><h4 class="text-primary" id="afterRate">9.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="impactChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let impactChart;
+
+            function calculateImpact() {
+                let beforeConversions = parseFloat(document.getElementById('beforeConversions').value) || 0;
+                let beforeVisitors = parseFloat(document.getElementById('beforeVisitors').value) || 1;
+                let afterConversions = parseFloat(document.getElementById('afterConversions').value) || 0;
+                let afterVisitors = parseFloat(document.getElementById('afterVisitors').value) || 1;
+
+                let beforeRate = (beforeConversions / beforeVisitors) * 100;
+                let afterRate = (afterConversions / afterVisitors) * 100;
+
+                document.getElementById('beforeRate').innerText = beforeRate.toFixed(2) + "%";
+                document.getElementById('afterRate').innerText = afterRate.toFixed(2) + "%";
+
+                updateChart(beforeRate, afterRate);
+            }
+
+            function updateChart(beforeRate, afterRate) {
+                let ctx = document.getElementById('impactChart').getContext('2d');
+                if (impactChart) {
+                    impactChart.destroy();
+                }
+
+                impactChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Before Reduction', 'After Reduction'],
+                        datasets: [{
+                            data: [beforeRate, afterRate],
+                            backgroundColor: ['rgba(76, 175, 80, 0.2)', 'rgba(33, 150, 243, 0.2)'],
+                            borderColor: ['#4CAF50', '#2196F3'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        Why should I reduce the number of form fields?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Reducing the number of form fields makes it easier for users to complete the form, thus reducing friction and increasing the likelihood of form submission. A simplified form typically leads to a higher conversion rate.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is the ideal number of form fields for my landing page?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The ideal number of form fields depends on the nature of the offer and the audience. However, reducing the fields to only the essential information is typically recommended. The calculator will help you assess the impact of reducing fields on your conversion rate.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Form Field Reduction Effect on CRO Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

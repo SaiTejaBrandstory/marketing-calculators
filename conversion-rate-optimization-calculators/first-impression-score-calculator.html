@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Impression Score Based on Above-the-Fold Design Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateImpressionScore()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>First Impression Score Based on Above-the-Fold Design Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The First Impression Score Based on Above-the-Fold Design Calculator helps you evaluate how well your website's initial visual impression (above the fold) influences user perception and engagement. This score is vital as it plays a significant role in user retention and conversion.
+        </p>
+
+        <p>
+            The above-the-fold area refers to the portion of a webpage that is visible without scrolling. Optimizing this area can significantly impact the user's first impression and their decision to stay or leave the website. This calculator provides an estimate of how well the design in this area performs based on user ratings.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>First Impression Score = (Design Score + Content Clarity Score + Visual Appeal Score) / 3</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Design Score:</strong> 8</li>
+            <li><strong>Content Clarity Score:</strong> 7</li>
+            <li><strong>Visual Appeal Score:</strong> 9</li>
+            <li><strong>First Impression Score:</strong> (8 + 7 + 9) / 3 = <b>8.00</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Design Score (1-10)</td>
+                        <td><input type="number" id="designScore" class="form-control" value="8" oninput="calculateImpressionScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Content Clarity Score (1-10)</td>
+                        <td><input type="number" id="contentClarity" class="form-control" value="7" oninput="calculateImpressionScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Visual Appeal Score (1-10)</td>
+                        <td><input type="number" id="visualAppeal" class="form-control" value="9" oninput="calculateImpressionScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>First Impression Score</td>
+                        <td><h4 class="text-primary" id="impressionScoreResult">8.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="impressionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let impressionChart;
+
+            function calculateImpressionScore() {
+                let designScore = parseFloat(document.getElementById('designScore').value) || 0;
+                let contentClarity = parseFloat(document.getElementById('contentClarity').value) || 0;
+                let visualAppeal = parseFloat(document.getElementById('visualAppeal').value) || 0;
+
+                let impressionScore = (designScore + contentClarity + visualAppeal) / 3;
+                document.getElementById('impressionScoreResult').innerText = impressionScore.toFixed(2);
+
+                updateChart(impressionScore);
+            }
+
+            function updateChart(impressionScore) {
+                let ctx = document.getElementById('impressionChart').getContext('2d');
+                if (impressionChart) {
+                    impressionChart.destroy();
+                }
+
+                impressionChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Design', 'Content Clarity', 'Visual Appeal'],
+                        datasets: [{
+                            data: [document.getElementById('designScore').value, document.getElementById('contentClarity').value, document.getElementById('visualAppeal').value],
+                            backgroundColor: ['rgba(33, 150, 243, 0.2)', 'rgba(76, 175, 80, 0.2)', 'rgba(255, 87, 34, 0.2)'],
+                            borderColor: ['#2196F3', '#4CAF50', '#FF5733'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scale: {
+                            ticks: { beginAtZero: true, max: 10, stepSize: 1 }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the above-the-fold design?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The above-the-fold design refers to the content visible on a webpage before scrolling. It includes the elements that users first see, such as the headline, images, and call-to-action buttons. This area is crucial for creating a positive first impression.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I improve the above-the-fold design?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve the above-the-fold design, focus on clean layout, clear messaging, fast load times, and intuitive navigation. Make sure your most important elements like your value proposition, call-to-action, and visuals are front and center.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 First Impression Score Based on Above-the-Fold Design Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

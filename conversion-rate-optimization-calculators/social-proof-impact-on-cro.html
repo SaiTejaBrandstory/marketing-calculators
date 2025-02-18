@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Proof Impact on CRO Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateSocialProofImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Social Proof Impact on CRO Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you evaluate how social proof impacts your conversion rate optimization (CRO). Social proof includes elements like customer testimonials, product reviews, or social media mentions that can increase trust and influence a visitor's decision to convert.
+        </p>
+
+        <p>
+            Enter the number of visitors before social proof and after implementing social proof, along with the number of conversions for both groups. The tool will calculate the percentage increase in conversion rate and demonstrate the impact of social proof on conversions.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate Increase = ((After Conversion Rate - Before Conversion Rate) / Before Conversion Rate) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Before Visitors:</strong> 1000</li>
+            <li><strong>Before Conversions:</strong> 50</li>
+            <li><strong>After Visitors:</strong> 1200</li>
+            <li><strong>After Conversions:</strong> 90</li>
+            <li><strong>Conversion Rate Before:</strong> (50 / 1000) × 100 = 5.00%</li>
+            <li><strong>Conversion Rate After:</strong> (90 / 1200) × 100 = 7.50%</li>
+            <li><strong>Conversion Rate Increase:</strong> ((7.50 - 5.00) / 5.00) × 100 = 50.00%</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Before Visitors</td>
+                        <td><input type="number" id="beforeVisitors" class="form-control" value="1000" oninput="calculateSocialProofImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Before Conversions</td>
+                        <td><input type="number" id="beforeConversions" class="form-control" value="50" oninput="calculateSocialProofImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>After Visitors</td>
+                        <td><input type="number" id="afterVisitors" class="form-control" value="1200" oninput="calculateSocialProofImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>After Conversions</td>
+                        <td><input type="number" id="afterConversions" class="form-control" value="90" oninput="calculateSocialProofImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate Increase</td>
+                        <td><h4 class="text-primary" id="rateIncreaseResult">50.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <canvas id="socialProofChart" style="max-width: 600px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let socialProofChart;
+
+            function calculateSocialProofImpact() {
+                let beforeVisitors = parseFloat(document.getElementById('beforeVisitors').value) || 0;
+                let beforeConversions = parseFloat(document.getElementById('beforeConversions').value) || 0;
+                let afterVisitors = parseFloat(document.getElementById('afterVisitors').value) || 0;
+                let afterConversions = parseFloat(document.getElementById('afterConversions').value) || 0;
+
+                let beforeConversionRate = (beforeConversions / beforeVisitors) * 100;
+                let afterConversionRate = (afterConversions / afterVisitors) * 100;
+                let conversionRateIncrease = ((afterConversionRate - beforeConversionRate) / beforeConversionRate) * 100;
+
+                document.getElementById('rateIncreaseResult').innerText = conversionRateIncrease.toFixed(2) + "%";
+
+                updateChart(conversionRateIncrease);
+            }
+
+            function updateChart(conversionRateIncrease) {
+                let ctx = document.getElementById('socialProofChart').getContext('2d');
+                if (socialProofChart) {
+                    socialProofChart.destroy();
+                }
+
+                socialProofChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Conversion Rate Increase'],
+                        datasets: [{
+                            data: [conversionRateIncrease],
+                            backgroundColor: ['#4CAF50'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is social proof in marketing?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Social proof is a psychological phenomenon where people are more likely to take action if they see others doing the same. In marketing, this can include customer reviews, testimonials, social media mentions, and more to build trust and encourage conversions.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does social proof impact conversion rates?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Social proof can significantly impact conversion rates by increasing trust and credibility. When potential customers see that others are satisfied with a product or service, they are more likely to convert themselves.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        What types of social proof can improve CRO?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Types of social proof that can improve conversion rates include customer testimonials, product reviews, ratings, case studies, influencer endorsements, and social media mentions. The more relatable and credible the social proof, the greater its impact on conversions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Social Proof Impact on CRO Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

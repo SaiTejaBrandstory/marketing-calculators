@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heatmap Click Optimization Score Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateClickOptimizationScore()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Heatmap Click Optimization Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Heatmap Click Optimization Score Calculator helps evaluate the effectiveness of your webpage layout based on user click data. This tool uses heatmap click data to calculate the click optimization score, which indicates how well your layout is engaging users and driving actions.
+        </p>
+
+        <p>
+            By analyzing the areas where users are clicking the most, you can optimize your webpage layout to improve user engagement and increase conversions. This calculator provides a simple way to measure the click optimization score.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Click Optimization Score = (Total Clicks on Key Areas / Total Page Clicks) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Clicks on Key Areas:</strong> 500</li>
+            <li><strong>Total Page Clicks:</strong> 1000</li>
+            <li><strong>Click Optimization Score:</strong> (500 / 1000) × 100 = <b>50.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Clicks on Key Areas</td>
+                        <td><input type="number" id="keyClicks" class="form-control" value="500" oninput="calculateClickOptimizationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Page Clicks</td>
+                        <td><input type="number" id="totalClicks" class="form-control" value="1000" oninput="calculateClickOptimizationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Click Optimization Score</td>
+                        <td><h4 class="text-primary" id="clickScoreResult">50.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <canvas id="clickOptimizationChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let clickOptimizationChart;
+
+            function calculateClickOptimizationScore() {
+                let keyClicks = parseFloat(document.getElementById('keyClicks').value) || 0;
+                let totalClicks = parseFloat(document.getElementById('totalClicks').value) || 1;
+
+                let clickOptimizationScore = (keyClicks / totalClicks) * 100;
+                document.getElementById('clickScoreResult').innerText = clickOptimizationScore.toFixed(2) + "%";
+
+                updateChart(clickOptimizationScore);
+            }
+
+            function updateChart(clickOptimizationScore) {
+                let ctx = document.getElementById('clickOptimizationChart').getContext('2d');
+                if (clickOptimizationChart) {
+                    clickOptimizationChart.destroy();
+                }
+
+                clickOptimizationChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Click Optimization Score'],
+                        datasets: [{
+                            data: [clickOptimizationScore],
+                            backgroundColor: ['#FF5722'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is a click optimization score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The click optimization score is a metric that measures how well the key areas of your webpage are engaging users based on the click data. A higher score indicates better optimization of those key areas.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I optimize my page for better click engagement?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To optimize your page, focus on the placement of important elements such as call-to-action buttons, links, and interactive content. Ensure they are visible, accessible, and strategically positioned to capture user attention and clicks.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        What does a good click optimization score look like?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A good click optimization score generally falls between 50% and 80%. Higher scores indicate that key areas of your page are well-optimized for engagement and driving user actions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Heatmap Click Optimization Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

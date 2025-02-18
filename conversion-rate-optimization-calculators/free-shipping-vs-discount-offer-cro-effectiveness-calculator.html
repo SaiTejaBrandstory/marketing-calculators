@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Shipping vs. Discount Offer CRO Effectiveness Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCROEffectiveness()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Free Shipping vs. Discount Offer CRO Effectiveness Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you compare the effectiveness of Free Shipping versus Discount Offers in Conversion Rate Optimization (CRO). By inputting your conversion data for both offer types, you can assess which offer drives more conversions.
+        </p>
+
+        <p>
+            Use this tool to determine the most effective promotional strategy for your business. Free shipping and discount offers can have different impacts on customers’ buying decisions, and this calculator allows you to evaluate both.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate = (Conversions / Total Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Free Shipping Conversions:</strong> 300</li>
+            <li><strong>Discount Offer Conversions:</strong> 250</li>
+            <li><strong>Total Visitors:</strong> 2000</li>
+            <li><strong>Free Shipping Conversion Rate:</strong> (300 / 2000) × 100 = <b>15.00%</b></li>
+            <li><strong>Discount Offer Conversion Rate:</strong> (250 / 2000) × 100 = <b>12.50%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Free Shipping Conversions</td>
+                        <td><input type="number" id="freeShippingConversions" class="form-control" value="300" oninput="calculateCROEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td>Discount Offer Conversions</td>
+                        <td><input type="number" id="discountOfferConversions" class="form-control" value="250" oninput="calculateCROEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Visitors</td>
+                        <td><input type="number" id="totalVisitors" class="form-control" value="2000" oninput="calculateCROEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td>Free Shipping Conversion Rate</td>
+                        <td><h4 class="text-primary" id="freeShippingRateResult">15.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Discount Offer Conversion Rate</td>
+                        <td><h4 class="text-primary" id="discountOfferRateResult">12.50%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="croEffectivenessChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let croEffectivenessChart;
+
+            function calculateCROEffectiveness() {
+                let freeShippingConversions = parseFloat(document.getElementById('freeShippingConversions').value) || 0;
+                let discountOfferConversions = parseFloat(document.getElementById('discountOfferConversions').value) || 0;
+                let totalVisitors = parseFloat(document.getElementById('totalVisitors').value) || 1;
+
+                let freeShippingRate = (freeShippingConversions / totalVisitors) * 100;
+                let discountOfferRate = (discountOfferConversions / totalVisitors) * 100;
+
+                document.getElementById('freeShippingRateResult').innerText = freeShippingRate.toFixed(2) + "%";
+                document.getElementById('discountOfferRateResult').innerText = discountOfferRate.toFixed(2) + "%";
+
+                updateChart(freeShippingRate, discountOfferRate);
+            }
+
+            function updateChart(freeShippingRate, discountOfferRate) {
+                let ctx = document.getElementById('croEffectivenessChart').getContext('2d');
+                if (croEffectivenessChart) {
+                    croEffectivenessChart.destroy();
+                }
+
+                croEffectivenessChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Free Shipping', 'Discount Offer'],
+                        datasets: [{
+                            data: [freeShippingRate, discountOfferRate],
+                            backgroundColor: ['#4CAF50', '#FF5722'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the impact of free shipping on conversion rates?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Free shipping is often seen as a major incentive for customers. By removing shipping costs, it can significantly improve the overall shopping experience and increase conversion rates, especially for customers who are price-sensitive.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does a discount offer compare to free shipping in terms of conversions?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        While discount offers also drive conversions by lowering the price, they may not have the same appeal as free shipping, which eliminates an additional cost that customers often find bothersome. The effectiveness depends on the type of product and customer behavior.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Free Shipping vs. Discount Offer CRO Effectiveness. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

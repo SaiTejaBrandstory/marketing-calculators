@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Load Time Reduction Impact Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateLoadTimeImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Page Load Time Reduction Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you estimate the impact of reducing page load time on conversion rate. By comparing the conversions before and after optimizing your page load time, you can calculate the conversion lift.
+        </p>
+
+        <p>
+            Page load time is a crucial factor in user experience and conversions. Reducing load time can lead to significant improvements in conversion rates, and this tool helps you quantify that impact.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Lift (%) = ((Conversions after optimization - Conversions before optimization) / Conversions before optimization) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Conversions after optimization:</strong> 400</li>
+            <li><strong>Conversions before optimization:</strong> 300</li>
+            <li><strong>Conversion Lift:</strong> ((400 - 300) / 300) × 100 = <b>33.33%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Conversions after optimization</td>
+                        <td><input type="number" id="conversionsAfter" class="form-control" value="400" oninput="calculateLoadTimeImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions before optimization</td>
+                        <td><input type="number" id="conversionsBefore" class="form-control" value="300" oninput="calculateLoadTimeImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Lift (%)</td>
+                        <td><h4 class="text-primary" id="liftResult">33.33%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <canvas id="loadTimeImpactChart" style="max-width: 600px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let loadTimeImpactChart;
+
+            function calculateLoadTimeImpact() {
+                let conversionsAfter = parseFloat(document.getElementById('conversionsAfter').value) || 0;
+                let conversionsBefore = parseFloat(document.getElementById('conversionsBefore').value) || 1;
+
+                let lift = ((conversionsAfter - conversionsBefore) / conversionsBefore) * 100;
+                document.getElementById('liftResult').innerText = lift.toFixed(2) + "%";
+
+                updateChart(lift);
+            }
+
+            function updateChart(lift) {
+                let ctx = document.getElementById('loadTimeImpactChart').getContext('2d');
+                if (loadTimeImpactChart) {
+                    loadTimeImpactChart.destroy();
+                }
+
+                loadTimeImpactChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Conversion Lift'],
+                        datasets: [{
+                            data: [lift],
+                            backgroundColor: ['#4CAF50'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How does page load time affect conversion rates?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Slow page load times can lead to a poor user experience, causing visitors to abandon the page before completing their desired action. By reducing page load time, you improve user experience, which can lead to increased conversion rates.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How much can I expect my conversion rate to improve by reducing page load time?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        While the exact improvement depends on several factors, studies show that even a small reduction in page load time (e.g., 1-2 seconds) can result in significant increases in conversion rates, especially for e-commerce sites.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        What are some ways to improve page load time?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve page load time, consider optimizing images, leveraging browser caching, minifying CSS and JavaScript, and using a Content Delivery Network (CDN) to distribute content faster across different locations.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Page Load Time Reduction Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

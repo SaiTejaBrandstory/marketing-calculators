@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retargeting vs. First-Time Visitor CRO Comparison</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCROComparison()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Retargeting vs. First-Time Visitor CRO Comparison</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Retargeting vs. First-Time Visitor CRO Comparison Calculator helps you understand the difference in conversion rate optimization (CRO) between users who have seen your ads before (retargeting) and those who are visiting your site for the first time.
+        </p>
+
+        <p>
+            Retargeting typically leads to higher conversion rates as users are already familiar with your brand. This tool allows you to compare these two groups and determine the effectiveness of retargeting strategies.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>CRO Comparison = ((Retargeting Conversion Rate - First-Time Conversion Rate) / First-Time Conversion Rate) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>First-Time Conversion Rate:</strong> 2.50%</li>
+            <li><strong>Retargeting Conversion Rate:</strong> 5.00%</li>
+            <li><strong>CRO Comparison:</strong> ((5.00 - 2.50) / 2.50) × 100 = <b>100.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>First-Time Visitor Conversion Rate</td>
+                        <td><input type="number" id="firstTimeRate" class="form-control" value="2.5" oninput="calculateCROComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Retargeting Conversion Rate</td>
+                        <td><input type="number" id="retargetingRate" class="form-control" value="5" oninput="calculateCROComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>CRO Comparison</td>
+                        <td><h4 class="text-primary" id="croResult">100.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="croChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let croChart;
+
+            function calculateCROComparison() {
+                let firstTimeRate = parseFloat(document.getElementById('firstTimeRate').value) || 0;
+                let retargetingRate = parseFloat(document.getElementById('retargetingRate').value) || 0;
+
+                let croComparison = ((retargetingRate - firstTimeRate) / firstTimeRate) * 100;
+                document.getElementById('croResult').innerText = croComparison.toFixed(2) + "%";
+
+                updateChart(croComparison);
+            }
+
+            function updateChart(croComparison) {
+                let ctx = document.getElementById('croChart').getContext('2d');
+                if (croChart) {
+                    croChart.destroy();
+                }
+
+                croChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['First-Time Visitor', 'Retargeting'],
+                        datasets: [{
+                            data: [document.getElementById('firstTimeRate').value, document.getElementById('retargetingRate').value],
+                            backgroundColor: ['#FF5733', '#4CAF50'],
+                            borderColor: ['#FF5733', '#4CAF50'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Retargeting in CRO?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Retargeting is the practice of displaying ads to users who have previously interacted with your brand or visited your site. This strategy tends to lead to higher conversion rates because these users are already familiar with your brand.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Why do retargeting campaigns have higher conversion rates?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Retargeting campaigns have higher conversion rates because users who have already interacted with your brand are more likely to trust you and make a purchase. They are familiar with your product or service and are more likely to convert.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Retargeting vs. First-Time Visitor CRO Comparison. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

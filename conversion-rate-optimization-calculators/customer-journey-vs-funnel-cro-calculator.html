@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Journey Mapping vs. Funnel-Based CRO Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateConversionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Journey Mapping vs. Funnel-Based CRO Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Customer Journey Mapping vs. Funnel-Based CRO Calculator helps you compare conversion rates by analyzing both approaches. This tool enables you to assess how well your conversion rates perform using customer journey mapping versus the traditional funnel-based model.
+        </p>
+
+        <p>
+            By inputting the total visitors and conversions, this calculator shows which model provides the better conversion rate and insights for optimization. Whether you’re using journey mapping or a funnel approach, measuring both will improve your CRO strategy.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate = (Conversions / Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Conversions (Journey Mapping):</strong> 120</li>
+            <li><strong>Visitors (Journey Mapping):</strong> 2000</li>
+            <li><strong>Conversion Rate (Journey Mapping):</strong> (120 / 2000) × 100 = <b>6.00%</b></li>
+            <li><strong>Conversions (Funnel-Based):</strong> 100</li>
+            <li><strong>Visitors (Funnel-Based):</strong> 2000</li>
+            <li><strong>Conversion Rate (Funnel-Based):</strong> (100 / 2000) × 100 = <b>5.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Conversions (Journey Mapping)</td>
+                        <td><input type="number" id="journeyConversions" class="form-control" value="120" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Visitors (Journey Mapping)</td>
+                        <td><input type="number" id="journeyVisitors" class="form-control" value="2000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Journey Mapping)</td>
+                        <td><h4 class="text-primary" id="journeyRate">6.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions (Funnel-Based)</td>
+                        <td><input type="number" id="funnelConversions" class="form-control" value="100" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Visitors (Funnel-Based)</td>
+                        <td><input type="number" id="funnelVisitors" class="form-control" value="2000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Funnel-Based)</td>
+                        <td><h4 class="text-primary" id="funnelRate">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="conversionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let conversionChart;
+
+            function calculateConversionRate() {
+                let journeyConversions = parseFloat(document.getElementById('journeyConversions').value) || 0;
+                let journeyVisitors = parseFloat(document.getElementById('journeyVisitors').value) || 1;
+                let funnelConversions = parseFloat(document.getElementById('funnelConversions').value) || 0;
+                let funnelVisitors = parseFloat(document.getElementById('funnelVisitors').value) || 1;
+
+                let journeyRate = (journeyConversions / journeyVisitors) * 100;
+                let funnelRate = (funnelConversions / funnelVisitors) * 100;
+
+                document.getElementById('journeyRate').innerText = journeyRate.toFixed(2) + "%";
+                document.getElementById('funnelRate').innerText = funnelRate.toFixed(2) + "%";
+
+                updateChart(journeyRate, funnelRate);
+            }
+
+            function updateChart(journeyRate, funnelRate) {
+                let ctx = document.getElementById('conversionChart').getContext('2d');
+                if (conversionChart) {
+                    conversionChart.destroy();
+                }
+
+                conversionChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Journey Mapping', 'Funnel-Based'],
+                        datasets: [{
+                            data: [journeyRate, funnelRate],
+                            backgroundColor: ['#4CAF50', '#FF5733'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Customer Journey Mapping?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Customer journey mapping involves tracking the steps a customer takes from initial awareness to final conversion. It helps businesses understand customer experiences and optimize touchpoints.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does funnel-based CRO differ from customer journey mapping?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Funnel-based CRO focuses on optimizing each stage of the sales funnel (e.g., awareness, interest, decision, action), while customer journey mapping takes a broader approach to understand all customer touchpoints.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Journey Mapping vs. Funnel-Based CRO Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

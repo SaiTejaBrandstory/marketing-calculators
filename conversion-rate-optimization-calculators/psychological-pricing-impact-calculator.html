@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychological Pricing Impact Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculatePricingImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Psychological Pricing Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you understand the potential impact of psychological pricing strategies, such as pricing products at $9.99 instead of $10, on conversion rates. You can compare the expected conversion lift between traditional and psychological pricing.
+        </p>
+
+        <p>
+            Psychological pricing exploits consumer behavior, where pricing just below a round number (like $9.99 vs. $10) has been shown to increase sales due to perceived value. This calculator lets you estimate the conversion rate lift with such pricing strategies.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Lift (%) = ((Conversions after psychological pricing - Conversions before) / Conversions before) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Conversions after psychological pricing:</strong> 500</li>
+            <li><strong>Conversions before:</strong> 400</li>
+            <li><strong>Conversion Lift:</strong> ((500 - 400) / 400) × 100 = <b>25%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Conversions after psychological pricing</td>
+                        <td><input type="number" id="conversionsAfter" class="form-control" value="500" oninput="calculatePricingImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions before</td>
+                        <td><input type="number" id="conversionsBefore" class="form-control" value="400" oninput="calculatePricingImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Lift (%)</td>
+                        <td><h4 class="text-primary" id="liftResult">25%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <canvas id="pricingImpactChart" style="max-width: 600px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let pricingImpactChart;
+
+            function calculatePricingImpact() {
+                let conversionsAfter = parseFloat(document.getElementById('conversionsAfter').value) || 0;
+                let conversionsBefore = parseFloat(document.getElementById('conversionsBefore').value) || 1;
+
+                let lift = ((conversionsAfter - conversionsBefore) / conversionsBefore) * 100;
+                document.getElementById('liftResult').innerText = lift.toFixed(2) + "%";
+
+                updateChart(lift);
+            }
+
+            function updateChart(lift) {
+                let ctx = document.getElementById('pricingImpactChart').getContext('2d');
+                if (pricingImpactChart) {
+                    pricingImpactChart.destroy();
+                }
+
+                pricingImpactChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Conversion Lift'],
+                        datasets: [{
+                            data: [lift],
+                            backgroundColor: ['#FF9800'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is psychological pricing?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Psychological pricing is a strategy that uses pricing tactics, such as setting prices just below a round number (e.g., $9.99 instead of $10), to influence consumer perception and increase sales by creating a sense of value.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does psychological pricing increase conversions?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Consumers perceive prices like $9.99 as significantly lower than $10, despite the minimal difference, leading them to believe they are getting a better deal. This perception can increase the likelihood of a purchase.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        Is psychological pricing effective for all products?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Psychological pricing can be effective for many products, especially in consumer goods and retail. However, it may not be suitable for premium or luxury items, where the pricing strategy focuses more on exclusivity and high value.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Psychological Pricing Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generated Copy vs. Human Copy in CRO Performance Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCROPerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Generated Copy vs. Human Copy in CRO Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you compare the performance of AI-generated copy and human-written copy in terms of Conversion Rate Optimization (CRO). By assessing the conversion rate of both types of copy, you can determine which one is more effective in driving customer actions.
+        </p>
+
+        <p>
+            Use this tool to evaluate how each type of content performs in your marketing campaigns. With AI tools becoming more prevalent, understanding their impact on CRO can guide your content strategy decisions.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate = (Conversions / Total Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>AI-Generated Copy Conversions:</strong> 150</li>
+            <li><strong>Human Copy Conversions:</strong> 200</li>
+            <li><strong>Total Visitors:</strong> 1000</li>
+            <li><strong>AI-Generated Conversion Rate:</strong> (150 / 1000) × 100 = <b>15.00%</b></li>
+            <li><strong>Human Copy Conversion Rate:</strong> (200 / 1000) × 100 = <b>20.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>AI-Generated Conversions</td>
+                        <td><input type="number" id="aiConversions" class="form-control" value="150" oninput="calculateCROPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Copy Conversions</td>
+                        <td><input type="number" id="humanConversions" class="form-control" value="200" oninput="calculateCROPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Visitors</td>
+                        <td><input type="number" id="totalVisitors" class="form-control" value="1000" oninput="calculateCROPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI-Generated Conversion Rate</td>
+                        <td><h4 class="text-primary" id="aiRateResult">15.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Human Copy Conversion Rate</td>
+                        <td><h4 class="text-primary" id="humanRateResult">20.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="croChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let croChart;
+
+            function calculateCROPerformance() {
+                let aiConversions = parseFloat(document.getElementById('aiConversions').value) || 0;
+                let humanConversions = parseFloat(document.getElementById('humanConversions').value) || 0;
+                let totalVisitors = parseFloat(document.getElementById('totalVisitors').value) || 1;
+
+                let aiConversionRate = (aiConversions / totalVisitors) * 100;
+                let humanConversionRate = (humanConversions / totalVisitors) * 100;
+
+                document.getElementById('aiRateResult').innerText = aiConversionRate.toFixed(2) + "%";
+                document.getElementById('humanRateResult').innerText = humanConversionRate.toFixed(2) + "%";
+
+                updateChart(aiConversionRate, humanConversionRate);
+            }
+
+            function updateChart(aiConversionRate, humanConversionRate) {
+                let ctx = document.getElementById('croChart').getContext('2d');
+                if (croChart) {
+                    croChart.destroy();
+                }
+
+                croChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['AI-Generated Copy', 'Human Copy'],
+                        datasets: [{
+                            data: [aiConversionRate, humanConversionRate],
+                            backgroundColor: ['#FF5722', '#4CAF50'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            r: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is AI-generated copy?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI-generated copy is written content that is produced by artificial intelligence algorithms, often trained on large datasets to mimic human language patterns and generate text based on user input or prompts.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does human copy compare to AI-generated copy?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Human copy is created by professional writers with creativity, empathy, and a deep understanding of the target audience. AI-generated copy, while efficient and scalable, may lack emotional nuance and the ability to build strong connections with readers.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Generated Copy vs. Human Copy in CRO Performance. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

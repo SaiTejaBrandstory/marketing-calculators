@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Login vs. Email Signup Conversion Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateConversionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Social Login vs. Email Signup Conversion Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Social Login vs. Email Signup Conversion Rate Calculator allows you to compare the conversion rates for social login and email signup forms. By inputting the number of conversions and visitors for each method, you can visualize the impact of each on your landing page performance.
+        </p>
+
+        <p>
+            Social logins often reduce friction and make the signup process easier, while email signups provide a more traditional method. This calculator helps you evaluate which method has a greater impact on conversions.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate = (Conversions / Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Conversions (Social Login):</strong> 350</li>
+            <li><strong>Visitors (Social Login):</strong> 4000</li>
+            <li><strong>Conversion Rate (Social Login):</strong> (350 / 4000) × 100 = <b>8.75%</b></li>
+            <li><strong>Conversions (Email Signup):</strong> 200</li>
+            <li><strong>Visitors (Email Signup):</strong> 4000</li>
+            <li><strong>Conversion Rate (Email Signup):</strong> (200 / 4000) × 100 = <b>5.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Conversions (Social Login)</td>
+                        <td><input type="number" id="socialLoginConversions" class="form-control" value="350" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Visitors (Social Login)</td>
+                        <td><input type="number" id="socialLoginVisitors" class="form-control" value="4000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Social Login)</td>
+                        <td><h4 class="text-primary" id="socialLoginRate">8.75%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions (Email Signup)</td>
+                        <td><input type="number" id="emailSignupConversions" class="form-control" value="200" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Visitors (Email Signup)</td>
+                        <td><input type="number" id="emailSignupVisitors" class="form-control" value="4000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Email Signup)</td>
+                        <td><h4 class="text-primary" id="emailSignupRate">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="conversionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let conversionChart;
+
+            function calculateConversionRate() {
+                let socialLoginConversions = parseFloat(document.getElementById('socialLoginConversions').value) || 0;
+                let socialLoginVisitors = parseFloat(document.getElementById('socialLoginVisitors').value) || 1;
+                let emailSignupConversions = parseFloat(document.getElementById('emailSignupConversions').value) || 0;
+                let emailSignupVisitors = parseFloat(document.getElementById('emailSignupVisitors').value) || 1;
+
+                let socialLoginRate = (socialLoginConversions / socialLoginVisitors) * 100;
+                let emailSignupRate = (emailSignupConversions / emailSignupVisitors) * 100;
+
+                document.getElementById('socialLoginRate').innerText = socialLoginRate.toFixed(2) + "%";
+                document.getElementById('emailSignupRate').innerText = emailSignupRate.toFixed(2) + "%";
+
+                updateChart(socialLoginRate, emailSignupRate);
+            }
+
+            function updateChart(socialLoginRate, emailSignupRate) {
+                let ctx = document.getElementById('conversionChart').getContext('2d');
+                if (conversionChart) {
+                    conversionChart.destroy();
+                }
+
+                conversionChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Social Login', 'Email Signup'],
+                        datasets: [{
+                            data: [socialLoginRate, emailSignupRate],
+                            backgroundColor: ['#FF5733', '#4CAF50'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            r: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        Why is Social Login more effective than Email Signup?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Social Login is often more effective due to its convenience. Users can sign up quickly without remembering additional credentials, leading to higher conversion rates. It also allows the platform to gather data from their social profiles, potentially enhancing personalization.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Is Email Signup still a viable option?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        While social logins are growing in popularity, Email Signup remains a strong method, especially for platforms targeting users who prefer more control over their data or don’t use social media. It also provides a more formal relationship with users.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Social Login vs. Email Signup Conversion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

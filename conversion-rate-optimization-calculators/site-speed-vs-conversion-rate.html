@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Speed vs. Conversion Rate Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateSiteSpeedImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Site Speed vs. Conversion Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you assess the impact of site speed on your conversion rate. Faster websites tend to have higher conversion rates, as users are more likely to stay on a site that loads quickly. You can compare the conversion rate before and after improving site speed to determine the effect.
+        </p>
+
+        <p>
+            Enter the average load times for your site before and after optimization, along with the conversion rates for both cases. The tool will calculate the percentage change in conversion rate based on the change in site speed.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate Increase = ((After Conversion Rate - Before Conversion Rate) / Before Conversion Rate) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Before Load Time:</strong> 5 seconds</li>
+            <li><strong>Before Conversion Rate:</strong> 3.00%</li>
+            <li><strong>After Load Time:</strong> 2 seconds</li>
+            <li><strong>After Conversion Rate:</strong> 5.50%</li>
+            <li><strong>Conversion Rate Increase:</strong> ((5.50 - 3.00) / 3.00) × 100 = 83.33%</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Before Load Time (seconds)</td>
+                        <td><input type="number" id="beforeLoadTime" class="form-control" value="5" oninput="calculateSiteSpeedImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Before Conversion Rate (%)</td>
+                        <td><input type="number" id="beforeConversionRate" class="form-control" value="3" oninput="calculateSiteSpeedImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>After Load Time (seconds)</td>
+                        <td><input type="number" id="afterLoadTime" class="form-control" value="2" oninput="calculateSiteSpeedImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>After Conversion Rate (%)</td>
+                        <td><input type="number" id="afterConversionRate" class="form-control" value="5.5" oninput="calculateSiteSpeedImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate Increase</td>
+                        <td><h4 class="text-primary" id="rateIncreaseResult">83.33%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <canvas id="siteSpeedChart" style="max-width: 600px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let siteSpeedChart;
+
+            function calculateSiteSpeedImpact() {
+                let beforeLoadTime = parseFloat(document.getElementById('beforeLoadTime').value) || 0;
+                let beforeConversionRate = parseFloat(document.getElementById('beforeConversionRate').value) || 0;
+                let afterLoadTime = parseFloat(document.getElementById('afterLoadTime').value) || 0;
+                let afterConversionRate = parseFloat(document.getElementById('afterConversionRate').value) || 0;
+
+                let conversionRateIncrease = ((afterConversionRate - beforeConversionRate) / beforeConversionRate) * 100;
+
+                document.getElementById('rateIncreaseResult').innerText = conversionRateIncrease.toFixed(2) + "%";
+
+                updateChart(conversionRateIncrease);
+            }
+
+            function updateChart(conversionRateIncrease) {
+                let ctx = document.getElementById('siteSpeedChart').getContext('2d');
+                if (siteSpeedChart) {
+                    siteSpeedChart.destroy();
+                }
+
+                siteSpeedChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Conversion Rate Increase'],
+                        datasets: [{
+                            data: [conversionRateIncrease],
+                            backgroundColor: ['#2196F3'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How does site speed affect conversion rates?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Site speed directly impacts user experience. Slow-loading websites lead to higher bounce rates, lower engagement, and decreased conversions. Faster websites retain users longer and improve conversion rates.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is a good site load time?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Ideally, your website should load within 2-3 seconds. Anything longer can negatively affect user experience and conversions. Google also considers load times in search rankings, making speed optimization crucial for SEO.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I improve my website's speed?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your website's speed, consider optimizing images, leveraging browser caching, minifying CSS and JavaScript, and using a content delivery network (CDN). You can also reduce server response times and avoid excessive redirects.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Site Speed vs. Conversion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

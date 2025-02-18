@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Purchase Upsell CRO Impact Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateUpsellImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Post-Purchase Upsell CRO Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you assess the impact of post-purchase upsells on your Conversion Rate Optimization (CRO). By offering additional products or services after a purchase, you can increase the average order value (AOV) and maximize the potential of each transaction.
+        </p>
+
+        <p>
+            Post-purchase upselling can significantly improve your sales metrics. With this calculator, you can estimate the impact of upsell offers on your conversion rate and see how different engagement levels affect your overall revenue.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Upsell Conversion Rate = (Upsell Purchases / Total Purchases) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Upsell Purchases:</strong> 300</li>
+            <li><strong>Total Purchases:</strong> 1000</li>
+            <li><strong>Upsell Conversion Rate:</strong> (300 / 1000) × 100 = <b>30.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Upsell Purchases</td>
+                        <td><input type="number" id="upsellPurchases" class="form-control" value="300" oninput="calculateUpsellImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Purchases</td>
+                        <td><input type="number" id="totalPurchases" class="form-control" value="1000" oninput="calculateUpsellImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Upsell Conversion Rate</td>
+                        <td><h4 class="text-primary" id="rateResult">30.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="upsellChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let upsellChart;
+
+            function calculateUpsellImpact() {
+                let upsellPurchases = parseFloat(document.getElementById('upsellPurchases').value) || 0;
+                let totalPurchases = parseFloat(document.getElementById('totalPurchases').value) || 1;
+
+                let upsellConversionRate = (upsellPurchases / totalPurchases) * 100;
+                document.getElementById('rateResult').innerText = upsellConversionRate.toFixed(2) + "%";
+
+                updateChart(upsellConversionRate);
+            }
+
+            function updateChart(upsellConversionRate) {
+                let ctx = document.getElementById('upsellChart').getContext('2d');
+                if (upsellChart) {
+                    upsellChart.destroy();
+                }
+
+                upsellChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Upsell Conversion Rate'],
+                        datasets: [{
+                            data: [upsellConversionRate],
+                            backgroundColor: ['#FF5722'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is a post-purchase upsell?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A post-purchase upsell is an offer made to a customer after they have completed a purchase. This offer typically encourages the customer to buy additional products or services, often at a discounted price, or provides add-ons that enhance their initial purchase.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can post-purchase upsells increase CRO?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Post-purchase upsells increase Conversion Rate Optimization (CRO) by offering customers additional products or services that enhance their original purchase. This strategy capitalizes on the customer's intent to buy and can increase the average order value, leading to higher revenue and better customer retention.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Post-Purchase Upsell CRO Impact. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

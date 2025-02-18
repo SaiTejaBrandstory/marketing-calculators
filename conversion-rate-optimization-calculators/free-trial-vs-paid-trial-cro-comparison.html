@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Trial vs. Paid Trial CRO Comparison</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateCROComparison()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Free Trial vs. Paid Trial CRO Comparison</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps compare the conversion rate optimization (CRO) between free trials and paid trials. By inputting conversion data for both scenarios, you can see which trial type yields better conversion results.
+        </p>
+
+        <p>
+            Understanding the difference in conversion rates between free and paid trials is critical for making informed decisions about your marketing and sales strategies. Use this tool to evaluate which trial offers better lead-to-customer conversion performance.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>CRO Comparison (%) = ((Paid Trial Conversions - Free Trial Conversions) / Free Trial Conversions) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Paid Trial Conversions:</strong> 150</li>
+            <li><strong>Free Trial Conversions:</strong> 120</li>
+            <li><strong>CRO Comparison:</strong> ((150 - 120) / 120) × 100 = <b>25%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Paid Trial Conversions</td>
+                        <td><input type="number" id="paidConversions" class="form-control" value="150" oninput="calculateCROComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Free Trial Conversions</td>
+                        <td><input type="number" id="freeConversions" class="form-control" value="120" oninput="calculateCROComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>CRO Comparison (%)</td>
+                        <td><h4 class="text-primary" id="croResult">25%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="croComparisonChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let croComparisonChart;
+
+            function calculateCROComparison() {
+                let paidConversions = parseFloat(document.getElementById('paidConversions').value) || 0;
+                let freeConversions = parseFloat(document.getElementById('freeConversions').value) || 1;
+
+                let croComparison = ((paidConversions - freeConversions) / freeConversions) * 100;
+                document.getElementById('croResult').innerText = croComparison.toFixed(2) + "%";
+
+                updateChart(croComparison);
+            }
+
+            function updateChart(croComparison) {
+                let ctx = document.getElementById('croComparisonChart').getContext('2d');
+                if (croComparisonChart) {
+                    croComparisonChart.destroy();
+                }
+
+                croComparisonChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Paid Trial', 'Free Trial'],
+                        datasets: [{
+                            data: [croComparison, 100 - croComparison],
+                            backgroundColor: ['#4CAF50', '#FF5722'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        },
+                        responsive: true
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Conversion Rate Optimization (CRO)?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Conversion Rate Optimization (CRO) is the process of increasing the percentage of visitors to a website who take a desired action, such as signing up for a trial, purchasing a product, or subscribing to a service.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Why compare free trials and paid trials?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Comparing free trials and paid trials helps you understand which model is more effective in converting leads into paying customers. Free trials can attract a larger user base, while paid trials may attract more qualified leads who are ready to purchase.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        Which trial type is better for CRO?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The best trial type depends on your product and target audience. Free trials often yield higher sign-up rates but may result in lower conversions. Paid trials attract more committed users, but conversion rates may be lower due to the cost barrier.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Free Trial vs. Paid Trial CRO Comparison. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long-Form vs. Short-Form Content Conversion Performance Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateContentPerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Long-Form vs. Short-Form Content Conversion Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Long-Form vs. Short-Form Content Conversion Performance Calculator helps you assess how different content lengths impact your conversion rates. This tool compares the performance of long-form and short-form content by evaluating their conversion rates, helping you determine which type of content is more effective for your specific goals.
+        </p>
+
+        <p>
+            Content length can significantly affect user engagement and conversion rates. Long-form content often provides in-depth information, while short-form content focuses on quick, impactful communication. By entering your data, you can better understand how the length of your content influences performance.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate = (Conversions / Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Long-Form Conversions:</strong> 300</li>
+            <li><strong>Long-Form Visitors:</strong> 5000</li>
+            <li><strong>Short-Form Conversions:</strong> 150</li>
+            <li><strong>Short-Form Visitors:</strong> 3000</li>
+            <li><strong>Long-Form Conversion Rate:</strong> (300 / 5000) × 100 = <b>6.00%</b></li>
+            <li><strong>Short-Form Conversion Rate:</strong> (150 / 3000) × 100 = <b>5.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Long-Form Conversions</td>
+                        <td><input type="number" id="longFormConversions" class="form-control" value="300" oninput="calculateContentPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Long-Form Visitors</td>
+                        <td><input type="number" id="longFormVisitors" class="form-control" value="5000" oninput="calculateContentPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Short-Form Conversions</td>
+                        <td><input type="number" id="shortFormConversions" class="form-control" value="150" oninput="calculateContentPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Short-Form Visitors</td>
+                        <td><input type="number" id="shortFormVisitors" class="form-control" value="3000" oninput="calculateContentPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Long-Form Conversion Rate</td>
+                        <td><h4 class="text-primary" id="longFormRate">6.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Short-Form Conversion Rate</td>
+                        <td><h4 class="text-primary" id="shortFormRate">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let performanceChart;
+
+            function calculateContentPerformance() {
+                let longFormConversions = parseFloat(document.getElementById('longFormConversions').value) || 0;
+                let longFormVisitors = parseFloat(document.getElementById('longFormVisitors').value) || 1;
+                let shortFormConversions = parseFloat(document.getElementById('shortFormConversions').value) || 0;
+                let shortFormVisitors = parseFloat(document.getElementById('shortFormVisitors').value) || 1;
+
+                let longFormRate = (longFormConversions / longFormVisitors) * 100;
+                let shortFormRate = (shortFormConversions / shortFormVisitors) * 100;
+
+                document.getElementById('longFormRate').innerText = longFormRate.toFixed(2) + "%";
+                document.getElementById('shortFormRate').innerText = shortFormRate.toFixed(2) + "%";
+
+                updateChart(longFormRate, shortFormRate);
+            }
+
+            function updateChart(longFormRate, shortFormRate) {
+                let ctx = document.getElementById('performanceChart').getContext('2d');
+                if (performanceChart) {
+                    performanceChart.destroy();
+                }
+
+                performanceChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Long-Form Content', 'Short-Form Content'],
+                        datasets: [{
+                            data: [longFormRate, shortFormRate],
+                            backgroundColor: ['#4CAF50', '#FF5722'],
+                            borderColor: '#000',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the difference between Long-Form and Short-Form content?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Long-Form content typically consists of articles, blog posts, or other forms of content that are more in-depth and detailed, whereas Short-Form content is concise, such as social media posts, brief ads, and summaries.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Which type of content is more effective for conversions?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It depends on the target audience and the product. Long-form content can build more trust and provide detailed information, whereas short-form content is effective for quick engagement and easy consumption.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Long-Form vs. Short-Form Content Conversion Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

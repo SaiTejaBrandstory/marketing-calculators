@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot vs. Live Chat Lead Capture Performance</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateLeadCapturePerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI Chatbot vs. Live Chat Lead Capture Performance</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator compares the lead capture performance between an AI Chatbot and Live Chat. You can enter the lead capture rates for both methods and calculate the difference in lead capture efficiency.
+        </p>
+
+        <p>
+            AI Chatbots often lead to faster responses and can handle multiple users at once, while live chats provide a more personalized experience. By entering the lead capture data, you can determine which method works best for your business.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Lead Capture Rate Difference = (AI Chatbot Lead Capture Rate - Live Chat Lead Capture Rate)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>AI Chatbot Lead Capture Rate:</strong> 25%</li>
+            <li><strong>Live Chat Lead Capture Rate:</strong> 18%</li>
+            <li><strong>Lead Capture Rate Difference:</strong> 25% - 18% = <b>7%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>AI Chatbot Lead Capture Rate (%)</td>
+                        <td><input type="number" id="aiChatbotRate" class="form-control" value="25" oninput="calculateLeadCapturePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Live Chat Lead Capture Rate (%)</td>
+                        <td><input type="number" id="liveChatRate" class="form-control" value="18" oninput="calculateLeadCapturePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Lead Capture Rate Difference</td>
+                        <td><h4 class="text-primary" id="rateDifferenceResult">7%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <canvas id="performanceChart" style="max-width: 600px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let performanceChart;
+
+            function calculateLeadCapturePerformance() {
+                let aiChatbotRate = parseFloat(document.getElementById('aiChatbotRate').value) || 0;
+                let liveChatRate = parseFloat(document.getElementById('liveChatRate').value) || 0;
+
+                let rateDifference = aiChatbotRate - liveChatRate;
+
+                document.getElementById('rateDifferenceResult').innerText = rateDifference.toFixed(2) + "%";
+
+                updateChart(rateDifference);
+            }
+
+            function updateChart(rateDifference) {
+                let ctx = document.getElementById('performanceChart').getContext('2d');
+                if (performanceChart) {
+                    performanceChart.destroy();
+                }
+
+                performanceChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Lead Capture Rate Difference'],
+                        datasets: [{
+                            data: [rateDifference],
+                            backgroundColor: ['#FF9800'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How do AI Chatbots compare to Live Chat in terms of lead capture?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI Chatbots tend to have faster response times and can handle multiple inquiries simultaneously, leading to higher lead capture rates. Live Chat provides a more personalized, human experience, but may result in longer wait times for each user.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Which method is better for capturing leads?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The best method depends on your goals. AI Chatbots are effective for handling a high volume of inquiries and can provide quick answers. Live Chat is better for more complex queries and building a personal connection with leads.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        Can I use both AI Chatbots and Live Chat together?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, many businesses use both AI Chatbots and Live Chat together. The AI Chatbot can handle common inquiries and provide quick responses, while the Live Chat can step in for more complex or personalized interactions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI Chatbot vs. Live Chat Lead Capture Performance. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

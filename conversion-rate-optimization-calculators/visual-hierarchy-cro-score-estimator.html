@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Hierarchy CRO Score Estimator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateVisualHierarchyScore()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Visual Hierarchy CRO Score Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Visual Hierarchy CRO Score Estimator helps you evaluate how effectively your page's visual elements guide users toward the desired actions, enhancing your conversion rate optimization (CRO). By rating key components like prominence of the call-to-action (CTA), readability, and design layout, you can estimate how well your visual hierarchy supports conversions.
+        </p>
+
+        <p>
+            A well-structured visual hierarchy ensures that visitors focus on the most important elements first. This estimator allows you to rate these elements and gives you a final CRO score for your page’s visual layout.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>CRO Score = (CTA Visibility + Readability + Design Layout) / 3</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>CTA Visibility:</strong> 9</li>
+            <li><strong>Readability:</strong> 7</li>
+            <li><strong>Design Layout:</strong> 8</li>
+            <li><strong>CRO Score:</strong> (9 + 7 + 8) / 3 = <b>8.00</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>CTA Visibility</td>
+                        <td><input type="number" id="ctaVisibility" class="form-control" value="9" min="0" max="10" oninput="calculateVisualHierarchyScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Readability</td>
+                        <td><input type="number" id="readability" class="form-control" value="7" min="0" max="10" oninput="calculateVisualHierarchyScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Design Layout</td>
+                        <td><input type="number" id="designLayout" class="form-control" value="8" min="0" max="10" oninput="calculateVisualHierarchyScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>CRO Score</td>
+                        <td><h4 class="text-primary" id="croScoreResult">8.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="croScoreChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let croScoreChart;
+
+            function calculateVisualHierarchyScore() {
+                let ctaVisibility = parseFloat(document.getElementById('ctaVisibility').value) || 0;
+                let readability = parseFloat(document.getElementById('readability').value) || 0;
+                let designLayout = parseFloat(document.getElementById('designLayout').value) || 0;
+
+                let croScore = (ctaVisibility + readability + designLayout) / 3;
+                document.getElementById('croScoreResult').innerText = croScore.toFixed(2);
+
+                updateChart(croScore);
+            }
+
+            function updateChart(croScore) {
+                let ctx = document.getElementById('croScoreChart').getContext('2d');
+                if (croScoreChart) {
+                    croScoreChart.destroy();
+                }
+
+                croScoreChart = new Chart(ctx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: ['CTA Visibility', 'Readability', 'Design Layout'],
+                        datasets: [{
+                            data: [document.getElementById('ctaVisibility').value, document.getElementById('readability').value, document.getElementById('designLayout').value],
+                            backgroundColor: ['#4CAF50', '#FFC107', '#FF5722'],
+                            borderColor: '#000',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scale: {
+                            ticks: { beginAtZero: true, max: 10 }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Visual Hierarchy CRO Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Visual Hierarchy CRO Score measures how well your page’s visual elements are organized to guide users toward conversions. It takes into account key aspects like the prominence of the call-to-action (CTA), ease of reading, and overall design layout.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my CRO Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your CRO score, focus on making your CTA prominent and clear, ensuring your content is easy to read, and designing a layout that guides users’ attention to the most important elements first.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Visual Hierarchy CRO Score Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

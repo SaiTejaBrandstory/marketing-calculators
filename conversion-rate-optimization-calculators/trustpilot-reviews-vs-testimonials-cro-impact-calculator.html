@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustpilot Reviews vs. Testimonials CRO Impact Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateConversionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Trustpilot Reviews vs. Testimonials CRO Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Trustpilot Reviews vs. Testimonials CRO Impact Calculator helps you assess how different types of social proof—Trustpilot reviews vs. testimonials—affect your conversion rate. Input the number of conversions and visitors to see how these factors impact your landing page's performance.
+        </p>
+
+        <p>
+            Customer reviews and testimonials are both powerful tools for enhancing credibility and boosting conversions. This tool helps you determine the impact of each on your conversion rate.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate = (Conversions / Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Conversions (Trustpilot Reviews):</strong> 250</li>
+            <li><strong>Visitors (Trustpilot Reviews):</strong> 3000</li>
+            <li><strong>Conversion Rate (Trustpilot Reviews):</strong> (250 / 3000) × 100 = <b>8.33%</b></li>
+            <li><strong>Conversions (Testimonials):</strong> 180</li>
+            <li><strong>Visitors (Testimonials):</strong> 3000</li>
+            <li><strong>Conversion Rate (Testimonials):</strong> (180 / 3000) × 100 = <b>6.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Conversions (Trustpilot Reviews)</td>
+                        <td><input type="number" id="trustpilotConversions" class="form-control" value="250" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Visitors (Trustpilot Reviews)</td>
+                        <td><input type="number" id="trustpilotVisitors" class="form-control" value="3000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Trustpilot Reviews)</td>
+                        <td><h4 class="text-primary" id="trustpilotRate">8.33%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions (Testimonials)</td>
+                        <td><input type="number" id="testimonialConversions" class="form-control" value="180" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Visitors (Testimonials)</td>
+                        <td><input type="number" id="testimonialVisitors" class="form-control" value="3000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Testimonials)</td>
+                        <td><h4 class="text-primary" id="testimonialRate">6.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="conversionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let conversionChart;
+
+            function calculateConversionRate() {
+                let trustpilotConversions = parseFloat(document.getElementById('trustpilotConversions').value) || 0;
+                let trustpilotVisitors = parseFloat(document.getElementById('trustpilotVisitors').value) || 1;
+                let testimonialConversions = parseFloat(document.getElementById('testimonialConversions').value) || 0;
+                let testimonialVisitors = parseFloat(document.getElementById('testimonialVisitors').value) || 1;
+
+                let trustpilotRate = (trustpilotConversions / trustpilotVisitors) * 100;
+                let testimonialRate = (testimonialConversions / testimonialVisitors) * 100;
+
+                document.getElementById('trustpilotRate').innerText = trustpilotRate.toFixed(2) + "%";
+                document.getElementById('testimonialRate').innerText = testimonialRate.toFixed(2) + "%";
+
+                updateChart(trustpilotRate, testimonialRate);
+            }
+
+            function updateChart(trustpilotRate, testimonialRate) {
+                let ctx = document.getElementById('conversionChart').getContext('2d');
+                if (conversionChart) {
+                    conversionChart.destroy();
+                }
+
+                conversionChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Trustpilot Reviews', 'Testimonials'],
+                        datasets: [{
+                            data: [trustpilotRate, testimonialRate],
+                            backgroundColor: ['#FF5733', '#4CAF50'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        Are Trustpilot reviews more effective than testimonials for conversions?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Trustpilot reviews are often perceived as more trustworthy because they are publicly available and can be verified, which can lead to higher conversion rates compared to traditional testimonials.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Should I use both Trustpilot reviews and testimonials on my landing page?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, combining both types of social proof can create a more comprehensive and persuasive experience for visitors, leveraging both the credibility of reviews and the personal touch of testimonials.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Trustpilot Reviews vs. Testimonials CRO Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

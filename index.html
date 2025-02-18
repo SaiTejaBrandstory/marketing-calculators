@@ -115,6 +115,13 @@
         <div class="row" id="social-media-list"></div>
     </section>
 
+    <!-- Conversion Rate Optimization (CRO) Calculators Section -->
+    <section id="cro-calculators" class="category-section container">
+        <h2 class="category-title">Conversion Rate Optimization (CRO) Calculators</h2>
+        <div class="row" id="cro-list"></div>
+    </section>
+
+
     <!-- Footer -->
     <footer class="text-center py-3 bg-dark text-white">
         <p>&copy; 2025 Marketing Calculators. All rights reserved.</p>
@@ -224,8 +231,59 @@
                 { name: "Facebook Ad Placement Efficiency Calculator", link: "facebook-ad-placement-efficiency.html", icon: "fas fa-ad", color: "#1877F2" },
                 { name: "YouTube Community Post Engagement Rate Calculator", link: "youtube-community-post-engagement-rate.html", icon: "fas fa-video", color: "#FF0000" },
                 { name: "Instagram Close Friends List Growth Calculator", link: "instagram-close-friends-list-growth-calculator.html", icon: "fas fa-users", color: "#25D366" },
+            ];
 
-
+            const croCalculators = [
+             { name: "Landing Page Conversion Rate Calculator", link: "landing-page-conversion-rate-calculator.html", icon: "fas fa-chart-line", color: "#FF5733" },
+             {"name": "A/B Test Statistical Significance Calculator", "link": "ab-test-statistical-significance.html", "icon": "fas fa-chart-pie", "color": "#ff5722"},
+             { "name": "Call-to-Action (CTA) Performance Calculator", "link": "cta-performance-calculator.html", "icon": "fas fa-bullhorn", "color": "#4CAF50" },
+             { "name": "Lead Form Abandonment Rate Calculator", "link": "lead-form-abandonment-rate.html", "icon": "fas fa-chart-bar", "color": "#FF5733" },
+             { "name": "User Scroll Depth Engagement Calculator", "link": "user-scroll-depth-engagement.html", "icon": "fas fa-scroll", "color": "#4CAF50" },
+             { "name": "Heatmap Click Optimization Score Calculator", "link": "heatmap-click-optimization-score.html", "icon": "fas fa-fire", "color": "#FF5722" },
+             { "name": "Mobile vs. Desktop Conversion Rate Comparison", "link": "mobile-vs-desktop-conversion-rate.html", "icon": "fas fa-desktop", "color": "#4CAF50" },
+             { "name": "Trust Badge Impact on Conversions Calculator", "link": "trust-badge-impact-on-conversions.html", "icon": "fas fa-shield-alt", "color": "#FF7043" },
+             { "name": "Exit Intent Popup Efficiency Calculator", "link": "exit-intent-popup-efficiency.html", "icon": "fas fa-window-close", "color": "#FFC107" },
+             { "name": "Social Proof Impact on CRO Calculator", "link": "social-proof-impact-on-cro.html", "icon": "fas fa-users", "color": "#4CAF50" },
+             { "name": "Site Speed vs. Conversion Rate Calculator", "link": "site-speed-vs-conversion-rate.html", "icon": "fas fa-tachometer-alt", "color": "#2196F3" },
+             { "name": "AI Chatbot vs. Live Chat Lead Capture Performance", "link": "ai-chatbot-vs-live-chat-lead-capture.html", "icon": "fas fa-comments", "color": "#FF9800" },
+             { "name": "Conversion Lift Due to Countdown Timer Urgency", "link": "conversion-lift-due-to-countdown-timer-urgency.html", "icon": "fas fa-clock", "color": "#FF5733" },
+             { "name": "Page Load Time Reduction Impact Calculator", "link": "page-load-time-reduction-impact-calculator.html", "icon": "fas fa-tachometer-alt", "color": "#4CAF50" },
+             { "name": "Psychological Pricing Impact Calculator", "link": "psychological-pricing-impact-calculator.html", "icon": "fas fa-tag", "color": "#FF9800" },
+             { "name": "Free Trial vs. Paid Trial CRO Comparison", "link": "free-trial-vs-paid-trial-cro-comparison.html", "icon": "fas fa-exchange-alt", "color": "#4CAF50" },
+             { "name": "Personalization-Based Conversion Rate Uplift Calculator", "link": "personalization-uplift-calculator.html", "icon": "fas fa-bolt", "color": "#8e44ad" },
+             { "name": "Retargeting vs. First-Time Visitor CRO Comparison", "link": "retargeting-vs-first-time-visitor-cro-comparison.html", "icon": "fas fa-sync-alt", "color": "#00bcd4" },
+             { "name": "Cart Abandonment Funnel Drop-Off Rate Calculator", "link": "cart-abandonment-funnel-drop-off-rate-calculator.html", "icon": "fas fa-shopping-cart", "color": "#ff9800" },
+             { "name": "Scroll Triggered CTA Engagement Rate Calculator", "link": "scroll-triggered-cta-engagement-rate-calculator.html", "icon": "fas fa-scroll", "color": "#673ab7" },
+             { "name": "Microcopy Influence on Form Completion Rate Calculator", "link": "microcopy-influence-on-form-completion-rate-calculator.html", "icon": "fas fa-pencil-alt", "color": "#2196F3" },
+             { "name": "Subscription Page Optimization Score Calculator", "link": "subscription-page-optimization-score-calculator.html", "icon": "fas fa-puzzle-piece", "color": "#FF9800" },
+             { "name": "Visual Hierarchy CRO Score Estimator", "link": "visual-hierarchy-cro-score-estimator.html", "icon": "fas fa-eye", "color": "#4CAF50" },
+             { "name": "Long-Form vs. Short-Form Content Conversion Performance Calculator", "link": "long-form-vs-short-form-content-conversion-performance.html", "icon": "fas fa-align-left", "color": "#FF9800" },
+             { "name": "Autocomplete in Search Bar Conversion Boost Calculator", "link": "autocomplete-in-search-bar-conversion-boost.html", "icon": "fas fa-search", "color": "#2196F3" },
+             { "name": "Bullet Points vs. Paragraphs in Landing Pages Impact Calculator", "link": "bullet-points-vs-paragraphs-in-landing-pages-impact.html", "icon": "fas fa-file-alt", "color": "#4CAF50" },
+             { "name": "Form Field Reduction Effect on CRO Calculator", "link": "form-field-reduction-effect-on-cro.html", "icon": "fas fa-check-circle", "color": "#FF5722" },
+             { "name": "Dynamic Pricing Conversion Effectiveness Calculator", "link": "dynamic-pricing-conversion-effectiveness.html", "icon": "fas fa-tags", "color": "#FF9800" },
+             { "name": "Chatbot Lead Conversion Rate Calculator", "link": "chatbot-lead-conversion-rate-calculator.html", "icon": "fas fa-robot", "color": "#4CAF50" },
+             { "name": "Customer Journey Mapping vs. Funnel-Based CRO Calculator", "link": "customer-journey-vs-funnel-cro-calculator.html", "icon": "fas fa-random", "color": "#2196F3" },
+             { "name": "Video on Landing Page vs. Image Conversion Lift Calculator", "link": "video-vs-image-conversion-lift-calculator.html", "icon": "fas fa-video", "color": "#FF5733" },
+             { "name": "Trustpilot Reviews vs. Testimonials CRO Impact Calculator", "link": "trustpilot-reviews-vs-testimonials-cro-impact-calculator.html", "icon": "fas fa-star", "color": "#FF5733" },
+             { "name": "Social Login vs. Email Signup Conversion Rate Calculator", "link": "social-login-vs-email-signup-conversion-rate-calculator.html", "icon": "fas fa-user-check", "color": "#FF5733" },
+             { "name": "Exit Intent vs. Discount Pop-Up CRO Efficiency", "link": "exit-intent-vs-discount-pop-up-cro-efficiency.html", "icon": "fas fa-percent", "color": "#FF5733" },
+             { "name": "AI-Powered Product Recommendations Conversion Uplift Calculator", "link": "ai-powered-product-recommendations-conversion-uplift.html", "icon": "fas fa-robot", "color": "#FF5733" },
+             { "name": "Seasonal CRO Performance Predictor", "link": "seasonal-cro-performance-predictor.html", "icon": "fas fa-calendar-alt", "color": "#FF5733" },
+             { "name": "Sticky Header vs. Non-Sticky Header CRO Impact Calculator", "link": "sticky-vs-non-sticky-header-cro-impact.html", "icon": "fas fa-arrow-up", "color": "#007bff" },
+             { "name": "Survey-Driven CRO Personalization Calculator", "link": "survey-driven-cro-personalization.html", "icon": "fas fa-chart-line", "color": "#28a745" },
+             { "name": "Gamified Landing Page Engagement Rate Calculator", "link": "gamified-landing-page-engagement-rate-calculator.html", "icon": "fas fa-trophy", "color": "#FF9800" },
+             { "name": "Post-Purchase Upsell CRO Impact Calculator", "link": "post-purchase-upsell-cro-impact-calculator.html", "icon": "fas fa-arrow-up", "color": "#FF5722" },
+             { "name": "AI-Generated Copy vs. Human Copy in CRO Performance Calculator", "link": "ai-generated-copy-vs-human-copy-in-cro-performance-calculator.html", "icon": "fas fa-copy", "color": "#FF5722" },
+             { "name": "Free Shipping vs. Discount Offer CRO Effectiveness Calculator", "link": "free-shipping-vs-discount-offer-cro-effectiveness-calculator.html", "icon": "fas fa-truck", "color": "#FF5722" },
+             { "name": "Customer Lifetime Value (LTV) to Cost Per Acquisition (CPA) Ratio Calculator", "link": "ltv-to-cpa-ratio-calculator.html", "icon": "fas fa-calculator", "color": "#FF5722" },
+             { "name": "User Trust Score Impact on Conversion Rate Calculator", "link": "user-trust-score-impact-calculator.html", "icon": "fas fa-shield-alt", "color": "#8BC34A" },
+             { "name": "First Impression Score Based on Above-the-Fold Design Calculator", "link": "first-impression-score-calculator.html", "icon": "fas fa-eye", "color": "#FF9800" },
+             { "name": "Minimalist vs. Feature-Rich Design Conversion Rate Estimator", "link": "minimalist-vs-feature-rich-design-conversion-rate.html", "icon": "fas fa-laptop", "color": "#FF5722" },
+             { "name": "One-Page Checkout vs. Multi-Step Checkout CRO Impact Calculator", "link": "one-page-vs-multi-step-checkout-cro-impact.html", "icon": "fas fa-check-circle", "color": "#FF5722" },
+             { "name": "Dark Mode vs. Light Mode UI CRO Performance Calculator", "link": "dark-vs-light-mode-cro-performance.html", "icon": "fas fa-adjust", "color": "#000000" },
+             { "name": "Live Chat Implementation CRO Boost Calculator", "link": "live-chat-cro-boost.html", "icon": "fas fa-comments", "color": "#00B0FF" },
+             { "name": "Product Page Description Length vs. Conversion Rate Calculator", "link": "product-description-length-cro.html", "icon": "fas fa-file-alt", "color": "#FF9800" }
 
             ];
 
@@ -255,6 +313,20 @@
                 const socialMediaListContainer = document.getElementById("social-media-list");
                 socialMediaListContainer.appendChild(col);
             });
+
+            croCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="conversion-rate-optimization-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const croListContainer = document.getElementById("cro-list");
+                croListContainer.appendChild(col);
+            });
+
 
         });
     </script>

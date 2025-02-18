@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist vs. Feature-Rich Design Conversion Rate Estimator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateConversionRate()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Minimalist vs. Feature-Rich Design Conversion Rate Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps estimate how different web design styles – minimalist versus feature-rich – can impact conversion rates. By adjusting design complexity, users can predict how much it might affect user engagement and conversion.
+        </p>
+
+        <p>
+            A minimalist design focuses on simplicity, providing fewer distractions and faster load times, while a feature-rich design offers more interactive elements and functionality. Both designs can impact conversion rates differently based on the target audience and user experience.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Conversion Rate Estimate = (Minimalist Design Conversion Rate + Feature-Rich Design Conversion Rate) / 2</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Minimalist Design Conversion Rate:</strong> 6%</li>
+            <li><strong>Feature-Rich Design Conversion Rate:</strong> 8%</li>
+            <li><strong>Conversion Rate Estimate:</strong> (6 + 8) / 2 = <b>7.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Minimalist Design Conversion Rate (%)</td>
+                        <td><input type="number" id="minimalistRate" class="form-control" value="6" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Feature-Rich Design Conversion Rate (%)</td>
+                        <td><input type="number" id="featureRichRate" class="form-control" value="8" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Conversion Rate</td>
+                        <td><h4 class="text-primary" id="estimatedRate">7.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="conversionRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let conversionRateChart;
+
+            function calculateConversionRate() {
+                let minimalistRate = parseFloat(document.getElementById('minimalistRate').value) || 0;
+                let featureRichRate = parseFloat(document.getElementById('featureRichRate').value) || 0;
+
+                let estimatedRate = (minimalistRate + featureRichRate) / 2;
+                document.getElementById('estimatedRate').innerText = estimatedRate.toFixed(2) + "%";
+
+                updateChart(minimalistRate, featureRichRate);
+            }
+
+            function updateChart(minimalistRate, featureRichRate) {
+                let ctx = document.getElementById('conversionRateChart').getContext('2d');
+                if (conversionRateChart) {
+                    conversionRateChart.destroy();
+                }
+
+                conversionRateChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Minimalist Design', 'Feature-Rich Design'],
+                        datasets: [{
+                            data: [minimalistRate, featureRichRate],
+                            backgroundColor: ['#FF5733', '#2196F3'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is minimalist design?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Minimalist design is characterized by simplicity, using fewer elements to create a clean, distraction-free user interface. The focus is on core content and functionality, with a goal to reduce cognitive load and improve the user experience.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is feature-rich design?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A feature-rich design provides users with a wide range of interactive elements and functionality, including dynamic features, advanced navigation, and media-rich content. It aims to offer a more immersive experience, though it may increase complexity and load times.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Minimalist vs. Feature-Rich Design Conversion Rate Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
