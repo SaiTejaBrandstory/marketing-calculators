@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Email Performance Lift Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Personalized Email Performance Lift Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Personalized Email Performance Lift Calculator helps evaluate how personalizing email content can impact performance metrics such as open rate, click-through rate (CTR), and conversion rates. By adjusting key factors like subject line personalization and dynamic content, you can calculate the potential lift in email performance.
+        </p>
+
+        <h5>Formula for Performance Lift:</h5>
+        <p><strong>Performance Lift (%) = ((Personalized Open Rate - Generic Open Rate) / Generic Open Rate) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Generic Open Rate:</strong> 20%</li>
+            <li><strong>Personalized Open Rate:</strong> 30%</li>
+            <li><strong>Performance Lift:</strong> ((30 - 20) / 20) × 100 = <b>50.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Generic Open Rate (%)</td>
+                        <td><input type="number" id="genericOpenRate" class="form-control" value="20" oninput="calculateLift()"></td>
+                    </tr>
+                    <tr>
+                        <td>Personalized Open Rate (%)</td>
+                        <td><input type="number" id="personalizedOpenRate" class="form-control" value="30" oninput="calculateLift()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Lift (%)</td>
+                        <td><h4 class="text-primary" id="performanceLift">50.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="performanceLiftChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let performanceLiftChart;
+
+            function calculateLift() {
+                let genericOpenRate = parseFloat(document.getElementById('genericOpenRate').value) || 0;
+                let personalizedOpenRate = parseFloat(document.getElementById('personalizedOpenRate').value) || 0;
+
+                let performanceLift = ((personalizedOpenRate - genericOpenRate) / genericOpenRate) * 100;
+                document.getElementById('performanceLift').innerText = performanceLift.toFixed(2) + "%";
+
+                updateChart(performanceLift);
+            }
+
+            function updateChart(performanceLift) {
+                let ctx = document.getElementById('performanceLiftChart').getContext('2d');
+                if (performanceLiftChart) {
+                    performanceLiftChart.destroy();
+                }
+
+                performanceLiftChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Personalized vs Generic'],
+                        datasets: [{
+                            label: 'Performance Lift (%)',
+                            data: [performanceLift],
+                            backgroundColor: '#FF9800',
+                            borderColor: '#FF5722',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateLift;
+        </script>
+
+        <!-- FAQ Section with Bootstrap Collapse -->
+        <div class="accordion mt-5" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is the Personalized Email Performance Lift?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Personalized Email Performance Lift refers to the increase in key performance metrics (like open rate, click-through rate, and conversion rate) when email content is personalized for the recipient, compared to generic email content.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        How does personalization impact email performance?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Personalization can significantly increase engagement and open rates. By tailoring the email subject line, content, and offers to the recipient’s preferences or behavior, you make the email more relevant, which leads to higher performance metrics.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqThree">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        Why should I use this calculator?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This calculator helps quantify the performance lift that can be achieved by personalizing email content, allowing you to make data-driven decisions about email campaigns and target optimization strategies.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Personalized Email Performance Lift Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

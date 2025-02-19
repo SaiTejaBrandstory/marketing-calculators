@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot vs. Email Response Time ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI Chatbot vs. Email Response Time ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you compare the ROI of using an AI Chatbot vs. Email response times in Indian Rupees. It calculates the efficiency of AI chatbots versus manual email responses in terms of time saved and response rate.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>ROI = (Time Value Saved - Cost of AI Chatbot)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Time Saved:</strong> 300 minutes</li>
+            <li><strong>Total Time (Email):</strong> 500 minutes</li>
+            <li><strong>Cost of Chatbot (INR):</strong> ₹7500</li>
+            <li><strong>Cost per Minute Saved:</strong> ₹50</li>
+            <li><strong>ROI:</strong> (300 * ₹50) - ₹7500 = <b>₹7500</b> (positive ROI)</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Time Saved (in minutes)</td>
+                        <td><input type="number" id="timeSaved" class="form-control" value="300" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Time (Email Responses)</td>
+                        <td><input type="number" id="totalTime" class="form-control" value="500" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Cost of AI Chatbot (INR)</td>
+                        <td><input type="number" id="chatbotCost" class="form-control" value="7500" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Cost per Minute Saved (INR)</td>
+                        <td><input type="number" id="costPerMinute" class="form-control" value="50" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI (INR)</td>
+                        <td><h4 class="text-danger" id="roiResult">₹7500.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is ROI in Chatbot vs. Email Response Time?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI measures the return on investment from using an AI chatbot compared to traditional email responses in terms of time saved and cost efficiency.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does the AI Chatbot improve ROI?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI Chatbots can answer customer inquiries 24/7, reducing response times and improving efficiency. They can handle multiple requests simultaneously, which leads to cost savings and time optimization.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI Chatbot vs. Email Response Time ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let timeSaved = parseFloat(document.getElementById('timeSaved').value) || 0;
+            let totalTime = parseFloat(document.getElementById('totalTime').value) || 0;
+            let chatbotCost = parseFloat(document.getElementById('chatbotCost').value) || 0;
+            let costPerMinute = parseFloat(document.getElementById('costPerMinute').value) || 0;
+
+            // Calculate the total value saved based on time saved and cost per minute saved
+            let timeValueSaved = timeSaved * costPerMinute;
+
+            // Calculate ROI = Time Value Saved - Cost of Chatbot
+            let roi = timeValueSaved - chatbotCost;
+
+            document.getElementById('roiResult').innerText = "₹" + roi.toFixed(2);
+
+            updateChart(roi);
+        }
+
+        function updateChart(roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Time Value Saved', 'Remaining Cost'],
+                    datasets: [{
+                        data: [roi > 0 ? roi : 0, roi > 0 ? 0 : -roi],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

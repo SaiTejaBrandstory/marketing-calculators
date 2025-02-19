@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Marketing Churn Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Email Marketing Churn Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you estimate the churn rate of your email marketing campaign. Churn rate is the percentage of subscribers who unsubscribed during a specific period.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Churn Rate (%) = (Unsubscribes / Total Subscribers at Start of Period) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Unsubscribes:</strong> 50</li>
+            <li><strong>Total Subscribers at Start of Period:</strong> 1000</li>
+            <li><strong>Churn Rate:</strong> (50 / 1000) × 100 = <b>5%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Unsubscribes</td>
+                        <td><input type="number" id="unsubscribes" class="form-control" value="50" oninput="calculateChurnRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Subscribers at Start</td>
+                        <td><input type="number" id="totalSubscribers" class="form-control" value="1000" oninput="calculateChurnRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Churn Rate (%)</td>
+                        <td><h4 class="text-danger" id="churnRateResult">5%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="churnRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Churn Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Churn Rate is the percentage of subscribers who unsubscribe from your email list during a specific time period.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is a good Churn Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A churn rate below 2% is generally considered acceptable. Higher churn rates may indicate issues with the quality or relevance of your content.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Email Marketing Churn Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let churnRateChart;
+
+        function calculateChurnRate() {
+            let unsubscribes = parseFloat(document.getElementById('unsubscribes').value) || 0;
+            let totalSubscribers = parseFloat(document.getElementById('totalSubscribers').value) || 0;
+
+            if (totalSubscribers === 0) {
+                alert('Total Subscribers cannot be zero');
+                return;
+            }
+
+            let churnRate = (unsubscribes / totalSubscribers) * 100;
+            document.getElementById('churnRateResult').innerText = churnRate.toFixed(2) + "%";
+
+            updateChart(churnRate);
+        }
+
+        function updateChart(churnRate) {
+            let ctx = document.getElementById('churnRateChart').getContext('2d');
+            if (churnRateChart) {
+                churnRateChart.destroy();
+            }
+
+            churnRateChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Churn Rate', 'Remaining Subscribers'],
+                    datasets: [{
+                        data: [churnRate, 100 - churnRate],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateChurnRate;
+    </script>
+</body>
+</html>

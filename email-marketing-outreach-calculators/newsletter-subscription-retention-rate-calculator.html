@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Subscription Retention Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome CDN for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Newsletter Subscription Retention Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you measure your newsletter subscription retention rate. It compares the number of subscribers retained over a period to the total subscribers at the start.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Retention Rate (%) = (Subscribers Retained / Total Subscribers) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Subscribers:</strong> 500</li>
+            <li><strong>Subscribers Retained:</strong> 450</li>
+            <li><strong>Retention Rate:</strong> (450 / 500) × 100 = <b>90%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Subscribers</td>
+                        <td><input type="number" id="totalSubscribers" class="form-control" value="500" oninput="calculateRetentionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Subscribers Retained</td>
+                        <td><input type="number" id="subscribersRetained" class="form-control" value="450" oninput="calculateRetentionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Retention Rate (%)</td>
+                        <td><h4 class="text-danger" id="retentionRateResult">90%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="retentionRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Retention Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Retention Rate measures the percentage of subscribers who continue their subscription over a given period. It is an important metric for understanding customer loyalty and engagement.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Why is Retention Rate Important?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A high retention rate indicates that your newsletter is engaging and provides value to your audience, while a low retention rate may highlight areas for improvement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Newsletter Retention Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let retentionRateChart;
+
+        function calculateRetentionRate() {
+            let totalSubscribers = parseFloat(document.getElementById('totalSubscribers').value) || 0;
+            let subscribersRetained = parseFloat(document.getElementById('subscribersRetained').value) || 0;
+
+            if (totalSubscribers === 0) {
+                alert('Total subscribers cannot be zero');
+                return;
+            }
+
+            let retentionRate = (subscribersRetained / totalSubscribers) * 100;
+            document.getElementById('retentionRateResult').innerText = retentionRate.toFixed(2) + "%";
+
+            updateChart(retentionRate);
+        }
+
+        function updateChart(retentionRate) {
+            let ctx = document.getElementById('retentionRateChart').getContext('2d');
+            if (retentionRateChart) {
+                retentionRateChart.destroy();
+            }
+
+            retentionRateChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Retained Subscribers', 'Lost Subscribers'],
+                    datasets: [{
+                        data: [retentionRate, 100 - retentionRate],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateRetentionRate;
+    </script>
+</body>
+</html>

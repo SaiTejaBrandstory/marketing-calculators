@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inactive Subscribers Reactivation Cost Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Inactive Subscribers Reactivation Cost Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you estimate the cost of reactivating inactive subscribers based on the number of reactivated subscribers, the cost per email, and the total number of emails sent.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Reactivation Cost = (Total Emails Sent × Cost per Email)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Emails Sent:</strong> 1000</li>
+            <li><strong>Cost per Email:</strong> ₹5</li>
+            <li><strong>Reactivation Cost:</strong> 1000 × ₹5 = <b>₹5000</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Emails Sent</td>
+                        <td><input type="number" id="totalEmails" class="form-control" value="1000" oninput="calculateReactivationCost()"></td>
+                    </tr>
+                    <tr>
+                        <td>Cost per Email (INR)</td>
+                        <td><input type="number" id="costPerEmail" class="form-control" value="5" oninput="calculateReactivationCost()"></td>
+                    </tr>
+                    <tr>
+                        <td>Reactivation Cost (INR)</td>
+                        <td><h4 class="text-danger" id="reactivationCostResult">₹5000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="costChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Reactivation Cost?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Reactivation Cost is the total cost incurred in sending reactivation emails to inactive subscribers in order to bring them back to active status.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I reduce Reactivation Costs?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To reduce reactivation costs:
+                        <ul>
+                            <li>Target high-potential subscribers with personalized content.</li>
+                            <li>Segment your subscriber list based on engagement levels.</li>
+                            <li>Use A/B testing to improve the effectiveness of reactivation emails.</li>
+                            <li>Use automation to streamline email campaigns.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Inactive Subscribers Reactivation Cost Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let costChart;
+
+        function calculateReactivationCost() {
+            let totalEmails = parseFloat(document.getElementById('totalEmails').value) || 0;
+            let costPerEmail = parseFloat(document.getElementById('costPerEmail').value) || 0;
+
+            if (totalEmails === 0 || costPerEmail === 0) {
+                alert('Please enter valid values for total emails and cost per email.');
+                return;
+            }
+
+            let reactivationCost = totalEmails * costPerEmail;
+            document.getElementById('reactivationCostResult').innerText = '₹' + reactivationCost.toFixed(2);
+
+            updateChart(reactivationCost);
+        }
+
+        function updateChart(reactivationCost) {
+            let ctx = document.getElementById('costChart').getContext('2d');
+            if (costChart) {
+                costChart.destroy();
+            }
+
+            costChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Reactivation Cost'],
+                    datasets: [{
+                        data: [reactivationCost],
+                        backgroundColor: ['#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateReactivationCost;
+    </script>
+</body>
+</html>

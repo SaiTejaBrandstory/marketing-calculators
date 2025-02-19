@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generated Subject Line Success Probability Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Generated Subject Line Success Probability Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps evaluate the success probability of AI-generated subject lines based on key factors such as relevance, length, personalization, and emotional appeal.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Success Probability (%) = (Relevance + Length + Personalization + Emotional Appeal) / 4</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Relevance:</strong> 80</li>
+            <li><strong>Length:</strong> 70</li>
+            <li><strong>Personalization:</strong> 90</li>
+            <li><strong>Emotional Appeal:</strong> 85</li>
+            <li><strong>Success Probability:</strong> (80 + 70 + 90 + 85) / 4 = <b>81.25%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Relevance (0-100)</td>
+                        <td><input type="number" id="relevance" class="form-control" value="80" oninput="calculateProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Length (0-100)</td>
+                        <td><input type="number" id="length" class="form-control" value="70" oninput="calculateProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Personalization (0-100)</td>
+                        <td><input type="number" id="personalization" class="form-control" value="90" oninput="calculateProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Emotional Appeal (0-100)</td>
+                        <td><input type="number" id="emotionalAppeal" class="form-control" value="85" oninput="calculateProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Success Probability (%)</td>
+                        <td><h4 class="text-success" id="successProbabilityResult">81.25%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="successChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Success Probability in Subject Lines?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Success Probability represents the likelihood that a subject line will generate a positive response based on factors like relevance, length, personalization, and emotional appeal.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What factors influence a subject line's success?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Factors like relevance to the recipient, the subject line's length, the degree of personalization, and its emotional appeal are key to determining how well a subject line will perform.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Generated Subject Line Success Probability Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let successChart;
+
+        function calculateProbability() {
+            let relevance = parseFloat(document.getElementById('relevance').value) || 0;
+            let length = parseFloat(document.getElementById('length').value) || 0;
+            let personalization = parseFloat(document.getElementById('personalization').value) || 0;
+            let emotionalAppeal = parseFloat(document.getElementById('emotionalAppeal').value) || 0;
+
+            // Calculate the success probability based on the average of all factors
+            let successProbability = (relevance + length + personalization + emotionalAppeal) / 4;
+
+            document.getElementById('successProbabilityResult').innerText = successProbability.toFixed(2) + "%";
+
+            updateChart(successProbability);
+        }
+
+        function updateChart(successProbability) {
+            let ctx = document.getElementById('successChart').getContext('2d');
+            if (successChart) {
+                successChart.destroy();
+            }
+
+            successChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Success Probability', 'Remaining Probability'],
+                    datasets: [{
+                        data: [successProbability, 100 - successProbability],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateProbability;
+    </script>
+</body>
+</html>

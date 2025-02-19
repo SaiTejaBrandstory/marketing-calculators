@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drip Campaign Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Drip Campaign Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Drip Campaign Performance Calculator helps measure the effectiveness of your email drip campaigns by calculating the conversion rate, open rate, and click-through rate for each email in the sequence.
+        </p>
+
+        <h5>Formula for Conversion Rate:</h5>
+        <p><strong>Conversion Rate (%) = (Conversions / Total Recipients) × 100</strong></p>
+
+        <h5>Example for Conversion Rate:</h5>
+        <ul>
+            <li><strong>Conversions:</strong> 50</li>
+            <li><strong>Total Recipients:</strong> 1000</li>
+            <li><strong>Conversion Rate:</strong> (50 / 1000) × 100 = <b>5.00%</b></li>
+        </ul>
+
+        <h5>Formula for Click-Through Rate (CTR):</h5>
+        <p><strong>Click-Through Rate (CTR) (%) = (Clicks / Total Emails Sent) × 100</strong></p>
+
+        <h5>Example for Click-Through Rate (CTR):</h5>
+        <ul>
+            <li><strong>Clicks:</strong> 200</li>
+            <li><strong>Total Emails Sent:</strong> 1000</li>
+            <li><strong>Click-Through Rate (CTR):</strong> (200 / 1000) × 100 = <b>20.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Recipients</td>
+                        <td><input type="number" id="totalRecipients" class="form-control" value="1000" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversions</td>
+                        <td><input type="number" id="conversions" class="form-control" value="50" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Emails Sent</td>
+                        <td><input type="number" id="totalEmailsSent" class="form-control" value="1000" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Clicks</td>
+                        <td><input type="number" id="clicks" class="form-control" value="200" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (%)</td>
+                        <td><h4 class="text-primary" id="conversionRate">5.00%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Click-Through Rate (%)</td>
+                        <td><h4 class="text-primary" id="ctr">20.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let performanceChart;
+
+            function calculatePerformance() {
+                let totalRecipients = parseFloat(document.getElementById('totalRecipients').value) || 0;
+                let conversions = parseFloat(document.getElementById('conversions').value) || 0;
+                let totalEmailsSent = parseFloat(document.getElementById('totalEmailsSent').value) || 0;
+                let clicks = parseFloat(document.getElementById('clicks').value) || 0;
+
+                let conversionRate = (conversions / totalRecipients) * 100;
+                let ctr = (clicks / totalEmailsSent) * 100;
+
+                document.getElementById('conversionRate').innerText = conversionRate.toFixed(2) + "%";
+                document.getElementById('ctr').innerText = ctr.toFixed(2) + "%";
+
+                updateChart(conversionRate, ctr);
+            }
+
+            function updateChart(conversionRate, ctr) {
+                let ctx = document.getElementById('performanceChart').getContext('2d');
+                if (performanceChart) {
+                    performanceChart.destroy();
+                }
+
+                performanceChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Conversion Rate', 'Click-Through Rate'],
+                        datasets: [{
+                            label: 'Performance Metrics (%)',
+                            data: [conversionRate, ctr],
+                            backgroundColor: ['#4CAF50', '#FF9800'],
+                            borderColor: ['#388E3C', '#F57C00'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculatePerformance;
+        </script>
+
+        <!-- FAQ Section with Bootstrap Collapse -->
+        <div class="accordion mt-5" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is a Drip Campaign?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A drip campaign is a series of automated emails sent to leads or customers over a period of time. It is designed to nurture leads, convert prospects, or keep customers engaged with your brand.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        How is the Conversion Rate Calculated?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Conversion Rate is calculated by dividing the number of conversions by the total number of recipients and then multiplying by 100 to get the percentage.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqThree">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        What is Click-Through Rate (CTR)?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Click-Through Rate (CTR) is calculated by dividing the number of clicks by the total emails sent and multiplying by 100 to express the result as a percentage.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqFour">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        Why are Drip Campaigns important?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="faqFour" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Drip campaigns are important because they automate your marketing efforts, nurture leads over time, and allow for personalized engagement based on user behavior, ultimately leading to higher conversion rates.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Drip Campaign Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

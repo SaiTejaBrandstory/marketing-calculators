@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re-Engagement Campaign ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Re-Engagement Campaign ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Re-Engagement Campaign ROI Calculator helps you determine the return on investment (ROI) of your re-engagement campaigns. This tool is useful for measuring the effectiveness of campaigns aimed at re-engaging lapsed customers or users.
+        </p>
+
+        <h5>Formula for ROI:</h5>
+        <p><strong>ROI (%) = ((Revenue - Campaign Cost) / Campaign Cost) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Revenue:</strong> $1,000</li>
+            <li><strong>Campaign Cost:</strong> $200</li>
+            <li><strong>ROI:</strong> ((1,000 - 200) / 200) × 100 = <b>400.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Revenue ($)</td>
+                        <td><input type="number" id="revenue" class="form-control" value="1000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Campaign Cost ($)</td>
+                        <td><input type="number" id="campaignCost" class="form-control" value="200" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI (%)</td>
+                        <td><h4 class="text-primary" id="roiResult">400.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let roiChart;
+
+            function calculateROI() {
+                let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+                let campaignCost = parseFloat(document.getElementById('campaignCost').value) || 0;
+
+                if (campaignCost === 0) {
+                    alert('Campaign cost cannot be zero');
+                    return;
+                }
+
+                let roi = ((revenue - campaignCost) / campaignCost) * 100;
+                document.getElementById('roiResult').innerText = roi.toFixed(2) + "%";
+
+                updateChart(roi);
+            }
+
+            function updateChart(roi) {
+                let ctx = document.getElementById('roiChart').getContext('2d');
+                if (roiChart) {
+                    roiChart.destroy();
+                }
+
+                roiChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Re-Engagement Campaign ROI'],
+                        datasets: [{
+                            label: 'ROI (%)',
+                            data: [roi],
+                            backgroundColor: '#FF9800',
+                            borderColor: '#FF5722',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateROI;
+        </script>
+
+        <!-- FAQ Section with Bootstrap Collapse -->
+        <div class="accordion mt-5" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is Re-Engagement Campaign ROI?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Re-Engagement Campaign ROI measures the return you receive from the investment made in re-engaging lapsed users or customers. It shows the effectiveness of your re-engagement efforts.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        How is the ROI calculated for a re-engagement campaign?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI is calculated using the formula: ROI = ((Revenue - Campaign Cost) / Campaign Cost) × 100. It helps you understand how much return you are earning for every dollar spent on the campaign.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqThree">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        Why is ROI important in re-engagement campaigns?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI is important as it helps evaluate the financial success of your re-engagement campaigns. By measuring ROI, you can determine if the campaign is worthwhile and how effectively it contributes to your business goals.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Re-Engagement Campaign ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

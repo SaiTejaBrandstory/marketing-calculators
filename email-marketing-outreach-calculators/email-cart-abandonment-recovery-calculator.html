@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Cart Abandonment Recovery Calculator (INR)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Email Cart Abandonment Recovery Calculator (INR)</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Email Cart Abandonment Recovery Calculator helps you estimate how effective your email recovery campaigns are in recovering abandoned carts. By inputting your cart abandonment rate, recovery rate, and average order value in Indian Rupees (₹), this calculator will show you the potential revenue recovery.
+        </p>
+
+        <h5>Formula for Recovery Revenue:</h5>
+        <p><strong>Recovery Revenue = (Abandoned Cart Value × Recovery Rate) × Average Order Value</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Abandoned Cart Value:</strong> ₹5,00,000</li>
+            <li><strong>Recovery Rate:</strong> 20%</li>
+            <li><strong>Average Order Value:</strong> ₹15,000</li>
+            <li><strong>Recovery Revenue:</strong> (5,00,000 × 0.20) × 15,000 = <b>₹1,50,00,000</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Abandoned Cart Value (₹)</td>
+                        <td><input type="number" id="abandonedCartValue" class="form-control" value="500000" oninput="calculateRecoveryRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Recovery Rate (%)</td>
+                        <td><input type="number" id="recoveryRate" class="form-control" value="20" oninput="calculateRecoveryRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Average Order Value (₹)</td>
+                        <td><input type="number" id="averageOrderValue" class="form-control" value="15000" oninput="calculateRecoveryRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Recovery Revenue (₹)</td>
+                        <td><h4 class="text-primary" id="recoveryRevenue">₹1,50,00,000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="recoveryChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let recoveryChart;
+
+            function calculateRecoveryRevenue() {
+                let abandonedCartValue = parseFloat(document.getElementById('abandonedCartValue').value) || 0;
+                let recoveryRate = parseFloat(document.getElementById('recoveryRate').value) / 100 || 0;
+                let averageOrderValue = parseFloat(document.getElementById('averageOrderValue').value) || 0;
+
+                let recoveryRevenue = (abandonedCartValue * recoveryRate) * averageOrderValue;
+                document.getElementById('recoveryRevenue').innerText = "₹" + recoveryRevenue.toFixed(2);
+
+                updateChart(recoveryRevenue);
+            }
+
+            function updateChart(recoveryRevenue) {
+                let ctx = document.getElementById('recoveryChart').getContext('2d');
+                if (recoveryChart) {
+                    recoveryChart.destroy();
+                }
+
+                recoveryChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Recovery Revenue'],
+                        datasets: [{
+                            label: 'Recovery Revenue (₹)',
+                            data: [recoveryRevenue],
+                            backgroundColor: '#4CAF50',
+                            borderColor: '#388E3C',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateRecoveryRevenue;
+        </script>
+
+        <!-- FAQ Section with Bootstrap Collapse -->
+        <div class="accordion mt-5" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is Cart Abandonment Recovery Rate?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The cart abandonment recovery rate is the percentage of customers who return to their cart and complete the purchase after receiving a cart recovery email.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        How do I calculate Recovery Revenue?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The recovery revenue is calculated using the formula: (Abandoned Cart Value × Recovery Rate) × Average Order Value. This gives you the total revenue from recovered carts.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqThree">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        How do I improve my Cart Abandonment Recovery Rate?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your recovery rate, ensure that your cart abandonment emails are personalized, timely, and include strong call-to-actions or incentives like discounts to encourage the customer to complete the purchase.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Email Cart Abandonment Recovery Calculator (INR). All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

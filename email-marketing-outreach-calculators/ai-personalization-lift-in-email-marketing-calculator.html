@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Personalization Lift in Email Marketing Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome CDN for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI Personalization Lift in Email Marketing Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you measure the performance lift of your email marketing campaigns after implementing AI-driven personalization. 
+            It calculates the percentage increase in conversion rate with AI personalization compared to a baseline non-personalized approach.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Lift (%) = [(Personalized Conversion Rate - Non-Personalized Conversion Rate) / Non-Personalized Conversion Rate] × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Non-Personalized Conversion Rate:</strong> 3%</li>
+            <li><strong>Personalized Conversion Rate:</strong> 5%</li>
+            <li><strong>Lift:</strong> [(5% - 3%) / 3%] × 100 = <b>66.67%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Non-Personalized Conversion Rate (%)</td>
+                        <td><input type="number" id="nonPersonalizedRate" class="form-control" value="3" oninput="calculateLift()"></td>
+                    </tr>
+                    <tr>
+                        <td>Personalized Conversion Rate (%)</td>
+                        <td><input type="number" id="personalizedRate" class="form-control" value="5" oninput="calculateLift()"></td>
+                    </tr>
+                    <tr>
+                        <td>Lift (%)</td>
+                        <td><h4 class="text-danger" id="liftResult">66.67%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="liftChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is AI Personalization Lift?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI Personalization Lift measures the increase in conversion rate or engagement that occurs when you implement AI-driven personalized content in your email campaigns.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I calculate AI Personalization Lift?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To calculate the AI personalization lift, subtract the non-personalized conversion rate from the personalized conversion rate, divide by the non-personalized conversion rate, and multiply by 100.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI Personalization Lift Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let liftChart;
+
+        function calculateLift() {
+            let nonPersonalizedRate = parseFloat(document.getElementById('nonPersonalizedRate').value) || 0;
+            let personalizedRate = parseFloat(document.getElementById('personalizedRate').value) || 0;
+
+            if (nonPersonalizedRate === 0) {
+                alert('Non-personalized conversion rate cannot be zero');
+                return;
+            }
+
+            let lift = ((personalizedRate - nonPersonalizedRate) / nonPersonalizedRate) * 100;
+            document.getElementById('liftResult').innerText = lift.toFixed(2) + "%";
+
+            updateChart(lift);
+        }
+
+        function updateChart(lift) {
+            let ctx = document.getElementById('liftChart').getContext('2d');
+            if (liftChart) {
+                liftChart.destroy();
+            }
+
+            liftChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Non-Personalized', 'Personalized'],
+                    datasets: [{
+                        data: [document.getElementById('nonPersonalizedRate').value, document.getElementById('personalizedRate').value],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateLift;
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abandoned Cart Email Follow-Up Efficiency Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome CDN for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Abandoned Cart Email Follow-Up Efficiency Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you measure the effectiveness of your abandoned cart email follow-up campaigns by estimating the recovery rate based on different factors such as email open rate, click rate, and conversion rate.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Follow-Up Efficiency (%) = (Open Rate + Click Rate + Conversion Rate) / 3</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Open Rate:</strong> 40%</li>
+            <li><strong>Click Rate:</strong> 15%</li>
+            <li><strong>Conversion Rate:</strong> 5%</li>
+            <li><strong>Follow-Up Efficiency:</strong> (40 + 15 + 5) / 3 = <b>20%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Open Rate (%)</td>
+                        <td><input type="number" id="openRate" class="form-control" value="40" oninput="calculateEfficiency()"></td>
+                    </tr>
+                    <tr>
+                        <td>Click Rate (%)</td>
+                        <td><input type="number" id="clickRate" class="form-control" value="15" oninput="calculateEfficiency()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (%)</td>
+                        <td><input type="number" id="conversionRate" class="form-control" value="5" oninput="calculateEfficiency()"></td>
+                    </tr>
+                    <tr>
+                        <td>Follow-Up Efficiency (%)</td>
+                        <td><h4 class="text-danger" id="efficiencyResult">20%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="efficiencyChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Follow-Up Efficiency?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Follow-Up Efficiency measures how effective your abandoned cart email follow-up campaign is in recovering abandoned sales. It is calculated using key email metrics like open rate, click rate, and conversion rate.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my Follow-Up Efficiency?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your Follow-Up Efficiency:
+                        <ul>
+                            <li>Optimize email subject lines and content to increase open rates.</li>
+                            <li>Use personalized product recommendations to boost click rates.</li>
+                            <li>Ensure a smooth and quick checkout process to improve conversion rates.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Abandoned Cart Email Follow-Up Efficiency Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let efficiencyChart;
+
+        function calculateEfficiency() {
+            let openRate = parseFloat(document.getElementById('openRate').value) || 0;
+            let clickRate = parseFloat(document.getElementById('clickRate').value) || 0;
+            let conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+
+            let efficiency = (openRate + clickRate + conversionRate) / 3;
+            document.getElementById('efficiencyResult').innerText = efficiency.toFixed(2) + "%";
+
+            updateChart(efficiency);
+        }
+
+        function updateChart(efficiency) {
+            let ctx = document.getElementById('efficiencyChart').getContext('2d');
+            if (efficiencyChart) {
+                efficiencyChart.destroy();
+            }
+
+            efficiencyChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Follow-Up Efficiency', 'Other Factors'],
+                    datasets: [{
+                        data: [efficiency, 100 - efficiency],
+                        backgroundColor: ['#FF9800', '#9E9E9E'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateEfficiency;
+    </script>
+</body>
+</html>

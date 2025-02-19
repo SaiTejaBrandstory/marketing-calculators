@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Launch Email Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Product Launch Email Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps estimate the impact of product launch emails by evaluating the number of clicks, conversions, and revenue generated from the campaign.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Impact Score = (Total Conversions × Revenue per Conversion) / Total Emails Sent</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Conversions:</strong> 50</li>
+            <li><strong>Revenue per Conversion (INR):</strong> ₹500</li>
+            <li><strong>Total Emails Sent:</strong> 1000</li>
+            <li><strong>Impact Score:</strong> (50 × ₹500) / 1000 = <b>₹2500</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Conversions</td>
+                        <td><input type="number" id="totalConversions" class="form-control" value="50" oninput="calculateImpactScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue per Conversion (INR)</td>
+                        <td><input type="number" id="revenuePerConversion" class="form-control" value="500" oninput="calculateImpactScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Emails Sent</td>
+                        <td><input type="number" id="totalEmailsSent" class="form-control" value="1000" oninput="calculateImpactScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Impact Score (INR)</td>
+                        <td><h4 class="text-danger" id="impactScoreResult">₹2500</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="impactChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Impact Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Impact Score measures the effectiveness of a product launch email campaign by calculating the revenue generated per email sent.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I increase Impact Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To increase your Impact Score:
+                        <ul>
+                            <li>Increase conversions by improving the offer and targeting the right audience.</li>
+                            <li>Personalize emails to make them more engaging.</li>
+                            <li>Optimize your email design and subject lines to improve open rates.</li>
+                            <li>Ensure that your email has a clear call-to-action to boost conversions.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Product Launch Email Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let impactChart;
+
+        function calculateImpactScore() {
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+            let revenuePerConversion = parseFloat(document.getElementById('revenuePerConversion').value) || 0;
+            let totalEmailsSent = parseFloat(document.getElementById('totalEmailsSent').value) || 0;
+
+            if (totalEmailsSent === 0) {
+                alert('Total emails sent cannot be zero');
+                return;
+            }
+
+            let impactScore = (totalConversions * revenuePerConversion) / totalEmailsSent;
+            document.getElementById('impactScoreResult').innerText = '₹' + impactScore.toFixed(2);
+
+            updateChart(impactScore);
+        }
+
+        function updateChart(impactScore) {
+            let ctx = document.getElementById('impactChart').getContext('2d');
+            if (impactChart) {
+                impactChart.destroy();
+            }
+
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Impact Score'],
+                    datasets: [{
+                        data: [impactScore],
+                        backgroundColor: ['#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateImpactScore;
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-to-First-Response in Email Outreach Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Time-to-First-Response in Email Outreach Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates the average time it takes to receive a response to your email outreach campaign.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Time-to-First-Response (hours) = (Total Time to First Response / Number of Emails Sent)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Time to First Response:</strong> 12 hours</li>
+            <li><strong>Number of Emails Sent:</strong> 5</li>
+            <li><strong>Time-to-First-Response:</strong> 12 / 5 = <b>2.4 hours</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Time to First Response (hours)</td>
+                        <td><input type="number" id="totalTime" class="form-control" value="12" oninput="calculateTimeToFirstResponse()"></td>
+                    </tr>
+                    <tr>
+                        <td>Number of Emails Sent</td>
+                        <td><input type="number" id="emailsSent" class="form-control" value="5" oninput="calculateTimeToFirstResponse()"></td>
+                    </tr>
+                    <tr>
+                        <td>Time-to-First-Response (hours)</td>
+                        <td><h4 class="text-danger" id="timeResult">2.4 hours</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="timeChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Time-to-First-Response?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Time-to-First-Response measures the average time it takes to receive the first response to your email outreach campaign.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I reduce Time-to-First-Response?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To reduce Time-to-First-Response:
+                        <ul>
+                            <li>Personalize your email outreach to grab the recipient's attention.</li>
+                            <li>Make your subject line compelling to encourage faster engagement.</li>
+                            <li>Follow up with recipients who have not responded in a timely manner.</li>
+                            <li>Use clear CTAs (Call to Actions) to prompt immediate responses.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Time-to-First-Response Email Outreach Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let timeChart;
+
+        function calculateTimeToFirstResponse() {
+            let totalTime = parseFloat(document.getElementById('totalTime').value) || 0;
+            let emailsSent = parseFloat(document.getElementById('emailsSent').value) || 0;
+
+            if (emailsSent === 0) {
+                alert('Number of emails sent cannot be zero');
+                return;
+            }
+
+            let timeToFirstResponse = totalTime / emailsSent;
+            document.getElementById('timeResult').innerText = timeToFirstResponse.toFixed(2) + " hours";
+
+            updateChart(timeToFirstResponse);
+        }
+
+        function updateChart(timeToFirstResponse) {
+            let ctx = document.getElementById('timeChart').getContext('2d');
+            if (timeChart) {
+                timeChart.destroy();
+            }
+
+            timeChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Time Taken for Response', 'Other Time'],
+                    datasets: [{
+                        data: [timeToFirstResponse, 24 - timeToFirstResponse],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateTimeToFirstResponse;
+    </script>
+</body>
+</html>

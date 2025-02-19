@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Email Copy vs. Human Copy Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Powered Email Copy vs. Human Copy Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator allows you to compare the performance of AI-generated email copy versus human-written email copy. It evaluates the performance based on metrics such as open rates, click-through rates, and conversions.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Performance Score (%) = (Metric Score / Max Score) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>AI Open Rate:</strong> 45%</li>
+            <li><strong>Human Open Rate:</strong> 40%</li>
+            <li><strong>Max Open Rate:</strong> 50%</li>
+            <li><strong>AI Performance Score:</strong> (45 / 50) × 100 = <b>90%</b></li>
+            <li><strong>Human Performance Score:</strong> (40 / 50) × 100 = <b>80%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>AI Open Rate (%)</td>
+                        <td><input type="number" id="aiOpenRate" class="form-control" value="45" oninput="calculatePerformanceScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Open Rate (%)</td>
+                        <td><input type="number" id="humanOpenRate" class="form-control" value="40" oninput="calculatePerformanceScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Max Open Rate (%)</td>
+                        <td><input type="number" id="maxOpenRate" class="form-control" value="50" oninput="calculatePerformanceScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI Performance Score (%)</td>
+                        <td><h4 class="text-danger" id="aiPerformanceResult">90%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Human Performance Score (%)</td>
+                        <td><h4 class="text-danger" id="humanPerformanceResult">80%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is a Performance Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Performance Score represents the effectiveness of email copy in terms of the metric score (open rate, click-through rate, etc.) compared to a maximum possible score.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Which email copy performs better, AI or Human?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The performance of email copy can vary. AI-generated copy may perform better for certain audiences, while human-written copy may be more engaging for others. It depends on the context and metrics you're measuring.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I improve my Email Copy Performance?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve performance:
+                        <ul>
+                            <li>Test different subject lines to increase open rates.</li>
+                            <li>Personalize the content to better resonate with your audience.</li>
+                            <li>Optimize for mobile devices.</li>
+                            <li>Experiment with CTAs and offer incentives.</li>
+                            <li>Analyze and optimize based on metrics over time.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer outside the container -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Powered Email Copy vs. Human Copy Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let performanceChart;
+
+        function calculatePerformanceScore() {
+            let aiOpenRate = parseFloat(document.getElementById('aiOpenRate').value) || 0;
+            let humanOpenRate = parseFloat(document.getElementById('humanOpenRate').value) || 0;
+            let maxOpenRate = parseFloat(document.getElementById('maxOpenRate').value) || 0;
+
+            if (maxOpenRate === 0) {
+                alert('Max open rate cannot be zero');
+                return;
+            }
+
+            let aiPerformanceScore = (aiOpenRate / maxOpenRate) * 100;
+            let humanPerformanceScore = (humanOpenRate / maxOpenRate) * 100;
+
+            document.getElementById('aiPerformanceResult').innerText = aiPerformanceScore.toFixed(2) + "%";
+            document.getElementById('humanPerformanceResult').innerText = humanPerformanceScore.toFixed(2) + "%";
+
+            updateChart(aiPerformanceScore, humanPerformanceScore);
+        }
+
+        function updateChart(aiPerformanceScore, humanPerformanceScore) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+
+            performanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['AI Email Copy', 'Human Email Copy'],
+                    datasets: [{
+                        label: 'Performance Score (%)',
+                        data: [aiPerformanceScore, humanPerformanceScore],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculatePerformanceScore;
+    </script>
+</body>
+</html>
