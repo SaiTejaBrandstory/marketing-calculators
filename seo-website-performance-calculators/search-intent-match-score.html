@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Intent Match Score Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateIntentMatch()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Search Intent Match Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            The Search Intent Match Score measures how well your content aligns with user intent based on relevance, engagement, and keyword optimization.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Intent Match Score = (Relevance × 2) + (Engagement × 1.5) + (Keyword Optimization × 1.2)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Relevance Score:</strong> 85</li>
+            <li><strong>Engagement Score:</strong> 70</li>
+            <li><strong>Keyword Optimization Score:</strong> 60</li>
+            <li><strong>Intent Match Score:</strong> (85 × 2) + (70 × 1.5) + (60 × 1.2) = <b>247</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Relevance Score (0-100)</td>
+                        <td><input type="number" id="relevance" class="form-control" value="85" oninput="calculateIntentMatch()"></td>
+                    </tr>
+                    <tr>
+                        <td>Engagement Score (0-100)</td>
+                        <td><input type="number" id="engagement" class="form-control" value="70" oninput="calculateIntentMatch()"></td>
+                    </tr>
+                    <tr>
+                        <td>Keyword Optimization Score (0-100)</td>
+                        <td><input type="number" id="keywordOptimization" class="form-control" value="60" oninput="calculateIntentMatch()"></td>
+                    </tr>
+                    <tr>
+                        <td>Intent Match Score</td>
+                        <td><h4 class="text-success" id="intentScore">247</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="intentChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let intentChart;
+
+            function calculateIntentMatch() {
+                let relevance = parseFloat(document.getElementById('relevance').value) || 0;
+                let engagement = parseFloat(document.getElementById('engagement').value) || 0;
+                let keywordOptimization = parseFloat(document.getElementById('keywordOptimization').value) || 0;
+
+                let intentScore = (relevance * 2) + (engagement * 1.5) + (keywordOptimization * 1.2);
+                intentScore = Math.max(intentScore, 0);
+                document.getElementById('intentScore').innerText = intentScore.toFixed(2);
+
+                updateChart(relevance, engagement, keywordOptimization);
+            }
+
+            function updateChart(relevance, engagement, keywordOptimization) {
+                let ctx = document.getElementById('intentChart').getContext('2d');
+                if (intentChart) {
+                    intentChart.destroy();
+                }
+
+                intentChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Relevance', 'Engagement', 'Keyword Optimization'],
+                        datasets: [{
+                            data: [relevance, engagement, keywordOptimization],
+                            backgroundColor: 'rgba(103, 58, 183, 0.2)',
+                            borderColor: '#673AB7',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            r: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Search Intent Match Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Search Intent Match Score helps determine how well your content aligns with user search intent, improving ranking and engagement.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my Search Intent Match Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improve your score by enhancing content relevance, boosting engagement, and optimizing keyword usage.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Search Intent Match Score Calculator. All rights reserved.</p>
+        <p>Optimize your content for better search intent alignment.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

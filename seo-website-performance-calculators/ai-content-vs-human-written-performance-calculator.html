@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content vs. Human-Written Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI Content vs. Human-Written Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The AI Content vs. Human-Written Performance Calculator helps assess the relative performance of AI-generated content compared to human-written content. By comparing metrics like engagement, click-through rates, and conversion rates, you can evaluate the effectiveness of AI content versus content written by human authors.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Performance Score = (AI Metric / Human Metric) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>AI Content Metric (e.g., Click-Through Rate):</strong> 0.05</li>
+            <li><strong>Human Content Metric (e.g., Click-Through Rate):</strong> 0.04</li>
+            <li><strong>Performance Score:</strong> (0.05 / 0.04) × 100 = <b>125%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>AI Content Metric</td>
+                        <td><input type="number" id="aiMetric" class="form-control" value="0.05" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Content Metric</td>
+                        <td><input type="number" id="humanMetric" class="form-control" value="0.04" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Score</td>
+                        <td><h4 class="text-primary" id="performanceResult">125%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let performanceChart;
+
+            function calculatePerformance() {
+                let aiMetric = parseFloat(document.getElementById('aiMetric').value) || 0;
+                let humanMetric = parseFloat(document.getElementById('humanMetric').value) || 0;
+
+                if (humanMetric === 0) {
+                    alert('Human content metric cannot be zero');
+                    return;
+                }
+
+                let performanceScore = (aiMetric / humanMetric) * 100;
+                document.getElementById('performanceResult').innerText = performanceScore.toFixed(2) + "%";
+
+                updateChart(performanceScore);
+            }
+
+            function updateChart(performanceScore) {
+                let ctx = document.getElementById('performanceChart').getContext('2d');
+                if (performanceChart) {
+                    performanceChart.destroy();
+                }
+
+                performanceChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['AI vs Human Content'],
+                        datasets: [{
+                            label: 'Performance Score (%)',
+                            data: [performanceScore],
+                            backgroundColor: '#4CAF50',
+                            borderColor: '#388E3C',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculatePerformance;
+        </script>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the AI Content vs. Human-Written Performance Calculator?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This calculator compares the performance of AI-generated content and human-written content by evaluating engagement metrics such as click-through rates, conversions, and other key performance indicators.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I interpret the performance score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A performance score greater than 100% means AI-generated content is outperforming human-written content, while a score less than 100% indicates that human content is performing better.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How are the AI and human metrics calculated?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The metrics can include various SEO performance indicators such as click-through rates (CTR), conversion rates, time on page, bounce rates, etc. These are tracked and compared for AI-generated and human-written content.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI Content vs. Human-Written Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

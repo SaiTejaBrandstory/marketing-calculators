@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video SEO Performance Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateVideoSEO()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Video SEO Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            Video SEO helps improve search rankings, engagement, and visibility. Use this calculator to evaluate the SEO impact of your video content.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>SEO Score = (Engagement Rate × Video Watch Time × Optimization Score) / 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Engagement Rate:</strong> 75%</li>
+            <li><strong>Average Watch Time:</strong> 120 seconds</li>
+            <li><strong>Optimization Score:</strong> 90</li>
+            <li><strong>SEO Score:</strong> (75 × 120 × 90) / 100 = <b>8100</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Engagement Rate (%)</td>
+                        <td><input type="number" id="engagementRate" class="form-control" value="75" oninput="calculateVideoSEO()"></td>
+                    </tr>
+                    <tr>
+                        <td>Average Watch Time (seconds)</td>
+                        <td><input type="number" id="watchTime" class="form-control" value="120" oninput="calculateVideoSEO()"></td>
+                    </tr>
+                    <tr>
+                        <td>Optimization Score (0-100)</td>
+                        <td><input type="number" id="optimizationScore" class="form-control" value="90" oninput="calculateVideoSEO()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Score</td>
+                        <td><h4 class="text-success" id="seoScore">8100</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="videoSEOChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let videoSEOChart;
+
+            function calculateVideoSEO() {
+                let engagementRate = parseFloat(document.getElementById('engagementRate').value) || 0;
+                let watchTime = parseFloat(document.getElementById('watchTime').value) || 0;
+                let optimizationScore = parseFloat(document.getElementById('optimizationScore').value) || 0;
+
+                let seoScore = (engagementRate * watchTime * optimizationScore) / 100;
+                document.getElementById('seoScore').innerText = seoScore.toFixed(2);
+
+                updateChart(engagementRate, watchTime, optimizationScore);
+            }
+
+            function updateChart(engagement, watchTime, optimization) {
+                let ctx = document.getElementById('videoSEOChart').getContext('2d');
+                if (videoSEOChart) {
+                    videoSEOChart.destroy();
+                }
+
+                videoSEOChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Engagement Rate', 'Watch Time', 'Optimization Score'],
+                        datasets: [{
+                            label: 'SEO Impact',
+                            data: [engagement, watchTime, optimization],
+                            backgroundColor: ['#FF5733', '#4CAF50', '#2196F3'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        Why is Video SEO important?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Video SEO improves rankings on search engines and platforms like YouTube, leading to higher engagement and traffic.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my Video SEO?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Optimize video titles, descriptions, thumbnails, use subtitles, and improve audience engagement with high-quality content.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Video SEO Performance Calculator. All rights reserved.</p>
+        <p>Optimize your video content for better rankings and engagement.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

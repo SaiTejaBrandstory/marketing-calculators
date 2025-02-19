@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Search Optimization Score Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateVoiceSearchScore()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Voice Search Optimization Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you determine how well your website is optimized for voice search based on key factors like page speed, mobile-friendliness, structured data, and natural language content.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Voice Search Score = [(Page Speed + Mobile Friendliness + Structured Data + Conversational Keywords) / 4] × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Page Speed Score:</strong> 85%</li>
+            <li><strong>Mobile Friendliness Score:</strong> 90%</li>
+            <li><strong>Structured Data Score:</strong> 75%</li>
+            <li><strong>Conversational Keywords Score:</strong> 80%</li>
+            <li><strong>Voice Search Score:</strong> [(85 + 90 + 75 + 80) / 4] × 100 = <b>82.5%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Page Speed Score (%)</td>
+                        <td><input type="number" id="pageSpeed" class="form-control" value="85" oninput="calculateVoiceSearchScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Mobile Friendliness Score (%)</td>
+                        <td><input type="number" id="mobileFriendliness" class="form-control" value="90" oninput="calculateVoiceSearchScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Structured Data Score (%)</td>
+                        <td><input type="number" id="structuredData" class="form-control" value="75" oninput="calculateVoiceSearchScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversational Keywords Score (%)</td>
+                        <td><input type="number" id="conversationalKeywords" class="form-control" value="80" oninput="calculateVoiceSearchScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Voice Search Optimization Score</td>
+                        <td><h4 class="text-primary" id="voiceSearchScoreResult">82.5%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="voiceSearchChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let voiceSearchChart;
+
+            function calculateVoiceSearchScore() {
+                let pageSpeed = parseFloat(document.getElementById('pageSpeed').value) || 0;
+                let mobileFriendliness = parseFloat(document.getElementById('mobileFriendliness').value) || 0;
+                let structuredData = parseFloat(document.getElementById('structuredData').value) || 0;
+                let conversationalKeywords = parseFloat(document.getElementById('conversationalKeywords').value) || 0;
+
+                let score = ((pageSpeed + mobileFriendliness + structuredData + conversationalKeywords) / 4);
+                document.getElementById('voiceSearchScoreResult').innerText = score.toFixed(2) + "%";
+
+                updateChart(score);
+            }
+
+            function updateChart(score) {
+                let ctx = document.getElementById('voiceSearchChart').getContext('2d');
+                if (voiceSearchChart) {
+                    voiceSearchChart.destroy();
+                }
+
+                voiceSearchChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Optimization Score', 'Remaining'],
+                        datasets: [{
+                            data: [score, 100 - score],
+                            backgroundColor: ['#4CAF50', '#ddd'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Voice Search Optimization?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Voice Search Optimization refers to improving your website to rank higher in voice search queries made through virtual assistants like Alexa, Siri, and Google Assistant.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my Voice Search Optimization Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your Voice Search Optimization Score, focus on faster page loading, mobile-friendly design, structured data implementation, and the use of natural language with long-tail keywords.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Voice Search Optimization Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

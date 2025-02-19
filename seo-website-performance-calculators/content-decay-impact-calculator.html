@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Decay Impact Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateDecay()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Content Decay Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Content Decay Impact Calculator helps estimate traffic loss due to outdated content. Search rankings often decline over time, leading to a drop in organic visitors.
+        </p>
+
+        <p>
+            Updating and repurposing old content can help regain rankings and maintain steady traffic flow. This calculator provides an estimate of the potential traffic loss over time.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Traffic Loss (%) = (Initial Traffic - Current Traffic) / Initial Traffic × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Initial Traffic:</strong> 10,000</li>
+            <li><strong>Current Traffic:</strong> 7,000</li>
+            <li><strong>Traffic Loss:</strong> ((10,000 - 7,000) / 10,000) × 100 = <b>30%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Initial Traffic</td>
+                        <td><input type="number" id="initialTraffic" class="form-control" value="10000" oninput="calculateDecay()"></td>
+                    </tr>
+                    <tr>
+                        <td>Current Traffic</td>
+                        <td><input type="number" id="currentTraffic" class="form-control" value="7000" oninput="calculateDecay()"></td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Traffic Loss</td>
+                        <td><h4 class="text-danger" id="lossResult">30%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="decayChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let decayChart;
+
+            function calculateDecay() {
+                let initialTraffic = parseFloat(document.getElementById('initialTraffic').value) || 0;
+                let currentTraffic = parseFloat(document.getElementById('currentTraffic').value) || 0;
+                let trafficLoss = initialTraffic > 0 ? ((initialTraffic - currentTraffic) / initialTraffic) * 100 : 0;
+                document.getElementById('lossResult').innerText = trafficLoss.toFixed(2) + "%";
+
+                updateChart(trafficLoss);
+            }
+
+            function updateChart(trafficLoss) {
+                let ctx = document.getElementById('decayChart').getContext('2d');
+                if (decayChart) {
+                    decayChart.destroy();
+                }
+
+                decayChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Traffic Loss'],
+                        datasets: [{
+                            data: [trafficLoss],
+                            backgroundColor: ['#E91E63'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, max: 100 } }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is content decay?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Content decay refers to the gradual decline in organic search traffic due to aging content, outdated information, and changes in search engine algorithms.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I prevent content decay?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can prevent content decay by updating old posts, adding fresh insights, improving SEO, and repurposing content across different channels.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How often should I update my content?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It is recommended to refresh your content every 6-12 months, depending on industry trends and keyword performance.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Content Decay Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Migration Risk Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateDomainMigrationRisk()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Domain Migration Risk Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            Migrating to a new domain can be a risky process if not managed carefully. This tool helps you assess the risks involved in domain migration by evaluating key factors such as traffic, backlinks, SEO impact, and site structure changes. Use this tool to make informed decisions.
+        </p>
+        <p class="py-3">
+            The Domain Migration Risk Calculator evaluates several parameters, helping you gauge how much risk your site faces during migration. Proper planning and preparation can minimize the chances of significant ranking drops and loss of traffic.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Migration Risk = (Backlinks Loss Risk + Traffic Loss Risk + SEO Impact) / 3</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Backlinks Loss Risk:</strong> 20%</li>
+            <li><strong>Traffic Loss Risk:</strong> 25%</li>
+            <li><strong>SEO Impact:</strong> 30%</li>
+            <li><strong>Migration Risk:</strong> (20% + 25% + 30%) / 3 = <b>25%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Backlinks Loss Risk (%)</td>
+                        <td><input type="number" id="backlinkRisk" class="form-control" value="20" oninput="calculateDomainMigrationRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Traffic Loss Risk (%)</td>
+                        <td><input type="number" id="trafficRisk" class="form-control" value="25" oninput="calculateDomainMigrationRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Impact (%)</td>
+                        <td><input type="number" id="seoImpact" class="form-control" value="30" oninput="calculateDomainMigrationRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Migration Risk (%)</td>
+                        <td><h4 class="text-danger" id="migrationRisk">25%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="migrationRiskChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let migrationRiskChart;
+
+            function calculateDomainMigrationRisk() {
+                let backlinkRisk = parseFloat(document.getElementById('backlinkRisk').value) || 0;
+                let trafficRisk = parseFloat(document.getElementById('trafficRisk').value) || 0;
+                let seoImpact = parseFloat(document.getElementById('seoImpact').value) || 0;
+
+                let migrationRisk = (backlinkRisk + trafficRisk + seoImpact) / 3;
+                migrationRisk = Math.min(Math.max(migrationRisk, 0), 100);
+                document.getElementById('migrationRisk').innerText = migrationRisk.toFixed(2) + '%';
+
+                updateChart(migrationRisk);
+            }
+
+            function updateChart(migrationRisk) {
+                let ctx = document.getElementById('migrationRiskChart').getContext('2d');
+                if (migrationRiskChart) {
+                    migrationRiskChart.destroy();
+                }
+
+                migrationRiskChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Risk', 'Safe'],
+                        datasets: [{
+                            label: 'Domain Migration Risk',
+                            data: [migrationRisk, 100 - migrationRisk],
+                            backgroundColor: ['#F44336', '#4CAF50'],
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What are the main risks associated with domain migration?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The primary risks include losing backlinks, traffic drops, and SEO impacts. Proper management of these factors can help mitigate the risks associated with domain migration.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I minimize risks during domain migration?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To minimize risks, ensure proper 301 redirects, update all internal links, monitor traffic before and after migration, and keep a backup of your data. Planning ahead and testing your new site structure is also crucial.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Domain Migration Risk Calculator. All rights reserved.</p>
+        <p>Ensure a smooth domain migration with minimal risk by using our calculator.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

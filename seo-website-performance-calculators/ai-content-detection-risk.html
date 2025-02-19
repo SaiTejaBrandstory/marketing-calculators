@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generated Content Detection Risk Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateRisk()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Generated Content Detection Risk Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            AI-generated content can be flagged by search engines and content moderation tools. Use this calculator to estimate the risk of detection based on AI text percentage, uniqueness, and human edits.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Detection Risk Score = (AI Content % × 1.5) - (Uniqueness % × 0.8) - (Human Edits % × 1.2)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>AI Content Percentage:</strong> 60%</li>
+            <li><strong>Uniqueness Score:</strong> 75%</li>
+            <li><strong>Human Edits:</strong> 20%</li>
+            <li><strong>Detection Risk Score:</strong> (60 × 1.5) - (75 × 0.8) - (20 × 1.2) = <b>22</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>AI Content Percentage (%)</td>
+                        <td><input type="number" id="aiContent" class="form-control" value="60" oninput="calculateRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Uniqueness Score (%)</td>
+                        <td><input type="number" id="uniqueness" class="form-control" value="75" oninput="calculateRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Edits (%)</td>
+                        <td><input type="number" id="humanEdits" class="form-control" value="20" oninput="calculateRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Detection Risk Score</td>
+                        <td><h4 class="text-danger" id="riskScore">22</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="riskChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let riskChart;
+
+            function calculateRisk() {
+                let aiContent = parseFloat(document.getElementById('aiContent').value) || 0;
+                let uniqueness = parseFloat(document.getElementById('uniqueness').value) || 0;
+                let humanEdits = parseFloat(document.getElementById('humanEdits').value) || 0;
+
+                let riskScore = (aiContent * 1.5) - (uniqueness * 0.8) - (humanEdits * 1.2);
+                riskScore = Math.max(riskScore, 0);
+                document.getElementById('riskScore').innerText = riskScore.toFixed(2);
+
+                updateChart(aiContent, uniqueness, humanEdits);
+            }
+
+            function updateChart(aiContent, uniqueness, humanEdits) {
+                let ctx = document.getElementById('riskChart').getContext('2d');
+                if (riskChart) {
+                    riskChart.destroy();
+                }
+
+                riskChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['AI Content', 'Uniqueness', 'Human Edits'],
+                        datasets: [{
+                            data: [aiContent, uniqueness, humanEdits],
+                            backgroundColor: ['#FF5722', '#4CAF50', '#03A9F4'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How does AI-generated content get detected?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI-generated content is detected using linguistic patterns, token frequency, and AI detection algorithms that flag machine-generated text.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I reduce the risk of detection?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improve content uniqueness, rewrite AI-generated text in a humanized manner, and increase manual edits before publishing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI Content Detection Risk Calculator. All rights reserved.</p>
+        <p>Analyze and reduce AI-generated content detection risks efficiently.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

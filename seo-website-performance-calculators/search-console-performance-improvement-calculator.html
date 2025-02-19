@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Console Performance Improvement Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Search Console Performance Improvement Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Search Console Performance Improvement Calculator helps determine how improvements in your Search Console performance can impact clicks, impressions, and overall rankings. By tracking your performance, you can assess the effectiveness of your SEO strategies.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Performance Improvement = (New Clicks / Old Clicks) × 100 - 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Old Clicks:</strong> 500</li>
+            <li><strong>New Clicks:</strong> 700</li>
+            <li><strong>Performance Improvement:</strong> (700 / 500) × 100 - 100 = <b>40%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Old Clicks</td>
+                        <td><input type="number" id="oldClicks" class="form-control" value="500" oninput="calculateImprovement()"></td>
+                    </tr>
+                    <tr>
+                        <td>New Clicks</td>
+                        <td><input type="number" id="newClicks" class="form-control" value="700" oninput="calculateImprovement()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Improvement (%)</td>
+                        <td><h4 class="text-primary" id="improvementResult">40</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="improvementChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let improvementChart;
+
+            function calculateImprovement() {
+                let oldClicks = parseFloat(document.getElementById('oldClicks').value) || 0;
+                let newClicks = parseFloat(document.getElementById('newClicks').value) || 0;
+
+                if (oldClicks === 0) {
+                    alert('Old clicks cannot be zero');
+                    return;
+                }
+
+                let performanceImprovement = ((newClicks / oldClicks) * 100) - 100;
+                document.getElementById('improvementResult').innerText = performanceImprovement.toFixed(2) + "%";
+
+                updateChart(performanceImprovement);
+            }
+
+            function updateChart(performanceImprovement) {
+                let ctx = document.getElementById('improvementChart').getContext('2d');
+                if (improvementChart) {
+                    improvementChart.destroy();
+                }
+
+                improvementChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Performance Improvement'],
+                        datasets: [{
+                            label: 'Improvement (%)',
+                            data: [performanceImprovement],
+                            backgroundColor: '#FF5722',
+                            borderColor: '#D32F2F',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateImprovement;
+        </script>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Search Console Performance Calculator?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This tool helps you measure the impact of improvements in your Search Console performance by calculating the percentage increase in clicks, impressions, or other relevant metrics.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How does the performance improvement affect SEO?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Performance improvements, such as more clicks and impressions, typically lead to better visibility in search results. This can indicate that your SEO efforts are driving more organic traffic to your site.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I improve my Search Console performance?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your Search Console performance, focus on optimizing your content for relevant keywords, improving your site speed, building backlinks, and providing a better user experience on your website.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Search Console Performance Improvement Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

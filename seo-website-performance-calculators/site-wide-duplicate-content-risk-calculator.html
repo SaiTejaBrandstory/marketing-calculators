@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site-Wide Duplicate Content Risk Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Site-Wide Duplicate Content Risk Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Site-Wide Duplicate Content Risk Calculator helps assess the potential risk posed by duplicate content across your website. Duplicate content can negatively affect SEO, leading to ranking penalties and poor performance in search engine results.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Risk Score = (Number of Duplicate Pages / Total Pages) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Number of Duplicate Pages:</strong> 10</li>
+            <li><strong>Total Pages:</strong> 100</li>
+            <li><strong>Risk Score:</strong> (10 / 100) × 100 = <b>10%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Number of Duplicate Pages</td>
+                        <td><input type="number" id="duplicatePages" class="form-control" value="10" oninput="calculateRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Pages</td>
+                        <td><input type="number" id="totalPages" class="form-control" value="100" oninput="calculateRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Risk Score</td>
+                        <td><h4 class="text-primary" id="riskResult">10%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="riskChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let riskChart;
+
+            function calculateRisk() {
+                let duplicatePages = parseFloat(document.getElementById('duplicatePages').value) || 0;
+                let totalPages = parseFloat(document.getElementById('totalPages').value) || 0;
+
+                if (totalPages === 0) {
+                    alert('Total pages cannot be zero');
+                    return;
+                }
+
+                let riskScore = (duplicatePages / totalPages) * 100;
+                document.getElementById('riskResult').innerText = riskScore.toFixed(2) + "%";
+
+                updateChart(riskScore);
+            }
+
+            function updateChart(riskScore) {
+                let ctx = document.getElementById('riskChart').getContext('2d');
+                if (riskChart) {
+                    riskChart.destroy();
+                }
+
+                riskChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Duplicate Content Risk'],
+                        datasets: [{
+                            label: 'Risk Score (%)',
+                            data: [riskScore],
+                            backgroundColor: '#FF9800',
+                            borderColor: '#FB8C00',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateRisk;
+        </script>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Site-Wide Duplicate Content Risk Calculator?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This calculator helps evaluate the risk of having duplicate content across your website. It helps determine the potential SEO impact caused by duplicate content and provides a risk score based on the number of duplicate pages on the site.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        Why is duplicate content a problem for SEO?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Duplicate content can confuse search engines, making it difficult for them to determine which version of a page to index and rank. This can lead to lower rankings, reduced visibility, and even penalties from search engines.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I reduce duplicate content on my site?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To reduce duplicate content, consider using canonical tags, removing unnecessary duplicate pages, using redirects, and ensuring that each page has unique content to prevent search engines from indexing multiple versions of the same content.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Site-Wide Duplicate Content Risk Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

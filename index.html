@@ -72,7 +72,7 @@
             /* color: #ff0000; */
         }
 
-        #calculator-list, #social-media-list{
+        #calculator-list, #social-media-list, #cro-list, #seo-performance-list, #email-marketing-outreach-list{
             margin: 10px;
         }
 
@@ -120,6 +120,20 @@
         <h2 class="category-title">Conversion Rate Optimization (CRO) Calculators</h2>
         <div class="row" id="cro-list"></div>
     </section>
+
+    <!-- SEO & Website Performance Calculators Section -->
+    <section id="seo-performance-calculators" class="category-section container">
+        <h2 class="category-title">SEO & Website Performance Calculators</h2>
+        <div class="row" id="seo-performance-list"></div>
+    </section>
+    
+    <!-- Email Marketing & Outreach Calculators Section -->
+    <section id="email-marketing-outreach-calculators" class="category-section container">
+        <h2 class="category-title">Email Marketing & Outreach Calculators</h2>
+        <div class="row" id="email-marketing-outreach-list"></div>
+    </section>
+
+
 
 
     <!-- Footer -->
@@ -284,6 +298,70 @@
              { "name": "Dark Mode vs. Light Mode UI CRO Performance Calculator", "link": "dark-vs-light-mode-cro-performance.html", "icon": "fas fa-adjust", "color": "#000000" },
              { "name": "Live Chat Implementation CRO Boost Calculator", "link": "live-chat-cro-boost.html", "icon": "fas fa-comments", "color": "#00B0FF" },
              { "name": "Product Page Description Length vs. Conversion Rate Calculator", "link": "product-description-length-cro.html", "icon": "fas fa-file-alt", "color": "#FF9800" }
+            ];
+
+            const seoPerformanceCalculators = [
+                 { "name": "SEO ROI Calculator", "link": "seo-roi-calculator.html", "icon": "fas fa-calculator", "color": "#FF9800" },
+                 { "name": "Keyword Difficulty Estimator", "link": "keyword-difficulty-estimator.html", "icon": "fas fa-search", "color": "#FF5733" },
+                 { "name": "Domain Authority Growth Calculator", "link": "domain-authority-growth-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50" },
+                 { "name": "SERP Click-Through Rate Calculator", "link": "serp-ctr-calculator.html", "icon": "fas fa-search", "color": "#FF5733" },
+                 {"name": "Backlink Value Estimator", "link": "backlink-value-estimator.html", "icon": "fas fa-link", "color": "#FF9800"},
+                 {"name": "Page Speed Loss Calculator", "link": "page-speed-loss-calculator.html", "icon": "fas fa-tachometer-alt", "color": "#E91E63"},
+                 {"name": "Content Decay Impact Calculator", "link": "content-decay-impact-calculator.html", "icon": "fas fa-chart-line", "color": "#E91E63"},
+                 {"name": "Schema Markup Benefit Calculator", "link": "schema-markup-benefit-calculator.html", "icon": "fas fa-code", "color": "#4CAF50"},
+                 {"name": "Internal Link Optimization Calculator", "link": "internal-link-optimization-calculator.html", "icon": "fas fa-link", "color": "#FF9800"},
+                 {"name": "Keyword Cluster Effectiveness Calculator", "link": "keyword-cluster-effectiveness-calculator.html", "icon": "fas fa-tags", "color": "#4CAF50"},
+                 {"name": "Google Indexation Rate Calculator", "link": "google-indexation-rate-calculator.html", "icon": "fas fa-search", "color": "#00796b"},
+                 {"name": "Mobile-First SEO Score Calculator", "link": "mobile-first-seo-score-calculator.html", "icon": "fas fa-mobile-alt", "color": "#2196F3"},
+                 {"name": "Canonical Tag Optimization Calculator", "link": "canonical-tag-optimization-calculator.html", "icon": "fas fa-code", "color": "#673AB7"},
+                 {"name": "Featured Snippet Probability Calculator", "link": "featured-snippet-probability-calculator.html", "icon": "fas fa-star", "color": "#FF9800"},
+                 {"name": "Voice Search Optimization Score Calculator", "link": "voice-search-optimization-score-calculator.html", "icon": "fas fa-microphone", "color": "#4CAF50"},
+                 {"name": "Bounce Rate Reduction Calculator", "link": "bounce-rate-reduction-calculator.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+                 {"name": "Core Web Vitals Performance Calculator", "link": "core-web-vitals-performance-calculator.html", "icon": "fas fa-stopwatch", "color": "#673AB7"},
+                 {"name": "First Input Delay (FID) Impact Calculator", "link": "fid-impact-calculator.html", "icon": "fas fa-hand-pointer", "color": "#009688"},
+                 {"name": "Largest Contentful Paint (LCP) Load Time Calculator", "link": "lcp-load-time-calculator.html", "icon": "fas fa-stopwatch", "color": "#FF9800"},
+                 {"name": "Image Optimization Benefit Calculator", "link": "image-optimization-benefit.html", "icon": "fas fa-image", "color": "#4CAF50"},
+                 {"name": "Video SEO Performance Calculator", "link": "video-seo-performance.html", "icon": "fas fa-video", "color": "#2196F3"},
+                 {"name": "Keyword Cannibalization Detector", "link": "keyword-cannibalization-detector.html", "icon": "fas fa-search-minus", "color": "#FF9800"},
+                 {"name": "AI-Generated Content Detection Risk Calculator", "link": "ai-content-detection-risk.html", "icon": "fas fa-robot", "color": "#673AB7"},
+                 {"name": "Topical Authority Growth Calculator", "link": "topical-authority-growth.html", "icon": "fas fa-lightbulb", "color": "#FF9800"},
+                 {"name": "Search Intent Match Score Calculator", "link": "search-intent-match-score.html", "icon": "fas fa-search", "color": "#673AB7"},
+                 {"name": "Crawl Budget Optimization Calculator", "link": "crawl-budget-optimization.html", "icon": "fas fa-cogs", "color": "#FF9800"},
+                 {"name": "Google Passage Ranking Impact Calculator", "link": "google-passage-ranking-impact.html", "icon": "fas fa-search", "color": "#00BCD4"},
+                 {"name": "Index Bloat Risk Calculator", "link": "index-bloat-risk-calculator.html", "icon": "fas fa-sitemap", "color": "#FF9800"},
+                 {"name": "Pagination SEO Risk Calculator", "link": "pagination-seo-risk-calculator.html", "icon": "fas fa-link", "color": "#FF5722"},
+                 {"name": "JavaScript SEO Load Time Impact Calculator", "link": "javascript-seo-load-time-impact-calculator.html", "icon": "fas fa-hourglass-start", "color": "#4CAF50"},
+                 {"name": "Website Accessibility SEO Impact Calculator", "link": "website-accessibility-seo-impact-calculator.html", "icon": "fas fa-wheelchair", "color": "#9C27B0"},
+                 {"name": "Hreflang Tag Effectiveness Calculator", "link": "hreflang-tag-effectiveness-calculator.html", "icon": "fas fa-language", "color": "#009688"},
+                 {"name": "Domain Migration Risk Calculator", "link": "domain-migration-risk-calculator.html", "icon": "fas fa-exchange-alt", "color": "#F44336"},
+                 {"name": "SSL Certificate Expiry & SEO Risk Calculator", "link": "ssl-certificate-expiry-seo-risk-calculator.html", "icon": "fas fa-lock", "color": "#009688"},
+                 {"name": "Multilingual SEO Performance Calculator", "link": "multilingual-seo-performance-calculator.html", "icon": "fas fa-language", "color": "#2196F3"},
+                 {"name": "Blog Post Word Count vs. Ranking Calculator", "link": "blog-post-word-count-vs-ranking-calculator.html", "icon": "fas fa-pencil-alt", "color": "#FF9800"},
+                 {"name": "AMP (Accelerated Mobile Pages) Performance Calculator", "link": "amp-performance-calculator.html", "icon": "fas fa-mobile-alt", "color": "#FF5722"},
+                 {"name": "Domain Age SEO Value Calculator", "link": "domain-age-seo-value-calculator.html", "icon": "fas fa-calendar-alt", "color": "#FF9800"},
+                 {"name": "Expired Domain Authority Calculator", "link": "expired-domain-authority-calculator.html", "icon": "fas fa-calendar-times", "color": "#FF5722"},
+                 {"name": "Keyword SERP Position Value Calculator", "link": "keyword-serp-position-value-calculator.html", "icon": "fas fa-search", "color": "#FF5722"},
+                 {"name":"SEO Competitive Gap Analysis Calculator","link":"seo-competitive-gap-analysis-calculator.html","icon":"fas fa-chart-line","color":"#FF5722"},
+                 {"name":"Google Business Profile Optimization Calculator","link":"google-business-profile-optimization-calculator.html","icon":"fas fa-map-marker-alt","color":"#2196F3"},
+                 {"name":"Rich Snippets Visibility Impact Calculator","link":"rich-snippets-visibility-impact-calculator.html","icon":"fas fa-search-plus","color":"#3F51B5"},
+                 {"name":"Search Console Performance Improvement Calculator","link":"search-console-performance-improvement-calculator.html","icon":"fas fa-tachometer-alt","color":"#FF5722"},
+                 {"name":"SEO Experiment Significance Calculator","link":"seo-experiment-significance-calculator.html","icon":"fas fa-chart-bar","color":"#FF9800"},
+                 {"name":"AI Content vs. Human-Written Performance Calculator","link":"ai-content-vs-human-written-performance-calculator.html","icon":"fas fa-robot","color":"#4CAF50"},
+                 {"name":"Site-Wide Duplicate Content Risk Calculator","link":"site-wide-duplicate-content-risk-calculator.html","icon":"fas fa-exclamation-triangle","color":"#FF9800"},
+                 {"name":"HTTPS Security SEO Boost Calculator","link":"https-security-seo-boost-calculator.html","icon":"fas fa-lock","color":"#4CAF50"},
+                 {"name":"Structured Data Performance Estimator","link":"structured-data-performance-estimator.html","icon":"fas fa-code","color":"#FF9800"}
+            ];
+
+            const emailMarketingCalculators = [
+                {"name":"Email Open Rate Calculator","link":"email-open-rate-calculator.html","icon":"fas fa-envelope-open-text","color":"#4CAF50"},
+                {"name":"Email CTR Calculator","link":"email-ctr-calculator.html","icon":"fas fa-mouse-pointer","color":"#FF9800"},
+                {"name":"Email Bounce Rate Calculator","link":"email-bounce-rate-calculator.html","icon":"fas fa-envelope-open-text","color":"#E91E63"},
+                {"name":"Spam Score Estimator","link":"spam-score-estimator.html","icon":"fas fa-exclamation-triangle","color":"#FF5722"},
+                {"name":"Email Deliverability Score Calculator","link":"email-deliverability-score-calculator.html","icon":"fas fa-envelope","color":"#4CAF50"},
+                {"name":"Subject Line A/B Test Significance Calculator","link":"subject-line-ab-test-significance-calculator.html","icon":"fas fa-random","color":"#4CAF50"},
+                {"name":"Unsubscribe Rate Impact Calculator","link":"unsubscribe-rate-impact-calculator.html","icon":"fas fa-times-circle","color":"#FF9800"},
+                {"name":"Email List Growth Rate Calculator","link":"email-list-growth-rate-calculator.html","icon":"fas fa-users","color":"#4CAF50"},
+                {"name":"Cold Email Conversion Rate Calculator","link":"cold-email-conversion-rate-calculator.html","icon":"fas fa-envelope","color":"#FF9800"},
 
             ];
 
@@ -326,6 +404,34 @@
                 const croListContainer = document.getElementById("cro-list");
                 croListContainer.appendChild(col);
             });
+
+            seoPerformanceCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="seo-website-performance-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const seoPerformanceListContainer = document.getElementById("seo-performance-list");
+                seoPerformanceListContainer.appendChild(col);
+            });
+
+            emailMarketingCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="email-marketing-outreach-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const emailMarketingListContainer = document.getElementById("email-marketing-outreach-list");
+                emailMarketingListContainer.appendChild(col);
+            });
+
+
 
 
         });

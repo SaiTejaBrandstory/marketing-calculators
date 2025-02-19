@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile-First SEO Score Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateMobileSEOScore()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Mobile-First SEO Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Mobile-First SEO Score Calculator evaluates how well your website is optimized for mobile-first indexing. This metric is essential as Google prioritizes mobile-friendly websites in search rankings.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Mobile SEO Score = (Mobile-Friendly Score + Page Speed Score + UX Score) / 3</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Mobile-Friendly Score:</strong> 85</li>
+            <li><strong>Page Speed Score:</strong> 78</li>
+            <li><strong>UX Score:</strong> 90</li>
+            <li><strong>Mobile SEO Score:</strong> (85 + 78 + 90) / 3 = <b>84.33</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Mobile-Friendly Score (0-100)</td>
+                        <td><input type="number" id="mobileScore" class="form-control" value="85" oninput="calculateMobileSEOScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Page Speed Score (0-100)</td>
+                        <td><input type="number" id="speedScore" class="form-control" value="78" oninput="calculateMobileSEOScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>User Experience Score (0-100)</td>
+                        <td><input type="number" id="uxScore" class="form-control" value="90" oninput="calculateMobileSEOScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Mobile SEO Score</td>
+                        <td><h4 class="text-primary" id="seoScoreResult">84.33</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="seoChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let seoChart;
+
+            function calculateMobileSEOScore() {
+                let mobileScore = parseFloat(document.getElementById('mobileScore').value) || 0;
+                let speedScore = parseFloat(document.getElementById('speedScore').value) || 0;
+                let uxScore = parseFloat(document.getElementById('uxScore').value) || 0;
+
+                let seoScore = (mobileScore + speedScore + uxScore) / 3;
+                document.getElementById('seoScoreResult').innerText = seoScore.toFixed(2);
+
+                updateChart(seoScore);
+            }
+
+            function updateChart(seoScore) {
+                let ctx = document.getElementById('seoChart').getContext('2d');
+                if (seoChart) {
+                    seoChart.destroy();
+                }
+
+                seoChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mobile-Friendly', 'Page Speed', 'User Experience', 'Overall Score'],
+                        datasets: [{
+                            label: 'SEO Score',
+                            data: [
+                                parseFloat(document.getElementById('mobileScore').value) || 0,
+                                parseFloat(document.getElementById('speedScore').value) || 0,
+                                parseFloat(document.getElementById('uxScore').value) || 0,
+                                seoScore
+                            ],
+                            backgroundColor: ['#4CAF50', '#FF9800', '#2196F3', '#9C27B0'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is a Mobile-First SEO Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Mobile-First SEO Score measures how well a website is optimized for mobile-first indexing. Google ranks mobile-friendly sites higher, making this score essential for SEO success.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my Mobile-First SEO Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your Mobile-First SEO Score, ensure your site is mobile-responsive, optimize loading speed, improve UX design, and use structured data for better indexing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Mobile-First SEO Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

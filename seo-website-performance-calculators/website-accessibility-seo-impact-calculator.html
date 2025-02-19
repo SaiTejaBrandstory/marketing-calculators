@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Accessibility SEO Impact Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateAccessibilityImpact()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Website Accessibility SEO Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            Accessibility plays a significant role in SEO rankings. Search engines, especially Google, prioritize websites that offer an inclusive experience for all users. Websites that adhere to accessibility standards are not only better for users with disabilities but also tend to rank higher in search results.
+        </p>
+        <p class="py-3">
+            The more accessible your website, the better it is for search engine crawlers to interpret and index your content. This tool helps you calculate the potential SEO impact due to website accessibility improvements, focusing on WCAG (Web Content Accessibility Guidelines) compliance.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>SEO Impact = (Accessibility Score / Max Accessibility Score) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Accessibility Score:</strong> 80</li>
+            <li><strong>Max Accessibility Score:</strong> 100</li>
+            <li><strong>SEO Impact:</strong> (80 / 100) × 100 = <b>80%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Accessibility Score</td>
+                        <td><input type="number" id="accessibilityScore" class="form-control" value="80" oninput="calculateAccessibilityImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>Max Accessibility Score</td>
+                        <td><input type="number" id="maxAccessibilityScore" class="form-control" value="100" oninput="calculateAccessibilityImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Impact</td>
+                        <td><h4 class="text-danger" id="seoImpact">80%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="seoImpactChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let seoImpactChart;
+
+            function calculateAccessibilityImpact() {
+                let accessibilityScore = parseFloat(document.getElementById('accessibilityScore').value) || 0;
+                let maxAccessibilityScore = parseFloat(document.getElementById('maxAccessibilityScore').value) || 0;
+
+                let seoImpact = (accessibilityScore / maxAccessibilityScore) * 100;
+                seoImpact = Math.min(Math.max(seoImpact, 0), 100);
+                document.getElementById('seoImpact').innerText = seoImpact.toFixed(2) + '%';
+
+                updateChart(seoImpact);
+            }
+
+            function updateChart(seoImpact) {
+                let ctx = document.getElementById('seoImpactChart').getContext('2d');
+                if (seoImpactChart) {
+                    seoImpactChart.destroy();
+                }
+
+                seoImpactChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['SEO Impact', 'Other Factors'],
+                        datasets: [{
+                            label: 'SEO Impact due to Accessibility',
+                            data: [seoImpact, 100 - seoImpact],
+                            backgroundColor: ['#9C27B0', '#4CAF50'],
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How does accessibility affect SEO rankings?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Websites that are more accessible provide a better user experience for all, including people with disabilities. Search engines like Google prioritize websites that are easier for users to navigate, leading to better SEO rankings.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What are WCAG guidelines and why do they matter?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        WCAG (Web Content Accessibility Guidelines) provide guidelines for creating web content that is accessible to people with various disabilities. Following these guidelines can help improve a website’s accessibility, which positively impacts SEO.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Website Accessibility SEO Impact Calculator. All rights reserved.</p>
+        <p>Enhance your website's accessibility to improve SEO performance and ensure an inclusive web experience.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

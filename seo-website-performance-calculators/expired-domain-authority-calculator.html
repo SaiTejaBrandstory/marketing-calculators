@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expired Domain Authority Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Expired Domain Authority Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Expired Domain Authority Calculator estimates how the expiration of a domain affects its authority. Expired domains can still hold SEO value based on the authority they gained over time. However, this value tends to diminish after the expiration.
+        </p>
+
+        <p>
+            This calculator helps to estimate the domain authority based on the time since expiration and the domain's original authority. The SEO value of expired domains can still contribute to rankings, but the impact decreases with the time passed after expiration.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Domain Authority after Expiration = Original Domain Authority × (1 - Decay Factor × Time Since Expiration)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Original Domain Authority:</strong> 50</li>
+            <li><strong>Time Since Expiration:</strong> 6 months</li>
+            <li><strong>Decay Factor:</strong> 0.05</li>
+            <li><strong>Domain Authority after Expiration:</strong> 50 × (1 - 0.05 × 6) = <b>35</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Original Domain Authority</td>
+                        <td><input type="number" id="originalDA" class="form-control" value="50" oninput="calculateValue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Time Since Expiration (Months)</td>
+                        <td><input type="number" id="timeExpired" class="form-control" value="6" oninput="calculateValue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Decay Factor</td>
+                        <td><input type="number" step="0.01" id="decayFactor" class="form-control" value="0.05" oninput="calculateValue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Domain Authority after Expiration</td>
+                        <td><h4 class="text-primary" id="domainValue">35</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="domainChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let domainChart;
+
+            function calculateValue() {
+                let originalDA = parseFloat(document.getElementById('originalDA').value) || 0;
+                let timeExpired = parseFloat(document.getElementById('timeExpired').value) || 0;
+                let decayFactor = parseFloat(document.getElementById('decayFactor').value) || 0;
+
+                let domainValue = originalDA * (1 - decayFactor * timeExpired);
+                document.getElementById('domainValue').innerText = domainValue.toFixed(2);
+
+                updateChart(domainValue);
+            }
+
+            function updateChart(domainValue) {
+                let ctx = document.getElementById('domainChart').getContext('2d');
+                if (domainChart) {
+                    domainChart.destroy();
+                }
+
+                domainChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Domain Authority after Expiration'],
+                        datasets: [{
+                            label: 'SEO Value',
+                            data: [domainValue],
+                            backgroundColor: '#FF5722',
+                            borderColor: '#D32F2F',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateValue;
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Expired Domain Authority Calculator?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Expired Domain Authority Calculator estimates the potential SEO value of a domain after it has expired. It calculates how much domain authority is retained after expiration, which can still impact SEO rankings.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I calculate Domain Authority after Expiration?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The domain authority is calculated using the formula: <strong>Domain Authority after Expiration = Original Domain Authority × (1 - Decay Factor × Time Since Expiration)</strong>. The decay factor and time since expiration affect how much authority is retained.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Expired Domain Authority Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

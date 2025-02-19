@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Bounce Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Email Bounce Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Email Bounce Rate Calculator helps measure how many emails failed to be delivered out of the total emails sent. A high bounce rate can indicate issues with email list quality or delivery problems.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Bounce Rate (%) = (Bounced Emails / Emails Sent) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Bounced Emails:</strong> 50</li>
+            <li><strong>Emails Sent:</strong> 2000</li>
+            <li><strong>Bounce Rate:</strong> (50 / 2000) × 100 = <b>2.5%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Emails Sent</td>
+                        <td><input type="number" id="emailsSent" class="form-control" value="2000" oninput="calculateBounceRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Bounced Emails</td>
+                        <td><input type="number" id="bouncedEmails" class="form-control" value="50" oninput="calculateBounceRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Bounce Rate (%)</td>
+                        <td><h4 class="text-primary" id="bounceRateResult">2.5%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="bounceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let bounceChart;
+
+            function calculateBounceRate() {
+                let emailsSent = parseFloat(document.getElementById('emailsSent').value) || 0;
+                let bouncedEmails = parseFloat(document.getElementById('bouncedEmails').value) || 0;
+
+                if (emailsSent === 0) {
+                    alert('Emails sent cannot be zero');
+                    return;
+                }
+
+                let bounceRate = (bouncedEmails / emailsSent) * 100;
+                document.getElementById('bounceRateResult').innerText = bounceRate.toFixed(2) + "%";
+
+                updateChart(bounceRate);
+            }
+
+            function updateChart(bounceRate) {
+                let ctx = document.getElementById('bounceChart').getContext('2d');
+                if (bounceChart) {
+                    bounceChart.destroy();
+                }
+
+                bounceChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Bounced', 'Delivered'],
+                        datasets: [{
+                            data: [bounceRate, 100 - bounceRate],
+                            backgroundColor: ['#F44336', '#4CAF50'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            }
+
+            window.onload = calculateBounceRate;
+        </script>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Email Bounce Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Email Bounce Rate is the percentage of sent emails that were not delivered successfully. A high bounce rate may indicate issues with your email list, domain reputation, or deliverability.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is a good Email Bounce Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A bounce rate below 2% is generally considered acceptable. Higher bounce rates may indicate outdated email lists, poor list hygiene, or sender reputation issues.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I reduce my Email Bounce Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To reduce your email bounce rate:
+                        <ul>
+                            <li>Regularly clean your email list</li>
+                            <li>Avoid sending emails to outdated addresses</li>
+                            <li>Use a verified email sender domain</li>
+                            <li>Monitor bounce reports and remove invalid emails</li>
+                            <li>Ensure compliance with email authentication protocols (SPF, DKIM, DMARC)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Email Bounce Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

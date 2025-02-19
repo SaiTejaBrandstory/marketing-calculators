@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Web Vitals Performance Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateWebVitalsPerformance()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Core Web Vitals Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            Core Web Vitals are key performance metrics that assess user experience on a website, including page load speed, interactivity, and visual stability. Optimizing these factors improves SEO and user engagement.
+        </p>
+        <p class="pb-4">
+            Use this calculator to evaluate your Core Web Vitals score by entering values for Largest Contentful Paint (LCP), First Input Delay (FID), and Cumulative Layout Shift (CLS). The tool provides a performance rating based on Google's recommended thresholds.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Web Vitals Score = (100 - LCP Score - FID Score - (CLS × 100))</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>LCP:</strong> 2.5s</li>
+            <li><strong>FID:</strong> 50ms</li>
+            <li><strong>CLS:</strong> 0.1</li>
+            <li><strong>Score:</strong> (100 - 25 - 5 - 10) = <b>60</b> (Needs Improvement)</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Largest Contentful Paint (LCP) (s)</td>
+                        <td><input type="number" id="lcp" class="form-control" value="2.5" oninput="calculateWebVitalsPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>First Input Delay (FID) (ms)</td>
+                        <td><input type="number" id="fid" class="form-control" value="50" oninput="calculateWebVitalsPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Cumulative Layout Shift (CLS)</td>
+                        <td><input type="number" id="cls" class="form-control" value="0.1" oninput="calculateWebVitalsPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Score</td>
+                        <td><h4 class="text-primary" id="performanceScore">60 (Needs Improvement)</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="webVitalsChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let webVitalsChart;
+
+            function calculateWebVitalsPerformance() {
+                let lcp = parseFloat(document.getElementById('lcp').value) || 0;
+                let fid = parseFloat(document.getElementById('fid').value) || 0;
+                let cls = parseFloat(document.getElementById('cls').value) || 0;
+
+                let lcpScore = lcp * 10;
+                let fidScore = fid / 10;
+                let clsScore = cls * 100;
+
+                let performanceScore = 100 - (lcpScore + fidScore + clsScore);
+                performanceScore = Math.max(0, Math.min(100, performanceScore)); 
+
+                let rating = performanceScore >= 90 ? "Good" : performanceScore >= 50 ? "Needs Improvement" : "Poor";
+                document.getElementById('performanceScore').innerText = performanceScore.toFixed(2) + " (" + rating + ")";
+
+                updateChart(lcp, fid, cls);
+            }
+
+            function updateChart(lcp, fid, cls) {
+                let ctx = document.getElementById('webVitalsChart').getContext('2d');
+                if (webVitalsChart) {
+                    webVitalsChart.destroy();
+                }
+
+                webVitalsChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['LCP', 'FID', 'CLS'],
+                        datasets: [{
+                            data: [lcp, fid, cls],
+                            backgroundColor: ['#673AB7', '#FF9800', '#4CAF50'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What are Core Web Vitals?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Core Web Vitals are performance metrics defined by Google that measure page speed, interactivity, and visual stability, impacting search rankings and user experience.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my Core Web Vitals score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve Core Web Vitals, optimize images, use a fast hosting service, implement lazy loading, reduce JavaScript execution time, and enable caching.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Core Web Vitals Performance Calculator. All rights reserved.</p>
+        <p>Optimize your website performance to enhance user experience and SEO rankings.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

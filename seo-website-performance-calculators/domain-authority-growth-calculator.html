@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Authority Growth Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateDomainAuthorityGrowth()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Domain Authority Growth Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Domain Authority Growth Calculator helps you estimate the growth of your website's Domain Authority (DA) based on the number of backlinks and the quality of referring domains over time. This tool helps you track your website's SEO progress.
+        </p>
+
+        <p>
+            By inputting the current Domain Authority and setting an estimated growth factor, this calculator can help you visualize the potential increase in your DA over a specified period.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Estimated Domain Authority Growth = Current Domain Authority + (Backlinks × Quality Factor)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Current Domain Authority:</strong> 25</li>
+            <li><strong>Backlinks:</strong> 150</li>
+            <li><strong>Quality Factor:</strong> 0.02</li>
+            <li><strong>Estimated Growth:</strong> 25 + (150 × 0.02) = <b>28</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Current Domain Authority</td>
+                        <td><input type="number" id="currentDA" class="form-control" value="25" oninput="calculateDomainAuthorityGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td>Backlinks</td>
+                        <td><input type="number" id="backlinks" class="form-control" value="150" oninput="calculateDomainAuthorityGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td>Quality Factor</td>
+                        <td><input type="number" step="0.01" id="qualityFactor" class="form-control" value="0.02" oninput="calculateDomainAuthorityGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Domain Authority</td>
+                        <td><h4 class="text-primary" id="estimatedDA">28</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="growthChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let growthChart;
+
+            function calculateDomainAuthorityGrowth() {
+                let currentDA = parseFloat(document.getElementById('currentDA').value) || 0;
+                let backlinks = parseFloat(document.getElementById('backlinks').value) || 0;
+                let qualityFactor = parseFloat(document.getElementById('qualityFactor').value) || 0;
+
+                let estimatedDA = currentDA + (backlinks * qualityFactor);
+                document.getElementById('estimatedDA').innerText = estimatedDA.toFixed(2);
+
+                updateChart(estimatedDA);
+            }
+
+            function updateChart(estimatedDA) {
+                let ctx = document.getElementById('growthChart').getContext('2d');
+                if (growthChart) {
+                    growthChart.destroy();
+                }
+
+                growthChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Current DA', 'Estimated DA'],
+                        datasets: [{
+                            label: 'Domain Authority',
+                            data: [parseFloat(document.getElementById('currentDA').value), estimatedDA],
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                            fill: true,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Domain Authority (DA)?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Domain Authority (DA) is a score that predicts how well a website will rank on search engines. It is a measure developed by Moz, and it ranges from 0 to 100, with higher scores indicating a better ability to rank.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I increase my Domain Authority?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To increase your Domain Authority, you need to focus on building high-quality backlinks, improving on-site SEO, creating valuable content, and ensuring a strong overall website structure.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Domain Authority Growth Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

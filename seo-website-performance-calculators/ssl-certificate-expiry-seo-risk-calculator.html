@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSL Certificate Expiry & SEO Risk Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateSSLExpiryRisk()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>SSL Certificate Expiry & SEO Risk Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            SSL certificates are crucial for website security and SEO. When an SSL certificate nears its expiry date, it can negatively impact both your site’s security and your SEO rankings. Use this tool to calculate the SEO risk based on the expiry of your SSL certificate.
+        </p>
+        <p class="py-3">
+            Search engines, especially Google, prioritize secure websites. A missing or expired SSL certificate can lead to warnings or a drop in rankings. It's essential to ensure your SSL certificate remains valid to prevent these risks.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>SEO Risk = (Days Remaining Until Expiry / Total Expiry Time) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Days Remaining Until Expiry:</strong> 30</li>
+            <li><strong>Total Expiry Time:</strong> 365</li>
+            <li><strong>SEO Risk:</strong> (30 / 365) × 100 = <b>8.22%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Days Remaining Until Expiry</td>
+                        <td><input type="number" id="daysRemaining" class="form-control" value="30" oninput="calculateSSLExpiryRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Expiry Time (in Days)</td>
+                        <td><input type="number" id="totalExpiryTime" class="form-control" value="365" oninput="calculateSSLExpiryRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Risk (%)</td>
+                        <td><h4 class="text-danger" id="seoRisk">8.22%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="sslRiskChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let sslRiskChart;
+
+            function calculateSSLExpiryRisk() {
+                let daysRemaining = parseFloat(document.getElementById('daysRemaining').value) || 0;
+                let totalExpiryTime = parseFloat(document.getElementById('totalExpiryTime').value) || 365;
+
+                let seoRisk = (daysRemaining / totalExpiryTime) * 100;
+                seoRisk = Math.min(Math.max(seoRisk, 0), 100);
+                document.getElementById('seoRisk').innerText = seoRisk.toFixed(2) + '%';
+
+                updateChart(seoRisk);
+            }
+
+            function updateChart(seoRisk) {
+                let ctx = document.getElementById('sslRiskChart').getContext('2d');
+                if (sslRiskChart) {
+                    sslRiskChart.destroy();
+                }
+
+                sslRiskChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Risk', 'Safe'],
+                        datasets: [{
+                            label: 'SSL Expiry & SEO Risk',
+                            data: [seoRisk, 100 - seoRisk],
+                            backgroundColor: ['#FF5722', '#4CAF50'],
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How does an expired SSL certificate affect SEO?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        An expired SSL certificate can lead to warnings in browsers, causing a loss of trust. Search engines like Google may lower the rankings of websites with expired SSL certificates as they are considered insecure.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I prevent SEO risks due to SSL expiry?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To avoid SEO risks, ensure that your SSL certificate is renewed before it expires. Set reminders and monitor the expiration date to maintain website security and SEO performance.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 SSL Certificate Expiry & SEO Risk Calculator. All rights reserved.</p>
+        <p>Ensure your SSL certificate remains valid to prevent SEO risks.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

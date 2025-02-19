@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMP (Accelerated Mobile Pages) Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AMP (Accelerated Mobile Pages) Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The AMP Performance Calculator helps measure the impact of implementing AMP on your website's load time, page speed, and overall user experience. By using AMP, you can significantly enhance the mobile experience by reducing page load times.
+        </p>
+
+        <p>
+            AMP pages are lightweight versions of your original web pages, designed to load faster and perform better, particularly on mobile devices. This calculator allows you to compare the performance metrics of AMP vs. traditional pages.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Performance Score = (Traditional Load Time - AMP Load Time) / Traditional Load Time × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Traditional Page Load Time:</strong> 3.5 seconds</li>
+            <li><strong>AMP Page Load Time:</strong> 1.2 seconds</li>
+            <li><strong>Performance Score:</strong> ((3.5 - 1.2) / 3.5) × 100 = <b>65.71%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Traditional Page Load Time (seconds)</td>
+                        <td><input type="number" id="traditionalLoadTime" class="form-control" value="3.5" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>AMP Page Load Time (seconds)</td>
+                        <td><input type="number" id="ampLoadTime" class="form-control" value="1.2" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Score (%)</td>
+                        <td><h4 class="text-primary" id="performanceScore">65.71%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5">Frequently Asked Questions (FAQ)</h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        What is AMP (Accelerated Mobile Pages)?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AMP (Accelerated Mobile Pages) is an open-source framework designed to make web pages load faster on mobile devices. It uses a simplified version of HTML and other optimizations to reduce page load time, which improves the user experience.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        How does AMP improve page load times?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AMP improves page load times by stripping down the HTML and optimizing content for faster rendering. It uses preloaded resources, asynchronous JavaScript, and a content delivery network (CDN) to make the page load quickly, especially on mobile networks.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Can AMP hurt SEO performance?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        No, AMP itself does not hurt SEO. In fact, AMP can boost SEO by improving page load times, which are an important factor in search engine rankings. However, it's important to implement AMP correctly, ensuring that both AMP and non-AMP versions of a page are properly indexed.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Should I implement AMP for all pages on my site?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It's not necessary to implement AMP on every page. AMP is particularly useful for content-heavy pages, like blog posts, news articles, or product pages, that benefit from faster load times. You should evaluate whether your site and pages will benefit from AMP before implementing it across all content.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let performanceChart;
+
+            function calculatePerformance() {
+                let traditionalLoadTime = parseFloat(document.getElementById('traditionalLoadTime').value) || 0;
+                let ampLoadTime = parseFloat(document.getElementById('ampLoadTime').value) || 0;
+
+                if (traditionalLoadTime === 0) {
+                    alert('Traditional load time cannot be zero');
+                    return;
+                }
+
+                let performanceScore = ((traditionalLoadTime - ampLoadTime) / traditionalLoadTime) * 100;
+                document.getElementById('performanceScore').innerText = performanceScore.toFixed(2) + "%";
+
+                updateChart(performanceScore);
+            }
+
+            function updateChart(performanceScore) {
+                let ctx = document.getElementById('performanceChart').getContext('2d');
+                if (performanceChart) {
+                    performanceChart.destroy();
+                }
+
+                performanceChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['AMP vs Traditional'],
+                        datasets: [{
+                            label: 'Performance Score (%)',
+                            data: [performanceScore],
+                            backgroundColor: '#4CAF50',
+                            borderColor: '#388E3C',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculatePerformance;
+        </script>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AMP Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

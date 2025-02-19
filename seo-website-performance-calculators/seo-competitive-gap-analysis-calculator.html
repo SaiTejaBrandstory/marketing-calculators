@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Competitive Gap Analysis Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculateGapAnalysis()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>SEO Competitive Gap Analysis Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The SEO Competitive Gap Analysis Calculator helps you evaluate your website's SEO performance against competitors. By comparing keyword rankings and traffic data, you can identify opportunities to improve your site's visibility and traffic.
+        </p>
+
+        <p>
+            With this tool, you can get insights into how well your website is ranking for important keywords compared to your competitors. This helps you target gaps and areas for improvement in your SEO strategy.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>SEO Gap = |(Your Rank - Competitor's Rank) × Traffic Potential|</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Your Rank:</strong> 5</li>
+            <li><strong>Competitor's Rank:</strong> 8</li>
+            <li><strong>Traffic Potential:</strong> 2000</li>
+            <li><strong>SEO Gap:</strong> |(5 - 8) × 2000| = <b>6000</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Your Rank</td>
+                        <td><input type="number" id="yourRank" class="form-control" value="5" oninput="calculateGapAnalysis()"></td>
+                    </tr>
+                    <tr>
+                        <td>Competitor's Rank</td>
+                        <td><input type="number" id="competitorRank" class="form-control" value="8" oninput="calculateGapAnalysis()"></td>
+                    </tr>
+                    <tr>
+                        <td>Traffic Potential</td>
+                        <td><input type="number" id="trafficPotential" class="form-control" value="2000" oninput="calculateGapAnalysis()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Gap</td>
+                        <td><h4 class="text-primary" id="gapResult">6000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="gapChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let gapChart;
+
+            function calculateGapAnalysis() {
+                let yourRank = parseFloat(document.getElementById('yourRank').value) || 0;
+                let competitorRank = parseFloat(document.getElementById('competitorRank').value) || 0;
+                let trafficPotential = parseFloat(document.getElementById('trafficPotential').value) || 0;
+
+                // Calculate the SEO gap and ensure it's positive (absolute value)
+                let seoGap = Math.abs((yourRank - competitorRank) * trafficPotential);
+                document.getElementById('gapResult').innerText = seoGap.toFixed(0);
+
+                updateChart(seoGap);
+            }
+
+            function updateChart(seoGap) {
+                let ctx = document.getElementById('gapChart').getContext('2d');
+                if (gapChart) {
+                    gapChart.destroy();
+                }
+
+                gapChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['SEO Gap'],
+                        datasets: [{
+                            data: [seoGap],
+                            backgroundColor: ['#FF5733'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is an SEO Competitive Gap Analysis?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        An SEO Competitive Gap Analysis evaluates your website's SEO performance in comparison to your competitors, helping you identify areas where they may be outperforming you in search engine rankings and traffic potential.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my SEO gap?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your SEO gap, focus on optimizing your keyword targeting, improving content quality, building backlinks, and addressing any other areas where competitors may be outranking you.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 SEO Competitive Gap Analysis Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

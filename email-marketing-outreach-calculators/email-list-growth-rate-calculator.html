@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email List Growth Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Email List Growth Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Email List Growth Rate Calculator helps you determine the rate at which your email list is growing. By measuring how quickly your email subscriber list expands, you can evaluate the effectiveness of your email campaigns.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Growth Rate (%) = ((New Subscribers - Old Subscribers) / Old Subscribers) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Old Subscribers:</strong> 500</li>
+            <li><strong>New Subscribers:</strong> 600</li>
+            <li><strong>Growth Rate:</strong> ((600 - 500) / 500) × 100 = <b>20%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Old Subscribers</td>
+                        <td><input type="number" id="oldSubscribers" class="form-control" value="500" oninput="calculateGrowthRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>New Subscribers</td>
+                        <td><input type="number" id="newSubscribers" class="form-control" value="600" oninput="calculateGrowthRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Growth Rate (%)</td>
+                        <td><h4 class="text-primary" id="growthRate">20%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="growthChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let growthChart;
+
+            function calculateGrowthRate() {
+                let oldSubscribers = parseFloat(document.getElementById('oldSubscribers').value) || 0;
+                let newSubscribers = parseFloat(document.getElementById('newSubscribers').value) || 0;
+
+                if (oldSubscribers === 0) {
+                    alert('Old subscribers cannot be zero');
+                    return;
+                }
+
+                let growthRate = ((newSubscribers - oldSubscribers) / oldSubscribers) * 100;
+                document.getElementById('growthRate').innerText = growthRate.toFixed(2) + "%";
+
+                updateChart(growthRate);
+            }
+
+            function updateChart(growthRate) {
+                let ctx = document.getElementById('growthChart').getContext('2d');
+                if (growthChart) {
+                    growthChart.destroy();
+                }
+
+                growthChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Email List Growth'],
+                        datasets: [{
+                            label: 'Growth Rate',
+                            data: [growthRate],
+                            backgroundColor: '#4CAF50',
+                            borderColor: '#388E3C',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateGrowthRate;
+        </script>
+
+        <div class="my-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is the Email List Growth Rate?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The Email List Growth Rate refers to the percentage increase in the number of email subscribers over a specific period. It helps you evaluate the effectiveness of your email acquisition strategies.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            How can I increase my Email List Growth Rate?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            You can increase your Email List Growth Rate by using lead magnets, offering exclusive content, running referral programs, and promoting your signup forms across your digital channels.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            What is the significance of monitoring Email List Growth Rate?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Monitoring your Email List Growth Rate allows you to track the success of your email campaigns and strategies, giving you insights into how well you're engaging your audience and attracting new subscribers.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Email List Growth Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

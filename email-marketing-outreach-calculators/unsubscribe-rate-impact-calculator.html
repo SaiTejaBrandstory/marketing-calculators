@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe Rate Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Unsubscribe Rate Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Unsubscribe Rate Impact Calculator helps determine how the unsubscribe rate affects your email campaign performance. By understanding this impact, you can make better decisions about list segmentation and email content.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Deliverability Score = 100 - (Bounce Rate × 0.5) - (Spam Score × 1.5)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Bounce Rate:</strong> 8%</li>
+            <li><strong>Spam Score:</strong> 4</li>
+            <li><strong>Deliverability Score:</strong> 100 - (8 × 0.5) - (4 × 1.5) = <b>90%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Bounce Rate (%)</td>
+                        <td><input type="number" id="bounceRate" class="form-control" value="8" oninput="calculateDeliverability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Spam Score</td>
+                        <td><input type="number" id="spamScore" class="form-control" value="4" oninput="calculateDeliverability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Deliverability Score (%)</td>
+                        <td><h4 class="text-primary" id="deliverabilityScore">90.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="deliverabilityChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let deliverabilityChart;
+
+            function calculateDeliverability() {
+                let bounceRate = parseFloat(document.getElementById('bounceRate').value) || 0;
+                let spamScore = parseFloat(document.getElementById('spamScore').value) || 0;
+
+                let deliverabilityScore = 100 - (bounceRate * 0.5) - (spamScore * 1.5);
+                document.getElementById('deliverabilityScore').innerText = deliverabilityScore.toFixed(2) + "%";
+
+                updateChart(deliverabilityScore);
+            }
+
+            function updateChart(deliverabilityScore) {
+                let ctx = document.getElementById('deliverabilityChart').getContext('2d');
+                if (deliverabilityChart) {
+                    deliverabilityChart.destroy();
+                }
+
+                deliverabilityChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Deliverability Score'],
+                        datasets: [{
+                            label: 'Deliverability Score',
+                            data: [deliverabilityScore],
+                            backgroundColor: '#FF9800',
+                            borderColor: '#FB8C00',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            window.onload = calculateDeliverability;
+        </script>
+
+        <div class="my-5">
+            <h4>Frequently Asked Questions (FAQ)</h4>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            What is the purpose of the Deliverability Score?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The Deliverability Score is an estimate of how likely your emails are to land in the inbox of your recipients. A higher score indicates better email deliverability.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            How does the Bounce Rate affect my Deliverability Score?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A higher Bounce Rate negatively affects your deliverability score, as it signals that your emails are not reaching recipients' inboxes due to invalid email addresses or other issues.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            What is Spam Score, and how does it impact the Deliverability Score?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The Spam Score represents the likelihood that your emails are marked as spam by recipients' email services. A higher spam score results in a lower deliverability score, reducing your chances of reaching the inbox.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            How can I improve my Deliverability Score?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            To improve your deliverability score, ensure your email list is clean (i.e., remove invalid emails), avoid sending spammy content, and maintain low bounce and spam rates.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Unsubscribe Rate Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

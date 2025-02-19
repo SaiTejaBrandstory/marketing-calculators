@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination SEO Risk Calculator</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="calculatePaginationRisk()">
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Pagination SEO Risk Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            Pagination can be a great way to organize content across multiple pages. However, improper implementation can create SEO risks such as duplicate content and indexing issues. This tool helps you estimate the potential SEO risks caused by pagination and offers insights to mitigate them.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Pagination SEO Risk = (Duplicate Content Pages / Total Pages) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Duplicate Content Pages:</strong> 15</li>
+            <li><strong>Total Pages:</strong> 100</li>
+            <li><strong>Pagination SEO Risk:</strong> (15 / 100) × 100 = <b>15%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Duplicate Content Pages</td>
+                        <td><input type="number" id="duplicatePages" class="form-control" value="15" oninput="calculatePaginationRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Pages</td>
+                        <td><input type="number" id="totalPages" class="form-control" value="100" oninput="calculatePaginationRisk()"></td>
+                    </tr>
+                    <tr>
+                        <td>Pagination SEO Risk</td>
+                        <td><h4 class="text-danger" id="paginationRisk">15%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="paginationChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <script>
+            let paginationChart;
+
+            function calculatePaginationRisk() {
+                let duplicatePages = parseFloat(document.getElementById('duplicatePages').value) || 0;
+                let totalPages = parseFloat(document.getElementById('totalPages').value) || 0;
+
+                let paginationRisk = (duplicatePages / totalPages) * 100;
+                paginationRisk = Math.min(Math.max(paginationRisk, 0), 100);
+                document.getElementById('paginationRisk').innerText = paginationRisk.toFixed(2) + '%';
+
+                updateChart(duplicatePages, totalPages);
+            }
+
+            function updateChart(duplicatePages, totalPages) {
+                let ctx = document.getElementById('paginationChart').getContext('2d');
+                if (paginationChart) {
+                    paginationChart.destroy();
+                }
+
+                paginationChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Duplicate Content Pages', 'Other Pages'],
+                        datasets: [{
+                            label: 'Pagination Risk',
+                            data: [duplicatePages, totalPages - duplicatePages],
+                            backgroundColor: ['#FF5722', '#4CAF50'],
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <!-- FAQ Section -->
+        <h5 class="mt-5">Frequently Asked Questions (FAQ)</h5>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Pagination SEO Risk?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Pagination SEO Risk occurs when pagination is not implemented correctly, leading to issues like duplicate content and inefficient indexing. This can negatively impact your website’s SEO performance.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How to Avoid Pagination SEO Risk?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To avoid pagination SEO risk, make sure to use proper pagination tags (rel="next" and rel="prev"), avoid duplicate content, and ensure pages are well-indexed and optimized for search engines.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Pagination SEO Risk Calculator. All rights reserved.</p>
+        <p>Evaluate and optimize your pagination to prevent SEO risks and improve rankings.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
