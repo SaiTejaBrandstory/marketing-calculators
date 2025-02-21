@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF vs. HTML Content SEO Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>PDF vs. HTML Content SEO Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool compares the SEO performance of PDF and HTML content by evaluating their organic traffic and average ranking positions.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>SEO Performance Score (%) = (Organic Traffic × Ranking Factor) / 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>PDF Content:</strong> 
+                <ul>
+                    <li>Organic Traffic: 5,000</li>
+                    <li>Ranking Factor: 75</li>
+                    <li>SEO Performance Score = (5,000 × 75) / 100 = <b>3,750</b></li>
+                </ul>
+            </li>
+            <li><strong>HTML Content:</strong> 
+                <ul>
+                    <li>Organic Traffic: 8,000</li>
+                    <li>Ranking Factor: 85</li>
+                    <li>SEO Performance Score = (8,000 × 85) / 100 = <b>6,800</b></li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>SEO Performance Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Organic Traffic (PDF)</td>
+                        <td><input type="number" id="pdfTraffic" class="form-control" value="5000" oninput="calculateSEO()"></td>
+                    </tr>
+                    <tr>
+                        <td>Ranking Factor (PDF)</td>
+                        <td><input type="number" id="pdfRanking" class="form-control" value="75" oninput="calculateSEO()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Performance Score (PDF)</td>
+                        <td><h4 class="text-success" id="pdfScore">3,750</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Organic Traffic (HTML)</td>
+                        <td><input type="number" id="htmlTraffic" class="form-control" value="8000" oninput="calculateSEO()"></td>
+                    </tr>
+                    <tr>
+                        <td>Ranking Factor (HTML)</td>
+                        <td><input type="number" id="htmlRanking" class="form-control" value="85" oninput="calculateSEO()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Performance Score (HTML)</td>
+                        <td><h4 class="text-success" id="htmlScore">6,800</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="seoChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is SEO Performance Score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The SEO Performance Score evaluates how well your content ranks in search engines based on organic traffic and ranking position.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I calculate SEO Performance?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To calculate SEO Performance:
+                        <ul>
+                            <li>Find the total organic traffic.</li>
+                            <li>Determine the ranking factor (1-100 scale based on search position).</li>
+                            <li>Use the formula: SEO Performance Score = (Organic Traffic × Ranking Factor) / 100.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 PDF vs. HTML Content SEO Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let seoChart;
+
+        function calculateSEO() {
+            let pdfTraffic = parseFloat(document.getElementById('pdfTraffic').value) || 0;
+            let pdfRanking = parseFloat(document.getElementById('pdfRanking').value) || 0;
+            let htmlTraffic = parseFloat(document.getElementById('htmlTraffic').value) || 0;
+            let htmlRanking = parseFloat(document.getElementById('htmlRanking').value) || 0;
+
+            let pdfScore = (pdfTraffic * pdfRanking) / 100;
+            let htmlScore = (htmlTraffic * htmlRanking) / 100;
+
+            document.getElementById('pdfScore').innerText = pdfScore.toFixed(2);
+            document.getElementById('htmlScore').innerText = htmlScore.toFixed(2);
+
+            updateChart(pdfScore, htmlScore);
+        }
+
+        function updateChart(pdfScore, htmlScore) {
+            let ctx = document.getElementById('seoChart').getContext('2d');
+            if (seoChart) {
+                seoChart.destroy();
+            }
+
+            seoChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['PDF Content', 'HTML Content'],
+                    datasets: [{
+                        label: 'SEO Performance Score',
+                        data: [pdfScore, htmlScore],
+                        backgroundColor: ['#FF9800', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateSEO;
+    </script>
+</body>
+</html>

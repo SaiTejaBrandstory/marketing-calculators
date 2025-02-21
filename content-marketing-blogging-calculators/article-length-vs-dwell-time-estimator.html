@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Length vs. Dwell Time Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Article Length vs. Dwell Time Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool estimates the dwell time (the amount of time a reader spends on your article) based on the length of the article (word count).
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Dwell Time (minutes) = (Word Count / Average Words per Minute) × 60</strong></p>
+        <p>Where:</p>
+        <ul>
+            <li><strong>Average Words per Minute:</strong> 200 words/minute (adjustable)</li>
+        </ul>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Word Count:</strong> 1000</li>
+            <li><strong>Average Words per Minute:</strong> 200</li>
+            <li><strong>Dwell Time:</strong> (1000 / 200) × 60 = 300 minutes</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Word Count</td>
+                        <td><input type="number" id="wordCount" class="form-control" value="1000" oninput="calculateDwellTime()"></td>
+                    </tr>
+                    <tr>
+                        <td>Average Words per Minute</td>
+                        <td><input type="number" id="wordsPerMinute" class="form-control" value="200" oninput="calculateDwellTime()"></td>
+                    </tr>
+                    <tr>
+                        <td>Dwell Time (minutes)</td>
+                        <td><h4 class="text-danger" id="dwellTimeResult">300</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="dwellTimeChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Dwell Time?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Dwell time is the amount of time a user spends on a webpage after clicking on a link before returning to the search engine results page or leaving the site.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What does a high Dwell Time indicate?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher dwell time indicates that readers find your content engaging, and they are spending more time on the page, which could improve SEO rankings.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I increase Dwell Time?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To increase dwell time:
+                        <ul>
+                            <li>Write engaging and high-quality content.</li>
+                            <li>Use multimedia elements like images, videos, and infographics.</li>
+                            <li>Ensure your articles are well-structured and easy to read.</li>
+                            <li>Use internal links to keep users browsing your site.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Article Length vs. Dwell Time Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let dwellTimeChart;
+
+        function calculateDwellTime() {
+            let wordCount = parseFloat(document.getElementById('wordCount').value) || 0;
+            let wordsPerMinute = parseFloat(document.getElementById('wordsPerMinute').value) || 0;
+
+            if (wordCount === 0 || wordsPerMinute === 0) {
+                alert('Word count and words per minute cannot be zero');
+                return;
+            }
+
+            let dwellTime = (wordCount / wordsPerMinute) * 60;
+            document.getElementById('dwellTimeResult').innerText = dwellTime.toFixed(2);
+
+            updateChart(dwellTime);
+        }
+
+        function updateChart(dwellTime) {
+            let ctx = document.getElementById('dwellTimeChart').getContext('2d');
+            if (dwellTimeChart) {
+                dwellTimeChart.destroy();
+            }
+
+            dwellTimeChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Time Spent on Article', 'Remaining Time'],
+                    datasets: [{
+                        data: [dwellTime, 1440 - dwellTime],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateDwellTime;
+    </script>
+</body>
+</html>

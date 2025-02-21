@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paid Content Promotion ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Paid Content Promotion ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-3">
+            Calculate the return on investment (ROI) for your paid content promotion campaigns using key metrics like ad spend, conversions, and revenue generated.
+        </p>
+        
+        <h5>Formula:</h5>
+        <p><strong>ROI (%) = [(Revenue - Ad Spend) / Ad Spend] × 100</strong></p>
+        
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Ad Spend:</strong> ₹10,000</li>
+            <li><strong>Revenue Generated:</strong> ₹25,000</li>
+            <li><strong>ROI:</strong> [(₹25,000 - ₹10,000) / ₹10,000] × 100 = 150%</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Ad Spend (₹)</td>
+                        <td><input type="number" id="adSpend" class="form-control" value="10000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Generated (₹)</td>
+                        <td><input type="number" id="revenue" class="form-control" value="25000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Calculated ROI (%)</td>
+                        <td><h4 class="text-danger" id="roiResult">150</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-center">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is ROI in Paid Content Promotion?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI (Return on Investment) measures how much profit or loss you have made from your ad spend in percentage terms.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my ROI?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve ROI:
+                        <ul>
+                            <li>Optimize ad targeting and creatives.</li>
+                            <li>Use high-converting landing pages.</li>
+                            <li>Monitor and adjust your ad spend based on performance.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Paid Content Promotion ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+
+            if (adSpend === 0) {
+                alert('Ad Spend cannot be zero');
+                return;
+            }
+
+            let roi = ((revenue - adSpend) / adSpend) * 100;
+            roi = Math.max(-100, roi.toFixed(2)); // Prevent extreme negative values
+            document.getElementById('roiResult').innerText = roi;
+            updateChart(roi);
+        }
+
+        function updateChart(roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            let colors = ['#4CAF50', '#FF9800'];
+            roiChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ROI', 'Remaining'],
+                    datasets: [{
+                        data: [roi, 100 - roi],
+                        backgroundColor: colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = function() {
+            calculateROI();
+        };
+    </script>
+</body>
+</html>

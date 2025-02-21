@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast Transcript SEO Value Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="text-dark">
+    <header class="text-center py-3 bg-dark">
+        <h1>Podcast Transcript SEO Value Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you estimate the SEO value of a podcast transcript based on its word count, keyword density, and other SEO factors.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>SEO Value = (Word Count * Keyword Density) - (Word Count * SEO Competitiveness Factor)</strong></p>
+
+        <h4>Example Calculation:</h4>
+        <p><strong>Word Count: 1500</strong></p>
+        <p><strong>Keyword Density: 5%</strong></p>
+        <p><strong>SEO Competitiveness Factor: 0.2</strong></p>
+        <p><strong>SEO Value Calculation:</strong></p>
+        <p><code>SEO Value = (1500 * 5%) - (1500 * 0.2) = (75) - (300) = -225</code></p>
+        
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Podcast Transcript Metrics</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Word Count</td>
+                        <td><input type="number" id="wordCount" class="form-control" value="1500" oninput="calculateSEOValue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Keyword Density (%)</td>
+                        <td><input type="number" id="keywordDensity" class="form-control" value="5" oninput="calculateSEOValue()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Competitiveness Factor</td>
+                        <td><input type="number" id="seoCompetitiveness" class="form-control" value="0.2" step="0.01" oninput="calculateSEOValue()"></td>
+                    </tr>
+                    <tr>
+                        <td>SEO Value</td>
+                        <td><h4 class="text-info" id="seoValue">0</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4>SEO Value Breakdown</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Calculated SEO Value</td>
+                        <td><h4 class="text-success" id="calculatedSEOValue">0</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 my-4 d-flex justify-content-center">
+                <canvas id="seoValueChart" style="max-width: 500px; max-height: 500px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is SEO Value for Podcast Transcripts?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        SEO value refers to how well a podcast transcript is optimized for search engines. It takes into account factors like word count, keyword usage, and how competitive the keywords are.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How is the SEO Value calculated?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The SEO Value is calculated using the formula:
+                        <ul>
+                            <li><strong>SEO Value = (Word Count * Keyword Density) - (Word Count * SEO Competitiveness Factor)</strong></li>
+                        </ul>
+                        It combines the length of the transcript, how often keywords are used, and the competitiveness of the keywords.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Podcast Transcript SEO Value Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let seoValueChart;
+
+        function calculateSEOValue() {
+            let wordCount = parseFloat(document.getElementById('wordCount').value) || 0;
+            let keywordDensity = parseFloat(document.getElementById('keywordDensity').value) || 0;
+            let seoCompetitiveness = parseFloat(document.getElementById('seoCompetitiveness').value) || 0;
+
+            let seoValue = (wordCount * (keywordDensity / 100)) - (wordCount * seoCompetitiveness);
+
+            document.getElementById('seoValue').innerText = seoValue.toFixed(2);
+            document.getElementById('calculatedSEOValue').innerText = seoValue.toFixed(2);
+
+            updateChart(seoValue);
+        }
+
+        function updateChart(seoValue) {
+            let ctx = document.getElementById('seoValueChart').getContext('2d');
+            if (seoValueChart) {
+                seoValueChart.destroy();
+            }
+
+            seoValueChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['SEO Value'],
+                    datasets: [{
+                        label: 'Podcast SEO Value',
+                        data: [seoValue],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateSEOValue;
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Readability Score Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Readability Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps calculate the readability score of your text using the Flesch-Kincaid formula, which is one of the most common methods of assessing readability.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Flesch Reading Ease = 206.835 - (1.015 × ASL) - (84.6 × ASW)</strong></p>
+        <p>Where:</p>
+        <ul>
+            <li><strong>ASL (Average Sentence Length)</strong> = Total words / Total sentences</li>
+            <li><strong>ASW (Average Syllables per Word)</strong> = Total syllables / Total words</li>
+        </ul>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Sentences:</strong> 5</li>
+            <li><strong>Total Words:</strong> 100</li>
+            <li><strong>Total Syllables:</strong> 150</li>
+            <li><strong>ASL:</strong> 100 / 5 = 20</li>
+            <li><strong>ASW:</strong> 150 / 100 = 1.5</li>
+            <li><strong>Flesch Reading Ease:</strong> 206.835 - (1.015 × 20) - (84.6 × 1.5) = 60</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Sentences</td>
+                        <td><input type="number" id="sentences" class="form-control" value="5" oninput="calculateReadability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Words</td>
+                        <td><input type="number" id="words" class="form-control" value="100" oninput="calculateReadability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Syllables</td>
+                        <td><input type="number" id="syllables" class="form-control" value="150" oninput="calculateReadability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Readability Score</td>
+                        <td><h4 class="text-danger" id="readabilityResult">60</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="readabilityChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Flesch Reading Ease score?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Flesch Reading Ease score is a measure of how easy a text is to read. Higher scores indicate easier-to-read text, while lower scores indicate more complex text.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What does a high Flesch Reading Ease score mean?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher score means the text is easier to read. Typically, a score of 60-80 is considered optimal for general readability.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I improve my readability score?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve readability:
+                        <ul>
+                            <li>Use shorter sentences and simpler words.</li>
+                            <li>Avoid complex sentence structures.</li>
+                            <li>Use headings and bullet points for clarity.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Readability Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let readabilityChart;
+
+        function calculateReadability() {
+            let sentences = parseFloat(document.getElementById('sentences').value) || 0;
+            let words = parseFloat(document.getElementById('words').value) || 0;
+            let syllables = parseFloat(document.getElementById('syllables').value) || 0;
+
+            if (sentences === 0 || words === 0) {
+                alert('Total sentences and words cannot be zero');
+                return;
+            }
+
+            let asl = words / sentences;
+            let asw = syllables / words;
+            let readabilityScore = 206.835 - (1.015 * asl) - (84.6 * asw);
+            document.getElementById('readabilityResult').innerText = readabilityScore.toFixed(2);
+
+            updateChart(readabilityScore);
+        }
+
+        function updateChart(readabilityScore) {
+            let ctx = document.getElementById('readabilityChart').getContext('2d');
+            if (readabilityChart) {
+                readabilityChart.destroy();
+            }
+
+            readabilityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Readable', 'Not Readable'],
+                    datasets: [{
+                        data: [readabilityScore, 100 - readabilityScore],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateReadability;
+    </script>
+</body>
+</html>

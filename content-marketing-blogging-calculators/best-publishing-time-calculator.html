@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Publishing Time Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Best Publishing Time Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you determine the best time to publish content based on past performance data (such as engagement, clicks, etc.).
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Best Publishing Time = (Peak Engagement Time + Optimal Audience Activity Window) / 2</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Peak Engagement Time:</strong> 3 PM</li>
+            <li><strong>Optimal Audience Activity Window:</strong> 1 hour before or after</li>
+            <li><strong>Best Publishing Time:</strong> (3 PM + 1 hour) = <b>4 PM</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Peak Engagement Time (Hour)</td>
+                        <td><input type="number" id="peakEngagementTime" class="form-control" value="15" oninput="calculateBestTime()"></td>
+                    </tr>
+                    <tr>
+                        <td>Optimal Audience Activity Window (hours)</td>
+                        <td><input type="number" id="audienceWindow" class="form-control" value="1" oninput="calculateBestTime()"></td>
+                    </tr>
+                    <tr>
+                        <td>Best Publishing Time (Hour)</td>
+                        <td><h4 class="text-success" id="bestTimeResult">16:00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="bestTimeChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the Best Publishing Time?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Best Publishing Time is the ideal time window to publish your content based on previous data, audience engagement, and behavior patterns to maximize reach.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How can I improve my publishing time?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        By analyzing audience activity patterns, past performance data, and engagement rates at different times of the day, you can optimize the publishing time for your content.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Best Publishing Time Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let bestTimeChart;
+
+        function calculateBestTime() {
+            let peakEngagementTime = parseFloat(document.getElementById('peakEngagementTime').value) || 0;
+            let audienceWindow = parseFloat(document.getElementById('audienceWindow').value) || 0;
+
+            let bestPublishingTime = peakEngagementTime + audienceWindow;
+            document.getElementById('bestTimeResult').innerText = bestPublishingTime + ":00";
+
+            updateChart(bestPublishingTime);
+        }
+
+        function updateChart(bestPublishingTime) {
+            let ctx = document.getElementById('bestTimeChart').getContext('2d');
+            if (bestTimeChart) {
+                bestTimeChart.destroy();
+            }
+
+            bestTimeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Best Time'],
+                    datasets: [{
+                        label: 'Publishing Time',
+                        data: [bestPublishingTime],
+                        backgroundColor: ['#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateBestTime;
+    </script>
+</body>
+</html>

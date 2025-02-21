@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog vs. Whitepaper Lead Generation Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Blog vs. Whitepaper Lead Generation Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you compare the lead generation potential of blogs and whitepapers based on traffic and conversion rates.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Lead Generation = Traffic × Conversion Rate (%)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Blog Traffic:</strong> 1000 visitors</li>
+            <li><strong>Blog Conversion Rate:</strong> 5%</li>
+            <li><strong>Blog Lead Generation:</strong> 1000 × 5% = <b>50 leads</b></li>
+            <li><strong>Whitepaper Traffic:</strong> 1000 visitors</li>
+            <li><strong>Whitepaper Conversion Rate:</strong> 8%</li>
+            <li><strong>Whitepaper Lead Generation:</strong> 1000 × 8% = <b>80 leads</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Blog Traffic</td>
+                        <td><input type="number" id="blogTraffic" class="form-control" value="1000" oninput="calculateLeadGeneration()"></td>
+                    </tr>
+                    <tr>
+                        <td>Blog Conversion Rate (%)</td>
+                        <td><input type="number" id="blogConversion" class="form-control" value="5" oninput="calculateLeadGeneration()"></td>
+                    </tr>
+                    <tr>
+                        <td>Blog Lead Generation</td>
+                        <td><h4 class="text-success" id="blogLeadResult">50</h4></td>
+                    </tr>
+                </table>
+
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Whitepaper Traffic</td>
+                        <td><input type="number" id="whitepaperTraffic" class="form-control" value="1000" oninput="calculateLeadGeneration()"></td>
+                    </tr>
+                    <tr>
+                        <td>Whitepaper Conversion Rate (%)</td>
+                        <td><input type="number" id="whitepaperConversion" class="form-control" value="8" oninput="calculateLeadGeneration()"></td>
+                    </tr>
+                    <tr>
+                        <td>Whitepaper Lead Generation</td>
+                        <td><h4 class="text-success" id="whitepaperLeadResult">80</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="leadGenChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How do blogs compare to whitepapers for lead generation?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Blogs are a great way to drive traffic to your website but tend to have lower conversion rates compared to whitepapers, which can provide more in-depth value and attract high-quality leads.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is the optimal conversion rate for blogs and whitepapers?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Blogs typically have conversion rates between 1-5%, while whitepapers tend to have higher conversion rates (around 5-10%) due to the valuable, in-depth content offered to users.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Blog vs. Whitepaper Lead Generation Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let leadGenChart;
+
+        function calculateLeadGeneration() {
+            let blogTraffic = parseFloat(document.getElementById('blogTraffic').value) || 0;
+            let blogConversion = parseFloat(document.getElementById('blogConversion').value) || 0;
+            let whitepaperTraffic = parseFloat(document.getElementById('whitepaperTraffic').value) || 0;
+            let whitepaperConversion = parseFloat(document.getElementById('whitepaperConversion').value) || 0;
+
+            let blogLeadGen = (blogTraffic * blogConversion) / 100;
+            let whitepaperLeadGen = (whitepaperTraffic * whitepaperConversion) / 100;
+
+            document.getElementById('blogLeadResult').innerText = blogLeadGen.toFixed(2);
+            document.getElementById('whitepaperLeadResult').innerText = whitepaperLeadGen.toFixed(2);
+
+            updateChart(blogLeadGen, whitepaperLeadGen);
+        }
+
+        function updateChart(blogLeadGen, whitepaperLeadGen) {
+            let ctx = document.getElementById('leadGenChart').getContext('2d');
+            if (leadGenChart) {
+                leadGenChart.destroy();
+            }
+
+            leadGenChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Blog', 'Whitepaper'],
+                    datasets: [{
+                        label: 'Lead Generation',
+                        data: [blogLeadGen, whitepaperLeadGen],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateLeadGeneration;
+    </script>
+</body>
+</html>

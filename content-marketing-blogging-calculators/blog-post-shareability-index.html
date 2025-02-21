@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Shareability Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Blog Post Shareability Index</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates the shareability index of a blog post based on its factors such as emotional impact, readability, and relevance.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Shareability Index = (Emotional Impact + Readability + Relevance) / 3</strong></p>
+        <p>Where:</p>
+        <ul>
+            <li><strong>Emotional Impact:</strong> Rate from 1-10 (10 being most emotional)</li>
+            <li><strong>Readability:</strong> Rate from 1-10 (10 being most readable)</li>
+            <li><strong>Relevance:</strong> Rate from 1-10 (10 being most relevant)</li>
+        </ul>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Emotional Impact:</strong> 8</li>
+            <li><strong>Readability:</strong> 9</li>
+            <li><strong>Relevance:</strong> 7</li>
+            <li><strong>Shareability Index:</strong> (8 + 9 + 7) / 3 = <b>8</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Emotional Impact</td>
+                        <td><input type="number" id="emotionalImpact" class="form-control" value="8" oninput="calculateShareabilityIndex()"></td>
+                    </tr>
+                    <tr>
+                        <td>Readability</td>
+                        <td><input type="number" id="readability" class="form-control" value="9" oninput="calculateShareabilityIndex()"></td>
+                    </tr>
+                    <tr>
+                        <td>Relevance</td>
+                        <td><input type="number" id="relevance" class="form-control" value="7" oninput="calculateShareabilityIndex()"></td>
+                    </tr>
+                    <tr>
+                        <td>Shareability Index</td>
+                        <td><h4 class="text-danger" id="shareabilityScoreResult">8</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="shareabilityChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Shareability Index?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Shareability Index is a score that indicates how likely a blog post is to be shared based on its emotional impact, readability, and relevance.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is a good Shareability Index?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A Shareability Index of 8 or higher is considered good. A lower score indicates that the post may need improvement in one or more factors to become more shareable.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I improve my Shareability Index?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve the Shareability Index:
+                        <ul>
+                            <li>Make your content more emotionally engaging</li>
+                            <li>Improve readability with shorter sentences and simple language</li>
+                            <li>Ensure that the content is relevant to your audience's interests</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Blog Post Shareability Index Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let shareabilityChart;
+
+        function calculateShareabilityIndex() {
+            let emotionalImpact = parseFloat(document.getElementById('emotionalImpact').value) || 0;
+            let readability = parseFloat(document.getElementById('readability').value) || 0;
+            let relevance = parseFloat(document.getElementById('relevance').value) || 0;
+
+            let shareabilityIndex = (emotionalImpact + readability + relevance) / 3;
+            document.getElementById('shareabilityScoreResult').innerText = shareabilityIndex.toFixed(2);
+
+            updateChart(shareabilityIndex);
+        }
+
+        function updateChart(shareabilityIndex) {
+            let ctx = document.getElementById('shareabilityChart').getContext('2d');
+            if (shareabilityChart) {
+                shareabilityChart.destroy();
+            }
+
+            shareabilityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Shareability Index', 'Remaining'],
+                    datasets: [{
+                        data: [shareabilityIndex * 10, 100 - shareabilityIndex * 10],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateShareabilityIndex;
+    </script>
+</body>
+</html>

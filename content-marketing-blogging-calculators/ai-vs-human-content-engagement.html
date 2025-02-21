@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generated vs. Human Content Engagement</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Generated vs. Human Content Engagement</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you compare engagement metrics between AI-generated and human-generated content, providing insights into which content type performs better.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Engagement Rate (%) = (Engagement / Total Reach) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Engagement (AI):</strong> 500</li>
+            <li><strong>Total Reach (AI):</strong> 10000</li>
+            <li><strong>Engagement Rate (AI):</strong> (500 / 10000) × 100 = <b>5%</b></li>
+            <li><strong>Engagement (Human):</strong> 700</li>
+            <li><strong>Total Reach (Human):</strong> 10000</li>
+            <li><strong>Engagement Rate (Human):</strong> (700 / 10000) × 100 = <b>7%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>AI Content Engagement</td>
+                        <td><input type="number" id="aiEngagement" class="form-control" value="500" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI Content Reach</td>
+                        <td><input type="number" id="aiReach" class="form-control" value="10000" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Content Engagement</td>
+                        <td><input type="number" id="humanEngagement" class="form-control" value="700" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>Human Content Reach</td>
+                        <td><input type="number" id="humanReach" class="form-control" value="10000" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td>AI Content Engagement Rate (%)</td>
+                        <td><h4 class="text-danger" id="aiEngagementRate">5%</h4></td>
+                    </tr>
+                    <tr>
+                        <td>Human Content Engagement Rate (%)</td>
+                        <td><h4 class="text-danger" id="humanEngagementRate">7%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="engagementChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Engagement Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Engagement Rate is a metric that measures the level of interaction (likes, shares, comments, etc.) with a piece of content relative to its reach (the number of people who have seen it).
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What does this tool calculate?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This tool calculates the engagement rate of both AI-generated and human-generated content, and compares their performance.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I improve engagement?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve engagement:
+                        <ul>
+                            <li>Optimize content for your target audience</li>
+                            <li>Use compelling headlines and calls to action</li>
+                            <li>Engage with users through comments and feedback</li>
+                            <li>Publish consistently and strategically</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Generated vs. Human Content Engagement Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let engagementChart;
+
+        function calculateEngagement() {
+            let aiEngagement = parseFloat(document.getElementById('aiEngagement').value) || 0;
+            let aiReach = parseFloat(document.getElementById('aiReach').value) || 0;
+            let humanEngagement = parseFloat(document.getElementById('humanEngagement').value) || 0;
+            let humanReach = parseFloat(document.getElementById('humanReach').value) || 0;
+
+            let aiEngagementRate = (aiEngagement / aiReach) * 100;
+            let humanEngagementRate = (humanEngagement / humanReach) * 100;
+
+            document.getElementById('aiEngagementRate').innerText = aiEngagementRate.toFixed(2) + "%";
+            document.getElementById('humanEngagementRate').innerText = humanEngagementRate.toFixed(2) + "%";
+
+            updateChart(aiEngagementRate, humanEngagementRate);
+        }
+
+        function updateChart(aiEngagementRate, humanEngagementRate) {
+            let ctx = document.getElementById('engagementChart').getContext('2d');
+            if (engagementChart) {
+                engagementChart.destroy();
+            }
+
+            engagementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['AI-Generated Content', 'Human-Generated Content'],
+                    datasets: [{
+                        data: [aiEngagementRate, humanEngagementRate],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateEngagement;
+    </script>
+</body>
+</html>

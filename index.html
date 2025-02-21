@@ -72,7 +72,7 @@
             /* color: #ff0000; */
         }
 
-        #calculator-list, #social-media-list, #cro-list, #seo-performance-list, #email-marketing-outreach-list{
+        #calculator-list, #social-media-list, #cro-list, #seo-performance-list, #email-marketing-outreach-list, #content-marketing-blogging-list{
             margin: 10px;
         }
 
@@ -132,6 +132,13 @@
         <h2 class="category-title">Email Marketing & Outreach Calculators</h2>
         <div class="row" id="email-marketing-outreach-list"></div>
     </section>
+
+    <!-- Content Marketing & Blogging Calculators Section -->
+    <section id="content-marketing-blogging-calculators" class="category-section container">
+        <h2 class="category-title">Content Marketing & Blogging Calculators</h2>
+        <div class="row" id="content-marketing-blogging-list"></div>
+    </section>
+
 
 
 
@@ -402,9 +409,62 @@
                 {"name":"Email Campaign Retargeting Effectiveness Calculator","link":"email-campaign-retargeting-effectiveness-calculator.html","icon":"fas fa-redo-alt","color":"#4CAF50"},
                 {"name":"Time-to-First-Response in Email Outreach Calculator","link":"time-to-first-response-in-email-outreach-calculator.html","icon":"fas fa-clock","color":"#FF9800"},
                 {"name":"Lead Nurturing Journey Impact Calculator","link":"lead-nurturing-journey-impact-calculator.html","icon":"fas fa-users","color":"#4CAF50"}
+            ];
 
+            const contentMarketingBloggingCalculators = [
+                {"name":"Blog Post ROI Calculator","link":"blog-post-roi-calculator.html","icon":"fas fa-chart-line","color":"#FF9800"},
+                {"name":"Content Engagement Rate Calculator","link":"content-engagement-rate-calculator.html","icon":"fas fa-chart-pie","color":"#8BC34A"},
+                {"name":"Readability Score Calculator","link":"readability-score-calculator.html","icon":"fas fa-file-alt","color":"#03A9F4"},
+                {"name":"Article Length vs. Dwell Time Estimator","link":"article-length-vs-dwell-time-estimator.html","icon":"fas fa-clock","color":"#FF9800"},
+                {"name":"Headline Clickability Score Calculator","link":"headline-clickability-score-calculator.html","icon":"fas fa-heading","color":"#FF5722"},
+                {"name":"Blog Post Shareability Index","link":"blog-post-shareability-index.html","icon":"fas fa-share-alt","color":"#2196F3"},
+                {"name":"AI-Generated vs. Human Content Engagement","link":"ai-vs-human-content-engagement.html","icon":"fas fa-chart-bar","color":"#FF5722"},
+                {"name":"Evergreen Content Longevity Estimator","link":"evergreen-content-longevity-estimator.html","icon":"fas fa-calendar-alt","color":"#4CAF50"},
+                {"name":"Content Decay Risk Detector","link":"content-decay-risk-detector.html","icon":"fas fa-sync-alt","color":"#FF5722"},
+                {"name":"Best Publishing Time Calculator","link":"best-publishing-time-calculator.html","icon":"fas fa-clock","color":"#FF9800"},
+                {"name":"Word Count vs. Ranking Probability Calculator","link":"word-count-vs-ranking-probability-calculator.html","icon":"fas fa-chart-bar","color":"#4CAF50"},
+                {"name":"Video vs. Text Content ROI Calculator","link":"video-vs-text-content-roi-calculator.html","icon":"fas fa-video","color":"#FF9800"},
+                {"name":"Listicle vs. How-To Article Performance Calculator","link":"listicle-vs-how-to-article-performance-calculator.html","icon":"fas fa-list-alt","color":"#FF5722"},
+                {"name":"Storytelling Effectiveness Score Calculator","link":"storytelling-effectiveness-score-calculator.html","icon":"fas fa-book-open","color":"#FF9800"},
+                {"name":"Interactive Content Engagement Lift Calculator","link":"interactive-content-engagement-lift-calculator.html","icon":"fas fa-chart-line","color":"#FF5722"},
+                {"name":"Content Distribution ROI Calculator","link":"content-distribution-roi-calculator.html","icon":"fas fa-dollar-sign","color":"#4CAF50"},
+                {"name":"Newsletter Signup Rate from Blog Calculator","link":"newsletter-signup-rate-from-blog-calculator.html","icon":"fas fa-envelope","color":"#2196F3"},
+                {"name":"Syndicated Content Performance Estimator","link":"syndicated-content-performance-estimator.html","icon":"fas fa-share-alt","color":"#2196F3"},
+                {"name":"Skyscraper Content ROI Calculator","link":"skyscraper-content-roi-calculator.html","icon":"fas fa-chart-line","color":"#FF9800"},
+                {"name":"CTA Placement Impact on Blog Conversions","link":"cta-placement-impact-on-blog-conversions.html","icon":"fas fa-bullhorn","color":"#FF5722"},
+                {"name":"User-Generated Content (UGC) ROI Calculator","link":"ugc-roi-calculator.html","icon":"fas fa-chart-line","color":"#4CAF50"},
+                {"name":"Content Refresh ROI Estimator","link":"content-refresh-roi-estimator.html","icon":"fas fa-sync-alt","color":"#FF5722"},
+                {"name":"Social Media vs. Blog Content Engagement Rate","link":"social-media-vs-blog-content-engagement-rate.html","icon":"fas fa-chart-bar","color":"#FF9800"},
+                {"name":"Blog Post Personalization Impact Calculator","link":"blog-post-personalization-impact-calculator.html","icon":"fas fa-cogs","color":"#FF5722"},
+                {"name":"AI-Generated Content Detection Probability Calculator","link":"ai-generated-content-detection-probability-calculator.html","icon":"fas fa-robot","color":"#009688"},
+                {"name":"Blog Post Video Embed Engagement Score","link":"blog-post-video-embed-engagement-score.html","icon":"fas fa-video","color":"#FF5722"},
+                {"name":"Content Marketing Funnel Drop-Off Rate Calculator","link":"content-marketing-funnel-drop-off-rate-calculator.html","icon":"fas fa-chart-line","color":"#FF5722"},
+                {"name":"Podcast Transcript SEO Value Calculator","link":"podcast-transcript-seo-value-calculator.html","icon":"fas fa-podcast","color":"#2196F3"},
+                {"name":"Guest Post Performance Estimator","link":"guest-post-performance-estimator.html","icon":"fas fa-chart-line","color":"#FF9800"},
+                {"name":"Paid Content Promotion ROI Calculator","link":"paid-content-promotion-roi-calculator.html","icon":"fas fa-ad","color":"#4CAF50"},
+                {"name":"Webinar Registration Rate Calculator","link":"webinar-registration-rate-calculator.html","icon":"fas fa-user-check","color":"#673AB7"},
+                {"name":"Interactive Quizzes vs. Static Content Performance Calculator","link":"interactive-quizzes-vs-static-content-performance-calculator.html","icon":"fas fa-chart-bar","color":"#4CAF50"},
+                {"name":"Numbered Lists vs. Bullet Points in Blog Posts Calculator","link":"numbered-lists-vs-bullet-points-in-blog-posts-calculator.html","icon":"fas fa-list-ol","color":"#2196F3"},
+                {"name":"Blog Post Bounce Rate Reduction Estimator","link":"blog-post-bounce-rate-reduction-estimator.html","icon":"fas fa-chart-line","color":"#FF5722"},
+                {"name":"Email Capture Rate from Blog Traffic","link":"email-capture-rate-from-blog-traffic.html","icon":"fas fa-envelope","color":"#2196F3"},
+                {"name":"Article Syndication SEO Risk Estimator","link":"article-syndication-seo-risk-estimator.html","icon":"fas fa-rss","color":"#FF5722"},
+                {"name":"Blog vs. Whitepaper Lead Generation Calculator","link":"blog-vs-whitepaper-lead-generation-calculator.html","icon":"fas fa-file-alt","color":"#4CAF50"},
+                {"name":"Comment Engagement Rate on Blog Posts","link":"comment-engagement-rate-calculator.html","icon":"fas fa-comments","color":"#FF5722"},
+                {"name":"Image-Heavy vs. Text-Heavy Content Performance Calculator","link":"image-text-content-performance-calculator.html","icon":"fas fa-image","color":"#FF9800"},
+                {"name":"Infographic Shareability Score Calculator","link":"infographic-shareability-score-calculator.html","icon":"fas fa-chart-pie","color":"#FF9800"},
+                {"name":"Video Length vs. Audience Retention Calculator","link":"video-length-vs-audience-retention-calculator.html","icon":"fas fa-video","color":"#4CAF50"},
+                {"name":"Blog Post Monetization ROI Calculator","link":"blog-post-monetization-roi-calculator.html","icon":"fas fa-dollar-sign","color":"#FF9800"},
+                {"name":"E-Book Download Rate Estimator","link":"e-book-download-rate-estimator.html","icon":"fas fa-book","color":"#FF5722"},
+                {"name":"PDF vs. HTML Content SEO Performance Calculator","link":"pdf-vs-html-seo-performance-calculator.html","icon":"fas fa-search","color":"#2196F3"},
+                {"name":"Content Cluster Effectiveness Score","link":"content-cluster-effectiveness-score.html","icon":"fas fa-project-diagram","color":"#673AB7"},
+                {"name":"How-to Guides vs. Case Studies ROI Calculator","link":"how-to-guides-vs-case-studies-roi-calculator.html","icon":"fas fa-book-open","color":"#4CAF50"},
+                {"name":"Time Spent Writing vs. Engagement Rate Calculator","link":"time-spent-writing-vs-engagement-rate-calculator.html","icon":"fas fa-pencil-alt","color":"#FF5722"},
+                {"name":"Blog Post to Lead Conversion Rate Estimator","link":"blog-post-to-lead-conversion-rate-estimator.html","icon":"fas fa-file-alt","color":"#FF5722"},
+                {"name":"AI-Written Blog Post vs. Human-Written Performance Calculator","link":"ai-vs-human-performance-calculator.html","icon":"fas fa-pen-alt","color":"#2196F3"},
+                {"name":"Interactive Calculator Engagement Rate","link":"interactive-calculator-engagement-rate.html","icon":"fas fa-chart-line","color":"#4CAF50"}
 
             ];
+
 
             const listContainer = document.getElementById("calculator-list");
             calculators.forEach(calc => {
@@ -471,6 +531,20 @@
                 const emailMarketingListContainer = document.getElementById("email-marketing-outreach-list");
                 emailMarketingListContainer.appendChild(col);
             });
+
+            contentMarketingBloggingCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="content-marketing-blogging-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const contentMarketingBloggingListContainer = document.getElementById("content-marketing-blogging-list");
+                contentMarketingBloggingListContainer.appendChild(col);
+            });
+
 
 
 

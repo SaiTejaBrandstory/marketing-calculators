@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quizzes vs. Static Content Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Interactive Quizzes vs. Static Content Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you compare the performance of interactive quizzes and static content based on engagement and conversion rates.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Performance Score (%) = (Engagement Rate × Conversion Rate) / 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Interactive Quiz:</strong></li>
+            <ul>
+                <li><strong>Engagement Rate (Quiz):</strong> 75%</li>
+                <li><strong>Conversion Rate (Quiz):</strong> 50%</li>
+                <li><strong>Performance Score (Quiz):</strong> (75 × 50) / 100 = <b>37.5%</b></li>
+            </ul>
+            <li><strong>Static Content:</strong></li>
+            <ul>
+                <li><strong>Engagement Rate (Static Content):</strong> 50%</li>
+                <li><strong>Conversion Rate (Static Content):</strong> 30%</li>
+                <li><strong>Performance Score (Static Content):</strong> (50 × 30) / 100 = <b>15.00%</b></li>
+            </ul>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Engagement Rate (Interactive Quiz) (%)</td>
+                        <td><input type="number" id="quizEngagement" class="form-control" value="75" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Interactive Quiz) (%)</td>
+                        <td><input type="number" id="quizConversion" class="form-control" value="50" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Score (Quiz) (%)</td>
+                        <td><h4 class="text-success" id="quizPerformanceResult">37.50%</h4></td>
+                    </tr>
+                </table>
+
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Engagement Rate (Static Content) (%)</td>
+                        <td><input type="number" id="staticEngagement" class="form-control" value="50" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate (Static Content) (%)</td>
+                        <td><input type="number" id="staticConversion" class="form-control" value="30" oninput="calculatePerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Score (Static) (%)</td>
+                        <td><h4 class="text-success" id="staticPerformanceResult">15.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="performanceChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How do interactive quizzes compare to static content?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Interactive quizzes tend to drive higher engagement and can have higher conversion rates due to their interactive nature. However, the success depends on the content and audience.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is a good performance score?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher performance score indicates better effectiveness of your content. Interactive quizzes typically have better performance due to higher engagement rates.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Interactive Quizzes vs. Static Content Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let performanceChart;
+
+        function calculatePerformance() {
+            let quizEngagement = parseFloat(document.getElementById('quizEngagement').value) || 0;
+            let quizConversion = parseFloat(document.getElementById('quizConversion').value) || 0;
+            let staticEngagement = parseFloat(document.getElementById('staticEngagement').value) || 0;
+            let staticConversion = parseFloat(document.getElementById('staticConversion').value) || 0;
+
+            let quizPerformance = (quizEngagement * quizConversion) / 100;
+            let staticPerformance = (staticEngagement * staticConversion) / 100;
+
+            document.getElementById('quizPerformanceResult').innerText = quizPerformance.toFixed(2) + "%";
+            document.getElementById('staticPerformanceResult').innerText = staticPerformance.toFixed(2) + "%";
+
+            updateChart(quizPerformance, staticPerformance);
+        }
+
+        function updateChart(quizPerformance, staticPerformance) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+
+            performanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Interactive Quiz', 'Static Content'],
+                    datasets: [{
+                        label: 'Performance Score (%)',
+                        data: [quizPerformance, staticPerformance],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculatePerformance;
+    </script>
+</body>
+</html>

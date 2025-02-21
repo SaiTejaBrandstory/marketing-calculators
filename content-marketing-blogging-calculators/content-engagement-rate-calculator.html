@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Engagement Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Content Engagement Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you calculate the engagement rate of your content based on user interactions such as likes, comments, shares, and views.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Engagement Rate (%) = (Total Engagements / Total Reach) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Engagements:</strong> 1500</li>
+            <li><strong>Total Reach:</strong> 10000</li>
+            <li><strong>Engagement Rate:</strong> (1500 / 10000) × 100 = <b>15%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Total Engagements</td>
+                        <td><input type="number" id="engagements" class="form-control" value="1500" oninput="calculateEngagementRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Reach</td>
+                        <td><input type="number" id="reach" class="form-control" value="10000" oninput="calculateEngagementRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Engagement Rate (%)</td>
+                        <td><h4 class="text-danger" id="engagementRateResult">15%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="engagementRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is Engagement Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Engagement Rate is a metric that measures the level of interaction your audience has with your content. It includes interactions such as likes, comments, and shares.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is a good Engagement Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A good engagement rate varies by industry, but generally, a rate above 5% is considered good. Anything above 10% is exceptional.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                        How can I improve my Engagement Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To improve your engagement rate, try the following:
+                        <ul>
+                            <li>Create high-quality, shareable content.</li>
+                            <li>Post consistently and at optimal times.</li>
+                            <li>Engage with your audience through comments and messages.</li>
+                            <li>Run contests or giveaways to encourage interaction.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Content Engagement Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let engagementRateChart;
+
+        function calculateEngagementRate() {
+            let engagements = parseFloat(document.getElementById('engagements').value) || 0;
+            let reach = parseFloat(document.getElementById('reach').value) || 0;
+
+            if (reach === 0) {
+                alert('Total reach cannot be zero');
+                return;
+            }
+
+            let engagementRate = (engagements / reach) * 100;
+            document.getElementById('engagementRateResult').innerText = engagementRate.toFixed(2) + "%";
+
+            updateChart(engagementRate);
+        }
+
+        function updateChart(engagementRate) {
+            let ctx = document.getElementById('engagementRateChart').getContext('2d');
+            if (engagementRateChart) {
+                engagementRateChart.destroy();
+            }
+
+            engagementRateChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Engaged', 'Not Engaged'],
+                    datasets: [{
+                        data: [engagementRate, 100 - engagementRate],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateEngagementRate;
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Book Download Rate Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>E-Book Download Rate Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps estimate the download rate of your e-book by calculating the percentage of visitors who download it.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Download Rate (%) = (Total Downloads / Total Visitors) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Total Downloads:</strong> 500</li>
+            <li><strong>Total Visitors:</strong> 10,000</li>
+            <li><strong>Download Rate:</strong> (500 / 10,000) × 100 = <b>5.00%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Download Rate Estimator</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Total Downloads</td>
+                        <td><input type="number" id="downloads" class="form-control" value="500" oninput="calculateDownloadRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Visitors</td>
+                        <td><input type="number" id="visitors" class="form-control" value="10000" oninput="calculateDownloadRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Download Rate (%)</td>
+                        <td><h4 class="text-success" id="downloadRate">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="downloadChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is the E-Book Download Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The e-book download rate is the percentage of visitors who download your e-book. It helps measure how well your content attracts downloads.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How do I calculate the E-Book Download Rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To calculate the E-Book Download Rate:
+                        <ul>
+                            <li>Find the total number of downloads.</li>
+                            <li>Find the total number of visitors.</li>
+                            <li>Use the formula: Download Rate (%) = (Total Downloads / Total Visitors) × 100.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 E-Book Download Rate Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let downloadChart;
+
+        function calculateDownloadRate() {
+            let downloads = parseFloat(document.getElementById('downloads').value) || 0;
+            let visitors = parseFloat(document.getElementById('visitors').value) || 0;
+
+            if (visitors === 0) {
+                alert('Total Visitors cannot be zero');
+                return;
+            }
+
+            let downloadRate = (downloads / visitors) * 100;
+            document.getElementById('downloadRate').innerText = downloadRate.toFixed(2) + "%";
+
+            updateChart(downloadRate);
+        }
+
+        function updateChart(downloadRate) {
+            let ctx = document.getElementById('downloadChart').getContext('2d');
+            if (downloadChart) {
+                downloadChart.destroy();
+            }
+
+            downloadChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Downloads', 'Non-Downloads'],
+                    datasets: [{
+                        data: [downloadRate, 100 - downloadRate],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateDownloadRate;
+    </script>
+</body>
+</html>

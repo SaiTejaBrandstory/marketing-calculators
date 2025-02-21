@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Count vs. Ranking Probability Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Word Count vs. Ranking Probability Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you estimate the probability of your content ranking based on the total word count of the content.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Ranking Probability (%) = (Word Count / Ideal Word Count) × 100</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Word Count:</strong> 1200 words</li>
+            <li><strong>Ideal Word Count:</strong> 1500 words</li>
+            <li><strong>Ranking Probability:</strong> (1200 / 1500) × 100 = <b>80%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Word Count</td>
+                        <td><input type="number" id="wordCount" class="form-control" value="1200" oninput="calculateRankingProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Ideal Word Count</td>
+                        <td><input type="number" id="idealWordCount" class="form-control" value="1500" oninput="calculateRankingProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td>Ranking Probability (%)</td>
+                        <td><h4 class="text-success" id="rankingProbabilityResult">80%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="rankingProbabilityChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How does Word Count affect Ranking Probability?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Content with a higher word count is generally preferred for ranking, but the quality of content is just as important. The "ideal" word count depends on the competition and search intent.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What is the "Ideal Word Count"?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The "ideal word count" refers to the average length of high-ranking content for a specific search query. This can vary by topic, search intent, and competition.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Word Count vs. Ranking Probability Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let rankingProbabilityChart;
+
+        function calculateRankingProbability() {
+            let wordCount = parseFloat(document.getElementById('wordCount').value) || 0;
+            let idealWordCount = parseFloat(document.getElementById('idealWordCount').value) || 0;
+
+            let rankingProbability = (wordCount / idealWordCount) * 100;
+            document.getElementById('rankingProbabilityResult').innerText = rankingProbability.toFixed(2) + "%";
+
+            updateChart(rankingProbability);
+        }
+
+        function updateChart(rankingProbability) {
+            let ctx = document.getElementById('rankingProbabilityChart').getContext('2d');
+            if (rankingProbabilityChart) {
+                rankingProbabilityChart.destroy();
+            }
+
+            rankingProbabilityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Content Probability', 'Other Factors'],
+                    datasets: [{
+                        data: [rankingProbability, 100 - rankingProbability],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateRankingProbability;
+    </script>
+</body>
+</html>

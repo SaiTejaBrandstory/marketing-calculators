@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Bounce Rate Reduction Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Blog Post Bounce Rate Reduction Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator estimates the potential reduction in bounce rate based on engagement improvement through changes in blog post content or design.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>New Bounce Rate (%) = Original Bounce Rate (%) - Estimated Reduction (%)</strong></p>
+
+        <h5>Example Calculation:</h5>
+        <ul>
+            <li><strong>Original Bounce Rate:</strong> 70%</li>
+            <li><strong>Estimated Reduction:</strong> 20%</li>
+            <li><strong>New Bounce Rate:</strong> 70% - 20% = <b>50%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered bg-white">
+                    <tr>
+                        <td>Original Bounce Rate (%)</td>
+                        <td><input type="number" id="originalBounce" class="form-control" value="70" oninput="calculateBounceRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Bounce Rate Reduction (%)</td>
+                        <td><input type="number" id="estimatedReduction" class="form-control" value="20" oninput="calculateBounceRate()"></td>
+                    </tr>
+                    <tr>
+                        <td>New Bounce Rate (%)</td>
+                        <td><h4 class="text-success" id="newBounceRate">50.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4 d-flex justify-content-center">
+                <canvas id="bounceRateChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        How does reducing the bounce rate help?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Reducing the bounce rate indicates that visitors are engaging more with your blog content, which typically leads to better retention, longer visits, and improved SEO.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        What factors can help reduce bounce rate?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Enhancing content quality, improving website load time, adding internal links, and optimizing mobile experience can help reduce the bounce rate.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Blog Post Bounce Rate Reduction Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let bounceRateChart;
+
+        function calculateBounceRate() {
+            let originalBounce = parseFloat(document.getElementById('originalBounce').value) || 0;
+            let estimatedReduction = parseFloat(document.getElementById('estimatedReduction').value) || 0;
+
+            let newBounceRate = originalBounce - estimatedReduction;
+
+            if (newBounceRate < 0) {
+                newBounceRate = 0;
+            }
+
+            document.getElementById('newBounceRate').innerText = newBounceRate.toFixed(2) + "%";
+
+            updateChart(originalBounce, newBounceRate);
+        }
+
+        function updateChart(originalBounce, newBounceRate) {
+            let ctx = document.getElementById('bounceRateChart').getContext('2d');
+            if (bounceRateChart) {
+                bounceRateChart.destroy();
+            }
+
+            bounceRateChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Original Bounce Rate', 'New Bounce Rate'],
+                    datasets: [{
+                        label: 'Bounce Rate (%)',
+                        data: [originalBounce, newBounceRate],
+                        backgroundColor: ['#FF5722', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        window.onload = calculateBounceRate;
+    </script>
+</body>
+</html>
