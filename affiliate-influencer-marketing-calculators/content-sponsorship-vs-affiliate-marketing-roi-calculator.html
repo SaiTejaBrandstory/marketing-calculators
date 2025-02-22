@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Sponsorship vs. Affiliate Marketing ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Content Sponsorship vs. Affiliate Marketing ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps compare the return on investment (ROI) of content sponsorship versus affiliate marketing. It allows marketers to evaluate which method provides a higher return based on the cost and revenue generated.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>ROI (%) = (Revenue - Cost) / Cost × 100</b></p>
+
+        <h6><b>Example for Content Sponsorship:</b></h6>
+        <p>
+            If the <b>Content Sponsorship</b> cost is ₹10,000 and the revenue generated is ₹15,000, then:
+            <br>
+            ROI = ((₹15,000 - ₹10,000) / ₹10,000) × 100 = <b>50.00%</b>
+        </p>
+
+        <h6><b>Example for Affiliate Marketing:</b></h6>
+        <p>
+            If the <b>Affiliate Marketing</b> cost is ₹5,000 and the revenue generated is ₹12,000, then:
+            <br>
+            ROI = ((₹12,000 - ₹5,000) / ₹5,000) × 100 = <b>140.00%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Content Sponsorship ROI Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Content Sponsorship Cost</b></td>
+                        <td><input type="number" id="sponsorshipCost" class="form-control" value="10000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Content Sponsorship Revenue</b></td>
+                        <td><input type="number" id="sponsorshipRevenue" class="form-control" value="15000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Content Sponsorship ROI</b></td>
+                        <td><h4 class="text-success" id="sponsorshipROI">50.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <h4>Affiliate Marketing ROI Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Affiliate Marketing Cost</b></td>
+                        <td><input type="number" id="affiliateCost" class="form-control" value="5000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Affiliate Marketing Revenue</b></td>
+                        <td><input type="number" id="affiliateRevenue" class="form-control" value="12000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Affiliate Marketing ROI</b></td>
+                        <td><h4 class="text-success" id="affiliateROI">140.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-12 my-4">
+                <h4>ROI Comparison Chart</h4>
+                <canvas id="roiChart" style="max-width: 600px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is ROI in Marketing?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI (Return on Investment) is a key metric that helps measure the profitability of an investment. It is calculated as the ratio of the net profit to the cost of the investment.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is ROI calculated for Content Sponsorship and Affiliate Marketing?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula for ROI is: 
+                        <ul>
+                            <li>ROI = (Revenue - Cost) / Cost × 100</li>
+                            <li>Both Content Sponsorship and Affiliate Marketing are compared using this formula to assess which provides better returns.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Content Sponsorship vs. Affiliate Marketing ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let sponsorshipCost = parseFloat(document.getElementById('sponsorshipCost').value) || 0;
+            let sponsorshipRevenue = parseFloat(document.getElementById('sponsorshipRevenue').value) || 0;
+            let affiliateCost = parseFloat(document.getElementById('affiliateCost').value) || 0;
+            let affiliateRevenue = parseFloat(document.getElementById('affiliateRevenue').value) || 0;
+
+            let sponsorshipROI = ((sponsorshipRevenue - sponsorshipCost) / sponsorshipCost) * 100 || 0;
+            let affiliateROI = ((affiliateRevenue - affiliateCost) / affiliateCost) * 100 || 0;
+
+            document.getElementById('sponsorshipROI').innerText = sponsorshipROI.toFixed(2) + "%";
+            document.getElementById('affiliateROI').innerText = affiliateROI.toFixed(2) + "%";
+
+            updateChart(sponsorshipROI, affiliateROI);
+        }
+
+        function updateChart(sponsorshipROI, affiliateROI) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Content Sponsorship', 'Affiliate Marketing'],
+                    datasets: [{
+                        label: 'ROI (%)',
+                        data: [sponsorshipROI, affiliateROI],
+                        backgroundColor: ['#FF9800', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

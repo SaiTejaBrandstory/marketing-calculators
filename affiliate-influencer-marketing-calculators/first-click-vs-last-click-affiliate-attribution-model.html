@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First-Click vs. Last-Click Affiliate Attribution Model</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>First-Click vs. Last-Click Affiliate Attribution Model</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This model helps compare the <b>First-Click</b> and <b>Last-Click</b> attribution methods used in affiliate marketing.  
+            Understanding these models is important for determining how affiliate contributions are credited in the conversion process.
+        </p>
+
+        <h5><b>First-Click Attribution Model:</b></h5>
+        <p>
+            In the <b>First-Click Attribution Model</b>, the first affiliate or touchpoint that a user interacts with before making a purchase is credited with the conversion.  
+            This model is used to understand which initial interactions are driving customer interest.
+        </p>
+
+        <h5><b>Last-Click Attribution Model:</b></h5>
+        <p>
+            In the <b>Last-Click Attribution Model</b>, the affiliate or touchpoint that directly results in the final conversion (i.e., the last click) is credited with the sale.  
+            This model is more common in determining the final actions that led to the conversion.
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Comparison Table</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>First-Click Attribution</b></td>
+                        <td><b>Last-Click Attribution</b></td>
+                    </tr>
+                    <tr>
+                        <td>Credits the first affiliate or touchpoint</td>
+                        <td>Credits the last affiliate or touchpoint before conversion</td>
+                    </tr>
+                    <tr>
+                        <td>Helps identify the initial interest generator</td>
+                        <td>Helps determine the final influencer of conversion</td>
+                    </tr>
+                    <tr>
+                        <td>Used for understanding the customer journey’s starting point</td>
+                        <td>Used for measuring the effectiveness of final interactions</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <h4>Attribution Model Comparison Chart</h4>
+                <canvas id="attributionChart" style="max-width: 300px; max-height: 300px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is the First-Click Attribution Model?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        In the First-Click Attribution Model, the first touchpoint or affiliate interaction is credited for the conversion, helping you understand which initial actions drive customer interest.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>What is the Last-Click Attribution Model?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        In the Last-Click Attribution Model, the last touchpoint before the conversion is credited for the sale, showing the final influencer in the conversion process.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Attribution Model Comparison. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let attributionChart;
+
+        function updateChart() {
+            let ctx = document.getElementById('attributionChart').getContext('2d');
+            if (attributionChart) {
+                attributionChart.destroy();
+            }
+
+            attributionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['First-Click', 'Last-Click'],
+                    datasets: [{
+                        label: 'Attribution Model Comparison',
+                        data: [50, 50], // Example values for First-Click and Last-Click models
+                        backgroundColor: ['#FF9800', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = updateChart;
+    </script>
+</body>
+</html>

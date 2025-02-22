@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Review vs. Written Review Conversion Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Video Review vs. Written Review Conversion Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Video Review vs. Written Review Conversion Rate Calculator compares the conversion rates of video and written reviews in affiliate marketing campaigns.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Conversion Rate (%) = (Conversions / Impressions) × 100</b></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            If the <b>video review</b> has <b>500 conversions</b> from <b>10,000 impressions</b>, and the <b>written review</b> has <b>400 conversions</b> from <b>8,000 impressions</b>, the conversion rates are calculated as:
+            <br>
+            <b>Video Review Conversion Rate = (500 / 10,000) × 100 = 5%</b>
+            <br>
+            <b>Written Review Conversion Rate = (400 / 8,000) × 100 = 5%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Video Review</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Video Impressions</b></td>
+                        <td><input type="number" id="videoImpressions" class="form-control" value="10000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Video Conversions</b></td>
+                        <td><input type="number" id="videoConversions" class="form-control" value="500" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Video Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="videoRate">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Written Review</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Written Impressions</b></td>
+                        <td><input type="number" id="writtenImpressions" class="form-control" value="8000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Written Conversions</b></td>
+                        <td><input type="number" id="writtenConversions" class="form-control" value="400" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Written Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="writtenRate">5.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="conversionRateChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is Conversion Rate?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Conversion rate is the percentage of users who take the desired action (like making a purchase or filling a form) from the total number of impressions or views.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>Which review type has better conversion rates?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Both video and written reviews can be effective, but video reviews often have a higher engagement level and can result in better conversion rates depending on the audience.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Video Review vs. Written Review Conversion Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let conversionRateChart;
+
+        function calculateConversionRate() {
+            let videoImpressions = parseFloat(document.getElementById('videoImpressions').value) || 0;
+            let videoConversions = parseFloat(document.getElementById('videoConversions').value) || 0;
+            let writtenImpressions = parseFloat(document.getElementById('writtenImpressions').value) || 0;
+            let writtenConversions = parseFloat(document.getElementById('writtenConversions').value) || 0;
+
+            let videoRate = (videoConversions / videoImpressions) * 100 || 0;
+            let writtenRate = (writtenConversions / writtenImpressions) * 100 || 0;
+
+            document.getElementById('videoRate').innerText = videoRate.toFixed(2) + "%";
+            document.getElementById('writtenRate').innerText = writtenRate.toFixed(2) + "%";
+
+            updateChart(videoRate, writtenRate);
+        }
+
+        function updateChart(videoRate, writtenRate) {
+            let ctx = document.getElementById('conversionRateChart').getContext('2d');
+            if (conversionRateChart) {
+                conversionRateChart.destroy();
+            }
+
+            conversionRateChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Video Review', 'Written Review'],
+                    datasets: [{
+                        label: 'Conversion Rate (%)',
+                        data: [videoRate, writtenRate],
+                        backgroundColor: ['#FF9800', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateConversionRate;
+    </script>
+</body>
+</html>

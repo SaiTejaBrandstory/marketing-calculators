@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long-Term vs. Short-Term Affiliate Partnerships ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Long-Term vs. Short-Term Affiliate Partnerships ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool compares the ROI of long-term vs short-term affiliate partnerships. It calculates the return on investment based on revenue, costs, and time period.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>ROI (%) = ((Revenue - Costs) / Costs) × 100</b></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            For a long-term affiliate partnership with <b>₹1,00,000</b> revenue and <b>₹30,000</b> costs over a year, the ROI is calculated as:
+            <br>
+            ROI = ((1,00,000 - 30,000) / 30,000) × 100 = <b>233.33%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for ROI Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Revenue (₹)</b></td>
+                        <td><input type="number" id="revenue" class="form-control" value="100000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Costs (₹)</b></td>
+                        <td><input type="number" id="costs" class="form-control" value="30000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI (%)</b></td>
+                        <td><h4 class="text-success" id="roiResult">233.33%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <h4><b>ROI Comparison Chart</b></h4>
+                <canvas id="roiChart" style="max-width: 600px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is ROI?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI stands for Return on Investment. It is a measure used to evaluate the efficiency or profitability of an investment, calculated by dividing the profit by the costs and multiplying by 100 to get the percentage.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How does ROI differ for long-term and short-term partnerships?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Long-term partnerships may have higher ROI due to compounded growth over time, while short-term partnerships may show quicker returns but might not generate as much value in the long run.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Long-Term vs. Short-Term Affiliate Partnerships ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            let costs = parseFloat(document.getElementById('costs').value) || 0;
+
+            let roi = ((revenue - costs) / costs) * 100 || 0;
+
+            document.getElementById('roiResult').innerText = roi.toFixed(2) + "%";
+
+            updateChart(roi);
+        }
+
+        function updateChart(roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ROI (%)'],
+                    datasets: [{
+                        label: 'ROI Comparison',
+                        data: [roi],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

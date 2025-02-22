@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer ROI Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Influencer ROI Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Influencer ROI Estimator helps brands and marketers assess the return on investment (ROI) from influencer campaigns. 
+            By inputting total costs and revenue generated, users can quickly determine if their collaboration is profitable.
+        </p>
+        <p>
+            ROI is a critical metric that evaluates whether the money spent on an influencer campaign is yielding a positive return. 
+            This tool calculates the percentage of profit relative to investment, giving businesses insights into their marketing effectiveness.
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>ROI (%) = ((Revenue - Cost) / Cost) × 100</strong></p>
+
+        <h6>Example:</h6>
+        <p>
+            If you spent ₹50,000 on an influencer campaign and generated ₹150,000 in revenue, the ROI is calculated as:
+            <br>
+            ROI = ((150,000 - 50,000) / 50,000) × 100 = 200%
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>ROI Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Total Cost (₹)</td>
+                        <td><input type="number" id="totalCost" class="form-control" value="50000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Revenue (₹)</td>
+                        <td><input type="number" id="totalRevenue" class="form-control" value="150000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI</td>
+                        <td><h4 class="text-success" id="roiResult">200.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="roiChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is ROI in Influencer Marketing?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI (Return on Investment) measures the profitability of an influencer campaign. A higher ROI indicates better returns on your investment.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How is ROI calculated?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI is calculated using the formula: 
+                        <ul>
+                            <li>(Revenue - Cost) / Cost</li>
+                            <li>Multiply by 100 to express it as a percentage</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Influencer ROI Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let totalCost = parseFloat(document.getElementById('totalCost').value) || 0;
+            let totalRevenue = parseFloat(document.getElementById('totalRevenue').value) || 0;
+
+            let roi = ((totalRevenue - totalCost) / totalCost) * 100;
+
+            document.getElementById('roiResult').innerText = roi.toFixed(2) + "%";
+
+            updateChart(roi);
+        }
+
+        function updateChart(roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ROI (%)'],
+                    datasets: [{
+                        label: 'Return on Investment',
+                        data: [roi],
+                        backgroundColor: ['#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

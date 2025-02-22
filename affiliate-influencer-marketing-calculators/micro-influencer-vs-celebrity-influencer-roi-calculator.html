@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro-Influencer vs. Celebrity Influencer ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Micro-Influencer vs. Celebrity Influencer ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps compare the Return on Investment (ROI) from Micro-Influencers and Celebrity Influencers. Micro-Influencers often have a smaller but more engaged audience, while Celebrity Influencers have a larger reach but may come with higher costs.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><strong>ROI = (Revenue from Campaign - Cost of Campaign) / Cost of Campaign × 100</strong></p>
+
+        <h6><b>Example for Micro-Influencer:</b></h6>
+        <p>
+            If you spent <b>₹100,000</b> on a Micro-Influencer campaign and earned <b>₹250,000</b> in revenue, the ROI would be:
+            <br>
+            ROI = (₹250,000 - ₹100,000) / ₹100,000 × 100 = <b>150.00%</b>
+        </p>
+
+        <h6><b>Example for Celebrity Influencer:</b></h6>
+        <p>
+            If you spent <b>₹500,000</b> on a Celebrity Influencer campaign and earned <b>₹800,000</b> in revenue, the ROI would be:
+            <br>
+            ROI = (₹800,000 - ₹500,000) / ₹500,000 × 100 = <b>60.00%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Micro-Influencer Campaign</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Cost of Campaign (₹)</td>
+                        <td><input type="number" id="microCost" class="form-control" value="100000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue from Campaign (₹)</td>
+                        <td><input type="number" id="microRevenue" class="form-control" value="250000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI (%)</td>
+                        <td><h4 class="text-success" id="microROIResult">150.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <h4>Celebrity Influencer Campaign</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Cost of Campaign (₹)</td>
+                        <td><input type="number" id="celebrityCost" class="form-control" value="500000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue from Campaign (₹)</td>
+                        <td><input type="number" id="celebrityRevenue" class="form-control" value="800000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td>ROI (%)</td>
+                        <td><h4 class="text-success" id="celebrityROIResult">60.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 my-4 d-flex justify-content-center">
+                <canvas id="roiChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is ROI in Influencer Marketing?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI (Return on Investment) in influencer marketing measures the profitability of a campaign by comparing the revenue generated to the cost of the campaign.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is ROI calculated for Influencer Campaigns?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI is calculated using the formula:
+                        <ul>
+                            <li>ROI = (Revenue from Campaign - Cost of Campaign) / Cost of Campaign × 100</li>
+                            <li>It measures the profit generated for every unit of currency spent on the campaign.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Micro-Influencer vs. Celebrity Influencer ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let microCost = parseFloat(document.getElementById('microCost').value) || 0;
+            let microRevenue = parseFloat(document.getElementById('microRevenue').value) || 0;
+            let celebrityCost = parseFloat(document.getElementById('celebrityCost').value) || 0;
+            let celebrityRevenue = parseFloat(document.getElementById('celebrityRevenue').value) || 0;
+
+            let microROI = ((microRevenue - microCost) / microCost) * 100 || 0;
+            let celebrityROI = ((celebrityRevenue - celebrityCost) / celebrityCost) * 100 || 0;
+
+            document.getElementById('microROIResult').innerText = microROI.toFixed(2) + "%";
+            document.getElementById('celebrityROIResult').innerText = celebrityROI.toFixed(2) + "%";
+
+            updateChart(microROI, celebrityROI);
+        }
+
+        function updateChart(microROI, celebrityROI) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Micro-Influencer', 'Celebrity Influencer'],
+                    datasets: [{
+                        label: 'ROI (%)',
+                        data: [microROI, celebrityROI],
+                        backgroundColor: ['#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

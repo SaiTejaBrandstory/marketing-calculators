@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Review vs. Sponsored Post Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Product Review vs. Sponsored Post Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Product Review vs. Sponsored Post Performance Calculator helps compare the effectiveness of product reviews  
+            and sponsored posts in driving conversions, engagement, and revenue.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Conversion Rate (%) = (Conversions / Total Impressions) × 100</b></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            For a product review with <b>100 conversions</b> from <b>5,000 impressions</b> and a sponsored post with <b>150 conversions</b>  
+            from <b>5,000 impressions</b>, the conversion rates are:
+            <br>
+            Product Review Conversion Rate = (100 / 5,000) × 100 = <b>2%</b>
+            <br>
+            Sponsored Post Conversion Rate = (150 / 5,000) × 100 = <b>3%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Product Review</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Product Review Impressions</b></td>
+                        <td><input type="number" id="productReviewImpressions" class="form-control" value="5000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Product Review Conversions</b></td>
+                        <td><input type="number" id="productReviewConversions" class="form-control" value="100" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Product Review Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="productReviewRate">2.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Sponsored Post</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Sponsored Post Impressions</b></td>
+                        <td><input type="number" id="sponsoredPostImpressions" class="form-control" value="5000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sponsored Post Conversions</b></td>
+                        <td><input type="number" id="sponsoredPostConversions" class="form-control" value="150" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sponsored Post Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="sponsoredPostRate">3.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="conversionRateChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is the difference between a product review and a sponsored post?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A product review focuses on sharing genuine experiences and feedback about a product, while a sponsored post involves payment in exchange for promoting a product or service.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is the conversion rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Conversion Rate is calculated as: 
+                        <ul>
+                            <li><b>(Conversions / Impressions) × 100</b></li>
+                            <li>This measures how many people clicked and made a purchase or took the desired action.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Product Review vs. Sponsored Post Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let conversionRateChart;
+
+        function calculateConversionRate() {
+            let productReviewImpressions = parseFloat(document.getElementById('productReviewImpressions').value) || 0;
+            let productReviewConversions = parseFloat(document.getElementById('productReviewConversions').value) || 0;
+            let sponsoredPostImpressions = parseFloat(document.getElementById('sponsoredPostImpressions').value) || 0;
+            let sponsoredPostConversions = parseFloat(document.getElementById('sponsoredPostConversions').value) || 0;
+
+            let productReviewRate = (productReviewConversions / productReviewImpressions) * 100 || 0;
+            let sponsoredPostRate = (sponsoredPostConversions / sponsoredPostImpressions) * 100 || 0;
+
+            document.getElementById('productReviewRate').innerText = productReviewRate.toFixed(2) + "%";
+            document.getElementById('sponsoredPostRate').innerText = sponsoredPostRate.toFixed(2) + "%";
+
+            updateChart(productReviewRate, sponsoredPostRate);
+        }
+
+        function updateChart(productReviewRate, sponsoredPostRate) {
+            let ctx = document.getElementById('conversionRateChart').getContext('2d');
+            if (conversionRateChart) {
+                conversionRateChart.destroy();
+            }
+
+            conversionRateChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Product Review', 'Sponsored Post'],
+                    datasets: [{
+                        label: 'Conversion Rate (%)',
+                        data: [productReviewRate, sponsoredPostRate],
+                        backgroundColor: ['#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateConversionRate;
+    </script>
+</body>
+</html>

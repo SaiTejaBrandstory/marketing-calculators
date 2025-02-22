@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Touch Attribution in Affiliate Marketing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Multi-Touch Attribution in Affiliate Marketing</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            Multi-Touch Attribution in Affiliate Marketing helps to track the effectiveness of multiple affiliate channels and touchpoints in the customer journey. This model assigns value to each interaction before a conversion, allowing for more precise analysis.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Attribution Value = (Total Conversions / Total Interactions) × 100</b></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            If an affiliate link is involved in <b>5 conversions</b> out of <b>50 total interactions</b>, the attribution value is calculated as:
+            <br>
+            Attribution Value = (5 / 50) × 100 = <b>10%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Multi-Touch Attribution Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Total Interactions</b></td>
+                        <td><input type="number" id="totalInteractions" class="form-control" value="50" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Conversions</b></td>
+                        <td><input type="number" id="totalConversions" class="form-control" value="5" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Attribution Value (%)</b></td>
+                        <td><h4 class="text-success" id="attributionResult">10.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="attributionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is Multi-Touch Attribution?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Multi-Touch Attribution assigns value to multiple touchpoints in the customer journey before a conversion. This helps to identify the role of each affiliate channel in achieving conversions.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is Attribution Value calculated?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Attribution Value is calculated using the formula: 
+                        <ul>
+                            <li><b>(Total Conversions / Total Interactions) × 100</b></li>
+                            <li>It shows the percentage of success of affiliate touchpoints.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Multi-Touch Attribution in Affiliate Marketing. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let attributionChart;
+
+        function calculateAttribution() {
+            let totalInteractions = parseFloat(document.getElementById('totalInteractions').value) || 0;
+            let totalConversions = parseFloat(document.getElementById('totalConversions').value) || 0;
+
+            let attributionValue = (totalConversions / totalInteractions) * 100 || 0;
+
+            document.getElementById('attributionResult').innerText = attributionValue.toFixed(2) + "%";
+
+            updateChart(attributionValue);
+        }
+
+        function updateChart(attributionValue) {
+            let ctx = document.getElementById('attributionChart').getContext('2d');
+            if (attributionChart) {
+                attributionChart.destroy();
+            }
+
+            attributionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Attribution Value (%)'],
+                    datasets: [{
+                        label: 'Multi-Touch Attribution',
+                        data: [attributionValue],
+                        backgroundColor: ['#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateAttribution;
+    </script>
+</body>
+</html>

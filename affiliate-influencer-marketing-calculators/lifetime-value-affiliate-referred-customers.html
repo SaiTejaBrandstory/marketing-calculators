@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifetime Value of Affiliate Referred Customers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Lifetime Value of Affiliate Referred Customers</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Lifetime Value (LTV) of Affiliate Referred Customers Calculator estimates the total revenue that an affiliate can generate from referred customers during their entire relationship.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>LTV = Average Order Value (AOV) × Purchase Frequency × Customer Lifespan</b></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            If the Average Order Value (AOV) is <b>₹2,000</b>, the Purchase Frequency is <b>4 times/year</b>, and the Customer Lifespan is <b>3 years</b>, the LTV is calculated as:
+            <br>
+            <b>LTV = ₹2,000 × 4 × 3 = ₹24,000</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Average Order Value (AOV)</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>AOV (₹)</b></td>
+                        <td><input type="number" id="AOV" class="form-control" value="2000" oninput="calculateLTV()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Purchase Frequency</b></td>
+                        <td><input type="number" id="purchaseFrequency" class="form-control" value="4" oninput="calculateLTV()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Lifespan (Years)</b></td>
+                        <td><input type="number" id="customerLifespan" class="form-control" value="3" oninput="calculateLTV()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Lifetime Value (LTV)</b></td>
+                        <td><h4 class="text-success" id="LTV">₹24,000</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="ltvChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is Lifetime Value (LTV)?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Lifetime Value (LTV) is the predicted revenue that a customer will generate for a business during their entire relationship.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is LTV useful in affiliate marketing?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        LTV helps affiliate marketers understand the potential revenue generated from each customer and determine the profitability of affiliate partnerships.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Lifetime Value of Affiliate Referred Customers Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let ltvChart;
+
+        function calculateLTV() {
+            let AOV = parseFloat(document.getElementById('AOV').value) || 0;
+            let purchaseFrequency = parseFloat(document.getElementById('purchaseFrequency').value) || 0;
+            let customerLifespan = parseFloat(document.getElementById('customerLifespan').value) || 0;
+
+            let LTV = AOV * purchaseFrequency * customerLifespan || 0;
+
+            document.getElementById('LTV').innerText = "₹" + LTV.toFixed(2);
+
+            updateChart(LTV);
+        }
+
+        function updateChart(LTV) {
+            let ctx = document.getElementById('ltvChart').getContext('2d');
+            if (ltvChart) {
+                ltvChart.destroy();
+            }
+
+            ltvChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Lifetime Value'],
+                    datasets: [{
+                        data: [LTV, 100000 - LTV],
+                        backgroundColor: ['#FF9800', '#e0e0e0'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateLTV;
+    </script>
+</body>
+</html>

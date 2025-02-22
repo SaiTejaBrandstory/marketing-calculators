@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Commission Structure Optimization Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Affiliate Commission Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps affiliates determine their earnings based on total sales, commission rates, and performance bonuses. 
+            Understanding your potential earnings can help you optimize your sales strategy and maximize your profits. 
+            Affiliates often struggle with estimating their commissions due to fluctuating sales and varying commission structures. 
+            Our tool simplifies this process by providing a clear breakdown of potential earnings. 
+            Simply enter your total sales, the commission percentage you receive, and any additional performance bonuses. 
+            The calculator will instantly compute your expected earnings and display them visually using a bar chart. 
+            This visualization helps you better understand the impact of sales and commission rates on your income. 
+            Whether you’re a beginner or an experienced affiliate, this tool is designed to assist you in planning and strategizing. 
+            Try different inputs to see how small changes in commission rates or bonuses affect your total earnings. 
+            Stay informed and optimize your affiliate marketing approach for greater success!
+        </p>
+
+        <h5>Formula:</h5>
+        <p><strong>Commission Earnings = (Total Sales × Commission Rate) + Bonus</strong></p>
+
+        <h6>Example:</h6>
+        <p>
+            Suppose you generate ₹100,000 in total sales with a 12% commission rate and an additional performance bonus of ₹8,000. 
+            The earnings calculation will be:
+            <br>
+            Commission Earnings = (₹100,000 × 12%) + ₹8,000 = ₹12,000 + ₹8,000 = ₹20,000
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Commission Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Total Sales (₹)</td>
+                        <td><input type="number" id="totalSales" class="form-control" value="50000" oninput="calculateCommission()"></td>
+                    </tr>
+                    <tr>
+                        <td>Commission Rate (%)</td>
+                        <td><input type="number" id="commissionRate" class="form-control" value="10" oninput="calculateCommission()"></td>
+                    </tr>
+                    <tr>
+                        <td>Performance Bonus (₹)</td>
+                        <td><input type="number" id="bonus" class="form-control" value="5000" oninput="calculateCommission()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Earnings (₹)</td>
+                        <td><h4 class="text-success" id="totalEarnings">₹0.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="commissionChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5">FAQ</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        What is an affiliate commission?
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        An affiliate commission is the amount earned by an affiliate marketer for promoting and generating sales for a product or service.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        How is affiliate commission calculated?
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The affiliate commission is calculated using the formula:
+                        <ul>
+                            <li>(Total Sales × Commission Rate) + Bonus</li>
+                            <li>This determines the total earnings from commissions and bonuses.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Affiliate Commission Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let commissionChart;
+        function calculateCommission() {
+            let totalSales = parseFloat(document.getElementById('totalSales').value) || 0;
+            let commissionRate = parseFloat(document.getElementById('commissionRate').value) || 0;
+            let bonus = parseFloat(document.getElementById('bonus').value) || 0;
+
+            let commissionEarnings = (totalSales * (commissionRate / 100)) + bonus;
+            document.getElementById('totalEarnings').innerText = '₹' + commissionEarnings.toFixed(2);
+
+            updateChart(commissionEarnings);
+        }
+
+        function updateChart(commissionEarnings) {
+            let ctx = document.getElementById('commissionChart').getContext('2d');
+            if (commissionChart) {
+                commissionChart.destroy();
+            }
+
+            commissionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total Earnings'],
+                    datasets: [{
+                        label: 'Earnings (₹)',
+                        data: [commissionEarnings],
+                        backgroundColor: ['#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateCommission;
+    </script>
+</body>
+</html>

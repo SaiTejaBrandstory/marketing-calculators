@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Reputation Risk Score for Influencer Partnerships</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Reputation Risk Score for Influencer Partnerships</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps assess the potential risk to your brand's reputation when partnering with influencers. The score is based on various factors such as audience engagement, influencer credibility, and content quality.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Risk Score = (Audience Engagement + Credibility Score + Content Quality) / 3</b></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            If an influencer has an audience engagement score of <b>70</b>, a credibility score of <b>80</b>, and a content quality score of <b>75</b>, the risk score is calculated as:
+            <br>
+            Risk Score = (70 + 80 + 75) / 3 = <b>75</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Influencer Input</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Audience Engagement</b></td>
+                        <td><input type="number" id="audienceEngagement" class="form-control" value="70" oninput="calculateRiskScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Credibility Score</b></td>
+                        <td><input type="number" id="credibilityScore" class="form-control" value="80" oninput="calculateRiskScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Content Quality</b></td>
+                        <td><input type="number" id="contentQuality" class="form-control" value="75" oninput="calculateRiskScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Risk Score</b></td>
+                        <td><h4 class="text-success" id="riskScore">75.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4">
+                <h4><b>Risk Score Chart</b></h4>
+                <canvas id="riskScoreChart" style="max-width: 600px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is Brand Reputation Risk Score?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Brand Reputation Risk Score is a measure of the potential risk your brand may face from partnering with an influencer, based on their audience engagement, credibility, and content quality.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is the Risk Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Risk Score is calculated using the formula:
+                        <ul>
+                            <li>Risk Score = (Audience Engagement + Credibility Score + Content Quality) / 3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Reputation Risk Score for Influencer Partnerships. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let riskScoreChart;
+
+        function calculateRiskScore() {
+            let audienceEngagement = parseFloat(document.getElementById('audienceEngagement').value) || 0;
+            let credibilityScore = parseFloat(document.getElementById('credibilityScore').value) || 0;
+            let contentQuality = parseFloat(document.getElementById('contentQuality').value) || 0;
+
+            let riskScore = (audienceEngagement + credibilityScore + contentQuality) / 3 || 0;
+
+            document.getElementById('riskScore').innerText = riskScore.toFixed(2);
+
+            updateChart(riskScore);
+        }
+
+        function updateChart(riskScore) {
+            let ctx = document.getElementById('riskScoreChart').getContext('2d');
+            if (riskScoreChart) {
+                riskScoreChart.destroy();
+            }
+
+            riskScoreChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Risk Score'],
+                    datasets: [{
+                        label: 'Brand Reputation Risk Score',
+                        data: [riskScore],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateRiskScore;
+    </script>
+</body>
+</html>

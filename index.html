@@ -139,6 +139,13 @@
         <div class="row" id="content-marketing-blogging-list"></div>
     </section>
 
+    <!-- Affiliate & Influencer Marketing Calculators Section -->
+    <section id="affiliate-influencer-marketing-calculators" class="category-section container">
+        <h2 class="category-title">Affiliate & Influencer Marketing Calculators</h2>
+        <div class="row" id="affiliate-influencer-marketing-list"></div>
+    </section>
+
+
 
 
 
@@ -466,6 +473,61 @@
             ];
 
 
+            const affiliateInfluencerMarketingCalculators = [
+                {"name":"Affiliate Commission Structure Optimization Calculator","link":"affiliate-commission-calculator.html","icon":"fas fa-money-bill-wave","color":"#2196F3"},
+                {"name":"Influencer ROI Estimator","link":"influencer-roi-estimator.html","icon":"fas fa-bullhorn","color":"#FF9800"},
+                {"name":"Cost Per Engagement (CPE) Calculator","link":"cpe-calculator.html","icon":"fas fa-coins","color":"#673AB7"},
+                {"name":"Social Media Affiliate Click Rate Calculator","link":"affiliate-click-rate-calculator.html","icon":"fas fa-mouse-pointer","color":"#2196F3"},
+                {"name":"Referral Program Performance Estimator","link":"referral-program-performance-estimator.html","icon":"fas fa-users","color":"#4CAF50"},
+                {"name": "Influencer Audience Authenticity Score", "link": "influencer-audience-authenticity-score.html", "icon": "fas fa-users", "color": "#4CAF50"},
+                {"name": "Coupon Code Conversion Rate Calculator", "link": "coupon-code-conversion-rate-calculator.html", "icon": "fas fa-percentage", "color": "#FF9800"},
+                {"name": "Affiliate vs. Direct Sales Revenue Comparison", "link": "affiliate-vs-direct-sales-revenue-comparison.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+                {"name": "Influencer Engagement Rate Benchmarking Tool", "link": "influencer-engagement-rate-benchmarking-tool.html", "icon": "fas fa-users", "color": "#FFEB3B"},
+                {"name": "Brand Collaboration Efficiency Calculator", "link": "brand-collaboration-efficiency-calculator.html", "icon": "fas fa-handshake", "color": "#4CAF50"},
+                {"name": "Affiliate Landing Page Conversion Rate Estimator", "link": "affiliate-landing-page-conversion-rate-estimator.html", "icon": "fas fa-chart-line", "color": "#FFC107"},
+                {"name": "UTM Tracking Effectiveness in Affiliate Marketing", "link": "utm-tracking-effectiveness-affiliate-marketing.html", "icon": "fas fa-link", "color": "#4CAF50"},
+                {"name": "Commission Payout Delay Impact Calculator", "link": "commission-payout-delay-impact-calculator.html", "icon": "fas fa-clock", "color": "#F44336"},
+                {"name": "Seasonal Affiliate Sales Growth Predictor", "link": "seasonal-affiliate-sales-growth-predictor.html", "icon": "fas fa-calendar-alt", "color": "#4CAF50"},
+                {"name": "Brand Mentions ROI Estimator", "link": "brand-mentions-roi-estimator.html", "icon": "fas fa-bullhorn", "color": "#4CAF50"},
+                {"name": "Sponsored Post vs. Organic Mention Performance Calculator", "link": "sponsored-post-vs-organic-mention-performance-calculator.html", "icon": "fas fa-chart-bar", "color": "#FF9800"},
+                {"name":"Click Attribution Model for Affiliate Marketing","link":"click-attribution-model.html","icon":"fas fa-link","color":"#FF9800"},
+                {"name":"Micro-Influencer vs. Celebrity Influencer ROI Calculator","link":"micro-influencer-vs-celebrity-influencer-roi-calculator.html","icon":"fas fa-users","color":"#2196F3"},
+                {"name":"Affiliate Retention Rate Calculator","link":"affiliate-retention-rate-calculator.html","icon":"fas fa-users","color":"#4CAF50"},
+                {"name":"YouTube vs Instagram Affiliate Sales Performance Calculator","link":"youtube-vs-instagram-affiliate-sales-performance-calculator.html","icon":"fas fa-link","color":"#FF9800"},
+                {"name":"Blog vs Social Media Affiliate Link Click Rate Calculator","link":"blog-vs-social-media-affiliate-link-click-rate-calculator.html","icon":"fas fa-link","color":"#FF9800"},
+                {"name":"Influencer Marketing Cost per Acquisition (CPA) Calculator","link":"influencer-marketing-cpa-calculator.html","icon":"fas fa-money-bill-wave","color":"#4CAF50"},
+                {"name":"Performance-Based vs. Fixed Payout Affiliate Model Comparison","link":"performance-based-vs-fixed-payout-affiliate-model-comparison.html","icon":"fas fa-exchange-alt","color":"#FF9800"},
+                {"name":"First-Click vs. Last-Click Affiliate Attribution Model","link":"first-click-vs-last-click-affiliate-attribution-model.html","icon":"fas fa-link","color":"#FF9800"},
+                {"name":"Affiliate Link Placement Optimization Calculator","link":"affiliate-link-placement-optimization-calculator.html","icon":"fas fa-link","color":"#4CAF50"},
+                {"name":"Content Sponsorship vs. Affiliate Marketing ROI Calculator","link":"content-sponsorship-vs-affiliate-marketing-roi-calculator.html","icon":"fas fa-chart-line","color":"#FF9800"},
+                {"name":"Average Order Value (AOV) Lift from Influencer Promotions","link":"average-order-value-lift-from-influencer-promotions.html","icon":"fas fa-chart-line","color":"#4CAF50"},
+                {"name":"Lead Magnet Conversion Rate for Affiliate Marketing","link":"lead-magnet-conversion-rate-for-affiliate-marketing.html","icon":"fas fa-magnet","color":"#FF9800"},
+                {"name":"Pay-Per-Click (PPC) vs. Affiliate Sales ROI Calculator","link":"pay-per-click-ppc-vs-affiliate-sales-roi-calculator.html","icon":"fas fa-chart-line","color":"#FF9800"},
+                {"name":"Brand Reputation Risk Score for Influencer Partnerships","link":"brand-reputation-risk-score.html","icon":"fas fa-user-shield","color":"#4CAF50"},
+                {"name":"Revenue Per Click (RPC) in Affiliate Campaigns","link":"revenue-per-click.html","icon":"fas fa-dollar-sign","color":"#FF9800"},
+                {"name":"Influencer Sponsored Post Authenticity Score","link":"influencer-sponsored-post-authenticity-score.html","icon":"fas fa-clipboard-check","color":"#4CAF50"},
+                {"name": "Cost Per Thousand Impressions (CPM) in Affiliate Ads", "link": "cost-per-thousand-impressions-cpm.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+                {"name": "Branded Content vs. Influencer UGC Performance Calculator", "link": "branded-content-vs-influencer-ugc-performance-calculator.html", "icon": "fas fa-chart-bar", "color": "#FF5722"},
+                {"name": "Long-Term vs. Short-Term Affiliate Partnerships ROI Calculator", "link": "long-term-vs-short-term-affiliate-partnerships-roi-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                {"name": "Instagram Story Swipe-Up Rate Calculator", "link": "instagram-story-swipe-up-rate-calculator.html", "icon": "fas fa-arrow-right", "color": "#FF9800"},
+                {"name": "AI vs. Human Influencer Marketing Performance Estimator", "link": "ai-vs-human-influencer-marketing-performance-estimator.html", "icon": "fas fa-users", "color": "#FF9800"},
+                {"name": "Multi-Touch Attribution in Affiliate Marketing", "link": "multi-touch-attribution-in-affiliate-marketing.html", "icon": "fas fa-link", "color": "#FF9800"},
+                {"name": "Brand Partnership Lifetime Value (LTV) Calculator", "link": "brand-partnership-lifetime-value-ltv-calculator.html", "icon": "fas fa-handshake", "color": "#4CAF50"},
+                {"name": "Podcast Sponsorship Performance Estimator", "link": "podcast-sponsorship-performance-estimator.html", "icon": "fas fa-podcast", "color": "#FF9800"},
+                {"name": "Brand Loyalty Score via Influencer Marketing", "link": "brand-loyalty-score-via-influencer-marketing.html", "icon": "fas fa-heart", "color": "#FF5722"},
+                {"name": "Click Fraud Risk in Affiliate Marketing", "link": "click-fraud-risk-in-affiliate-marketing.html", "icon": "fas fa-exclamation-circle", "color": "#F44336"},
+                {"name": "Product Review vs. Sponsored Post Performance Calculator", "link": "product-review-vs-sponsored-post-performance-calculator.html", "icon": "fas fa-chart-bar", "color": "#2196F3"},
+                {"name": "Affiliate Program Churn Rate Estimator", "link": "affiliate-program-churn-rate-estimator.html", "icon": "fas fa-chart-line", "color": "#FF5733"},
+                {"name": "E-Commerce Upsell Rate from Affiliate Traffic", "link": "e-commerce-upsell-rate-from-affiliate-traffic.html", "icon": "fas fa-arrow-up", "color": "#4CAF50"},
+                {"name": "Video Review vs. Written Review Conversion Rate Calculator", "link": "video-review-vs-written-review-conversion-rate-calculator.html", "icon": "fas fa-video", "color": "#FF9800"},
+                {"name": "Lifetime Value of Affiliate Referred Customers", "link": "lifetime-value-affiliate-referred-customers.html", "icon": "fas fa-users", "color": "#FF9800"}
+
+                
+
+            ];
+
+
+
             const listContainer = document.getElementById("calculator-list");
             calculators.forEach(calc => {
                 const col = document.createElement("div");
@@ -544,6 +606,21 @@
                 const contentMarketingBloggingListContainer = document.getElementById("content-marketing-blogging-list");
                 contentMarketingBloggingListContainer.appendChild(col);
             });
+
+
+            affiliateInfluencerMarketingCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="affiliate-influencer-marketing-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const affiliateInfluencerMarketingListContainer = document.getElementById("affiliate-influencer-marketing-list");
+                affiliateInfluencerMarketingListContainer.appendChild(col);
+            });
+
 
 
 

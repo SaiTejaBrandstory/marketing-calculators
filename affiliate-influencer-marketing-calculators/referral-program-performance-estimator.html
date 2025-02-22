@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program Performance Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Referral Program Performance Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps estimate the performance of your referral program. Calculate the potential revenue based on the number of referrals, conversion rates, and referral rewards.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><strong>Estimated Revenue = (Referrals × Conversion Rate × Reward per Referral)</strong></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            If you get <b>500 referrals</b>, with a <b>conversion rate of 0.2</b> and a <b>reward of ₹50</b> per referral, the estimated revenue is:
+            <br>
+            Estimated Revenue = (500 × 0.2 × ₹50) = <b>₹5,000</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Referral Program Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Referrals</td>
+                        <td><input type="number" id="referrals" class="form-control" value="500" oninput="calculateEstimatedRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Conversion Rate</td>
+                        <td><input type="number" id="conversionRate" class="form-control" step="0.01" value="0.2" oninput="calculateEstimatedRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Reward per Referral</td>
+                        <td><input type="number" id="rewardPerReferral" class="form-control" value="50" oninput="calculateEstimatedRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td>Estimated Revenue</td>
+                        <td><h4 class="text-success" id="revenueResult">₹5000.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="revenueChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is the Referral Program Performance Estimator?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Referral Program Performance Estimator helps you calculate the estimated revenue of your referral program based on the number of referrals, conversion rate, and reward per referral.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is the Estimated Revenue Calculated?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Estimated Revenue is calculated by multiplying the number of referrals, conversion rate, and the reward per referral using the formula:
+                        <ul>
+                            <li>Estimated Revenue = Referrals × Conversion Rate × Reward per Referral</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Referral Program Performance Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let revenueChart;
+
+        function calculateEstimatedRevenue() {
+            let referrals = parseFloat(document.getElementById('referrals').value) || 0;
+            let conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+            let rewardPerReferral = parseFloat(document.getElementById('rewardPerReferral').value) || 0;
+
+            let estimatedRevenue = (referrals * conversionRate * rewardPerReferral) || 0;
+
+            document.getElementById('revenueResult').innerText = "₹" + estimatedRevenue.toFixed(2);
+
+            updateChart(estimatedRevenue);
+        }
+
+        function updateChart(estimatedRevenue) {
+            let ctx = document.getElementById('revenueChart').getContext('2d');
+            if (revenueChart) {
+                revenueChart.destroy();
+            }
+
+            revenueChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Estimated Revenue (₹)'],
+                    datasets: [{
+                        label: 'Referral Program Revenue',
+                        data: [estimatedRevenue],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateEstimatedRevenue;
+    </script>
+</body>
+</html>

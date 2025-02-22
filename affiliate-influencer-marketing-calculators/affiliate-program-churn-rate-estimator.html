@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Program Churn Rate Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Affiliate Program Churn Rate Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Affiliate Program Churn Rate Estimator helps you estimate the churn rate in your affiliate program by comparing active affiliates to those who have left within a given time frame.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Churn Rate (%) = (Number of Affiliates Lost / Total Number of Affiliates at the Start of Period) × 100</b></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            For a scenario where there are <b>50 affiliates at the start of the period</b> and <b>10 affiliates have left</b>, the churn rate would be:
+            <br>
+            Churn Rate = (10 / 50) × 100 = <b>20%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Affiliate Program</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Total Affiliates at Start</b></td>
+                        <td><input type="number" id="totalAffiliates" class="form-control" value="50" oninput="calculateChurnRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Affiliates Lost</b></td>
+                        <td><input type="number" id="affiliatesLost" class="form-control" value="10" oninput="calculateChurnRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Churn Rate (%)</b></td>
+                        <td><h4 class="text-danger" id="churnRate">20.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="churnRateChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is affiliate churn rate?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Affiliate churn rate refers to the percentage of affiliates who stop participating in your affiliate program over a specified time period.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How do I reduce churn in my affiliate program?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can reduce churn by offering incentives, maintaining regular communication, optimizing affiliate tools, and rewarding top-performing affiliates.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Affiliate Program Churn Rate Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let churnRateChart;
+
+        function calculateChurnRate() {
+            let totalAffiliates = parseFloat(document.getElementById('totalAffiliates').value) || 0;
+            let affiliatesLost = parseFloat(document.getElementById('affiliatesLost').value) || 0;
+
+            let churnRate = (affiliatesLost / totalAffiliates) * 100 || 0;
+            document.getElementById('churnRate').innerText = churnRate.toFixed(2) + "%";
+
+            updateChart(churnRate);
+        }
+
+        function updateChart(churnRate) {
+            let ctx = document.getElementById('churnRateChart').getContext('2d');
+            if (churnRateChart) {
+                churnRateChart.destroy();
+            }
+
+            churnRateChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Churn Rate'],
+                    datasets: [{
+                        label: 'Churn Rate (%)',
+                        data: [churnRate],
+                        backgroundColor: ['#FF5733'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateChurnRate;
+    </script>
+</body>
+</html>

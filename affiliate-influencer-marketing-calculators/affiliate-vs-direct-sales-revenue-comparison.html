@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate vs. Direct Sales Revenue Comparison</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Affiliate vs. Direct Sales Revenue Comparison</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Affiliate vs. Direct Sales Revenue Comparison helps businesses analyze and compare revenue generated from affiliate marketing and direct sales. 
+            This comparison is important to evaluate the profitability and efficiency of different sales channels.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><strong>Revenue Comparison = (Affiliate Revenue / Direct Sales Revenue) × 100</strong></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            If the affiliate revenue is <b>₹50,000</b> and the direct sales revenue is <b>₹200,000</b>, the revenue comparison is calculated as:
+            <br>
+            Revenue Comparison = (50,000 / 200,000) × 100 = <b>25%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Revenue Comparison Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Affiliate Revenue (₹)</td>
+                        <td><input type="number" id="affiliateRevenue" class="form-control" value="50000" oninput="calculateRevenueComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Direct Sales Revenue (₹)</td>
+                        <td><input type="number" id="directSalesRevenue" class="form-control" value="200000" oninput="calculateRevenueComparison()"></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue Comparison (%)</td>
+                        <td><h4 class="text-success" id="revenueComparisonResult">25.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="revenueComparisonChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is Revenue Comparison?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Revenue Comparison is a metric that compares the revenue generated from affiliate marketing to that generated through direct sales.  
+                        It helps businesses assess the effectiveness of affiliate programs versus traditional sales methods.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is Revenue Comparison calculated?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Revenue Comparison is calculated using the formula:
+                        <ul>
+                            <li>Revenue Comparison = (Affiliate Revenue / Direct Sales Revenue) × 100</li>
+                            <li>It shows the percentage of affiliate revenue in comparison to direct sales revenue.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Affiliate vs. Direct Sales Revenue Comparison. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let revenueComparisonChart;
+
+        function calculateRevenueComparison() {
+            let affiliateRevenue = parseFloat(document.getElementById('affiliateRevenue').value) || 0;
+            let directSalesRevenue = parseFloat(document.getElementById('directSalesRevenue').value) || 0;
+
+            let revenueComparison = (affiliateRevenue / directSalesRevenue) * 100 || 0;
+
+            document.getElementById('revenueComparisonResult').innerText = revenueComparison.toFixed(2) + "%";
+
+            updateChart(revenueComparison);
+        }
+
+        function updateChart(revenueComparison) {
+            let ctx = document.getElementById('revenueComparisonChart').getContext('2d');
+            if (revenueComparisonChart) {
+                revenueComparisonChart.destroy();
+            }
+
+            revenueComparisonChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Affiliate Revenue', 'Direct Sales Revenue'],
+                    datasets: [{
+                        label: 'Revenue Comparison',
+                        data: [revenueComparison, 100 - revenueComparison],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateRevenueComparison;
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Audience Authenticity Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Influencer Audience Authenticity Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Influencer Audience Authenticity Score helps brands assess the credibility of an influencer's audience. It measures the percentage of real, engaged followers compared to total followers, which is crucial for determining how effective influencer campaigns are.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><strong>Authenticity Score (%) = (Engaged Followers / Total Followers) × 100</strong></p>
+
+        <h6><b>Example:</b></h6>
+        <p>
+            If an influencer has <b>100,000 total followers</b> and <b>60,000 engaged followers</b>, the authenticity score is calculated as:
+            <br>
+            Authenticity Score = (60,000 / 100,000) × 100 = <b>60%</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4>Authenticity Score Input</h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td>Total Followers</td>
+                        <td><input type="number" id="totalFollowers" class="form-control" value="100000" oninput="calculateAuthenticityScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Engaged Followers</td>
+                        <td><input type="number" id="engagedFollowers" class="form-control" value="60000" oninput="calculateAuthenticityScore()"></td>
+                    </tr>
+                    <tr>
+                        <td>Authenticity Score</td>
+                        <td><h4 class="text-success" id="authenticityScoreResult">60.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="authenticityScoreChart" style="max-width: 300px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="mt-5"><b>FAQ</b></h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                        <b>What is the Influencer Audience Authenticity Score?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Influencer Audience Authenticity Score is a metric that measures the percentage of real, engaged followers compared to the total followers an influencer has. This helps determine how genuine an influencer’s audience is and how effective their marketing can be.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faqHeadingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                        <b>How is the Authenticity Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Authenticity Score is calculated using the formula:
+                        <ul>
+                            <li>Authenticity Score = (Engaged Followers / Total Followers) × 100</li>
+                        </ul>
+                        This formula helps in determining the percentage of real, engaged followers, which is crucial for evaluating influencer campaigns.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Influencer Audience Authenticity Score. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let authenticityScoreChart;
+
+        function calculateAuthenticityScore() {
+            let totalFollowers = parseFloat(document.getElementById('totalFollowers').value) || 0;
+            let engagedFollowers = parseFloat(document.getElementById('engagedFollowers').value) || 0;
+
+            let authenticityScore = (engagedFollowers / totalFollowers) * 100 || 0;
+
+            document.getElementById('authenticityScoreResult').innerText = authenticityScore.toFixed(2) + "%";
+
+            updateChart(authenticityScore);
+        }
+
+        function updateChart(authenticityScore) {
+            let ctx = document.getElementById('authenticityScoreChart').getContext('2d');
+            if (authenticityScoreChart) {
+                authenticityScoreChart.destroy();
+            }
+
+            authenticityScoreChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Authenticity Score (%)'],
+                    datasets: [{
+                        label: 'Influencer Audience Authenticity Score',
+                        data: [authenticityScore],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateAuthenticityScore;
+    </script>
+</body>
+</html>
