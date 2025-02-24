@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Brand Sentiment Analysis Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Social Media Brand Sentiment Analysis Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps evaluate the sentiment surrounding your brand on social media based on customer feedback and mentions.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Sentiment Score = (Positive Mentions - Negative Mentions) / Total Mentions</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Positive Mentions:</b> 200</p>
+        <p><b>Negative Mentions:</b> 50</p>
+        <p><b>Total Mentions:</b> 500</p>
+        <p><b>Sentiment Score = (200 - 50) / 500 = 0.30</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Sentiment Analysis</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Positive Mentions</b></td>
+                        <td><input type="number" id="positiveMentions" class="form-control" value="200" oninput="calculateSentiment()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Negative Mentions</b></td>
+                        <td><input type="number" id="negativeMentions" class="form-control" value="50" oninput="calculateSentiment()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Mentions</b></td>
+                        <td><input type="number" id="totalMentions" class="form-control" value="500" oninput="calculateSentiment()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sentiment Score</b></td>
+                        <td><h4 class="text-success" id="sentimentScore">0.30</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="sentimentChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Sentiment Analysis?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sentiment Analysis evaluates customer emotions based on their comments, reviews, and mentions on social media platforms.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Sentiment Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Positive Mentions - Negative Mentions) / Total Mentions</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Sentiment Analysis important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sentiment Analysis provides insight into how customers feel about a brand, which can help improve customer experience and marketing strategies.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Social Media Sentiment Analysis Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let sentimentChart;
+
+        function calculateSentiment() {
+            let positiveMentions = parseFloat(document.getElementById('positiveMentions').value) || 0;
+            let negativeMentions = parseFloat(document.getElementById('negativeMentions').value) || 0;
+            let totalMentions = parseFloat(document.getElementById('totalMentions').value) || 0;
+
+            let sentimentScore = (positiveMentions - negativeMentions) / totalMentions;
+
+            document.getElementById('sentimentScore').innerText = sentimentScore.toFixed(2);
+
+            updateChart(positiveMentions, negativeMentions, totalMentions);
+        }
+
+        function updateChart(positiveMentions, negativeMentions, totalMentions) {
+            let ctx = document.getElementById('sentimentChart').getContext('2d');
+            if (sentimentChart) {
+                sentimentChart.destroy();
+            }
+
+            sentimentChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Positive Mentions', 'Negative Mentions', 'Neutral Mentions'],
+                    datasets: [{
+                        data: [positiveMentions, negativeMentions, totalMentions - (positiveMentions + negativeMentions)],
+                        backgroundColor: ['#4CAF50', '#F44336', '#FFC107'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateSentiment;
+    </script>
+</body>
+</html>

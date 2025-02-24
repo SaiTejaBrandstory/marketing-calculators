@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industry Growth Rate Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Industry Growth Rate Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps determine the growth rate of an industry over a specific period based on revenue or market size.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The formula for calculating the industry growth rate is:</p>
+        <pre>
+            Industry Growth Rate = ((Ending Value - Starting Value) / Starting Value) * 100
+        </pre>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the starting value of the industry is ₹500,000 and the ending value is ₹700,000, the formula will be:</p>
+        <pre>
+            Growth Rate = ((700,000 - 500,000) / 500,000) * 100 = 40%
+        </pre>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Industry Growth Rate Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Starting Value (₹)</b></td>
+                        <td><input type="number" id="startingValue" class="form-control" value="500000" oninput="calculateGrowthRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Ending Value (₹)</b></td>
+                        <td><input type="number" id="endingValue" class="form-control" value="700000" oninput="calculateGrowthRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Industry Growth Rate (%)</b></td>
+                        <td><h4 class="text-success" id="growthRate">40.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="growthRateChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the industry growth rate?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The industry growth rate represents the percentage increase or decrease in the size or revenue of an industry over a specific period.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the industry growth rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The industry growth rate is calculated using the formula: ((Ending Value - Starting Value) / Starting Value) * 100.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is the industry growth rate important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The industry growth rate provides valuable insights into the performance and expansion of an industry. It helps businesses make strategic decisions based on market trends.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Industry Growth Rate Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let growthRateChart;
+
+        function calculateGrowthRate() {
+            let startingValue = parseFloat(document.getElementById('startingValue').value) || 0;
+            let endingValue = parseFloat(document.getElementById('endingValue').value) || 0;
+
+            if (startingValue !== 0) {
+                let growthRate = ((endingValue - startingValue) / startingValue) * 100;
+                document.getElementById('growthRate').innerText = growthRate.toFixed(2) + '%';
+            } else {
+                document.getElementById('growthRate').innerText = '0.00%';
+            }
+
+            updateChart(startingValue, endingValue);
+        }
+
+        function updateChart(startingValue, endingValue) {
+            let ctx = document.getElementById('growthRateChart').getContext('2d');
+            if (growthRateChart) {
+                growthRateChart.destroy();
+            }
+
+            growthRateChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Starting Value', 'Ending Value', 'Growth Rate'],
+                    datasets: [{
+                        label: 'Values (₹)',
+                        data: [startingValue, endingValue, endingValue - startingValue],
+                        backgroundColor: ['#FF6F61', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateGrowthRate;
+    </script>
+</body>
+</html>

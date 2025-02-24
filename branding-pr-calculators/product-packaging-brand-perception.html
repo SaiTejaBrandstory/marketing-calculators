@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Packaging Influence on Brand Perception</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Product Packaging Influence on Brand Perception</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps evaluate the influence of product packaging on the brand perception based on factors like packaging design, quality, and sustainability.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Perception Score = (Design Score + Quality Score + Sustainability Score) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Design Score:</b> 80</p>
+        <p><b>Quality Score:</b> 85</p>
+        <p><b>Sustainability Score:</b> 70</p>
+        <p><b>Brand Perception Score = (80 + 85 + 70) / 3 = 78.33</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Product Packaging Influence Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Design Score</b></td>
+                        <td><input type="number" id="designScore" class="form-control" value="80" oninput="calculateBrandPerception()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Quality Score</b></td>
+                        <td><input type="number" id="qualityScore" class="form-control" value="85" oninput="calculateBrandPerception()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sustainability Score</b></td>
+                        <td><input type="number" id="sustainabilityScore" class="form-control" value="70" oninput="calculateBrandPerception()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Perception Score</b></td>
+                        <td><h4 class="text-success" id="perceptionScore">78.33</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="perceptionChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Brand Perception Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Brand Perception Score measures how product packaging affects the perception of your brand based on design, quality, and sustainability factors.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Brand Perception Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>Brand Perception Score = (Design Score + Quality Score + Sustainability Score) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is packaging important for brand perception?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Packaging is a key element that shapes customers’ perception of the brand, influencing how they view its value, quality, and sustainability practices.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Product Packaging Influence Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let perceptionChart;
+
+        function calculateBrandPerception() {
+            let designScore = parseFloat(document.getElementById('designScore').value) || 0;
+            let qualityScore = parseFloat(document.getElementById('qualityScore').value) || 0;
+            let sustainabilityScore = parseFloat(document.getElementById('sustainabilityScore').value) || 0;
+
+            let perceptionScore = (designScore + qualityScore + sustainabilityScore) / 3;
+
+            document.getElementById('perceptionScore').innerText = perceptionScore.toFixed(2);
+
+            updateChart(designScore, qualityScore, sustainabilityScore);
+        }
+
+        function updateChart(designScore, qualityScore, sustainabilityScore) {
+            let ctx = document.getElementById('perceptionChart').getContext('2d');
+            if (perceptionChart) {
+                perceptionChart.destroy();
+            }
+
+            perceptionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Design', 'Quality', 'Sustainability'],
+                    datasets: [{
+                        data: [designScore, qualityScore, sustainabilityScore],
+                        backgroundColor: ['#FF9800', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateBrandPerception;
+    </script>
+</body>
+</html>

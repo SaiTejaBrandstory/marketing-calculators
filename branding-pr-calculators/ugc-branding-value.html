@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User-Generated Content (UGC) Branding Value Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>User-Generated Content (UGC) Branding Value Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool estimates the value of User-Generated Content (UGC) in strengthening your brand. It evaluates key factors such as engagement, reach, and content quality.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>UGC Branding Value = (Engagement + Reach + Content Quality) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Engagement:</b> 85</p>
+        <p><b>Reach:</b> 90</p>
+        <p><b>Content Quality:</b> 80</p>
+        <p><b>UGC Branding Value = (85 + 90 + 80) / 3 = 85.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for UGC Branding Value</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Engagement</b></td>
+                        <td><input type="number" id="engagement" class="form-control" value="85" oninput="calculateUGCValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Reach</b></td>
+                        <td><input type="number" id="reach" class="form-control" value="90" oninput="calculateUGCValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Content Quality</b></td>
+                        <td><input type="number" id="contentQuality" class="form-control" value="80" oninput="calculateUGCValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>UGC Branding Value</b></td>
+                        <td><h4 class="text-success" id="ugcValue">85.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="ugcChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is User-Generated Content (UGC) in Branding?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        User-Generated Content (UGC) refers to content created by consumers or users about a brand, which is often shared on social media or other digital platforms.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is UGC Branding Value calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Engagement + Reach + Content Quality) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is UGC important for Branding?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        UGC can significantly boost brand credibility, as content from real users builds trust and can lead to increased brand engagement and awareness.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 User-Generated Content Branding Value Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let ugcChart;
+
+        function calculateUGCValue() {
+            let engagement = parseFloat(document.getElementById('engagement').value) || 0;
+            let reach = parseFloat(document.getElementById('reach').value) || 0;
+            let contentQuality = parseFloat(document.getElementById('contentQuality').value) || 0;
+
+            let ugcValue = (engagement + reach + contentQuality) / 3;
+
+            document.getElementById('ugcValue').innerText = ugcValue.toFixed(2);
+
+            updateChart(engagement, reach, contentQuality);
+        }
+
+        function updateChart(engagement, reach, contentQuality) {
+            let ctx = document.getElementById('ugcChart').getContext('2d');
+            if (ugcChart) {
+                ugcChart.destroy();
+            }
+
+            ugcChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Engagement', 'Reach', 'Content Quality'],
+                    datasets: [{
+                        data: [engagement, reach, contentQuality],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateUGCValue;
+    </script>
+</body>
+</html>

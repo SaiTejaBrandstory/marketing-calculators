@@ -72,7 +72,8 @@
             /* color: #ff0000; */
         }
 
-        #calculator-list, #social-media-list, #cro-list, #seo-performance-list, #email-marketing-outreach-list, #content-marketing-blogging-list{
+        #calculator-list, #social-media-list, #cro-list, #seo-performance-list, #email-marketing-outreach-list, #content-marketing-blogging-list, #affiliate-influencer-marketing-list, #branding-pr-list, #market-research-list,
+        #pricing-revenue-list, #ecommerce-retail-list, #ai-predictive-marketing-list, #customer-retention-engagement-list, #general-marketing-analytics-list {
             margin: 10px;
         }
 
@@ -144,6 +145,55 @@
         <h2 class="category-title">Affiliate & Influencer Marketing Calculators</h2>
         <div class="row" id="affiliate-influencer-marketing-list"></div>
     </section>
+
+    <!-- Branding & PR Calculators Section -->
+    <section id="branding-pr-calculators" class="category-section container">
+        <h2 class="category-title">Branding & PR Calculators</h2>
+        <div class="row" id="branding-pr-list"></div>
+    </section>
+
+    <!-- Market Research & Customer Insights Calculators Section -->
+    <section id="market-research-customer-insights-calculators" class="category-section container">
+        <h2 class="category-title">Market Research & Customer Insights Calculators</h2>
+        <div class="row" id="market-research-list"></div>
+    </section>
+
+    <!-- Pricing & Revenue Optimization Calculators Section -->
+    <section id="pricing-revenue-optimization-calculators" class="category-section container">
+        <h2 class="category-title">Pricing & Revenue Optimization Calculators</h2>
+        <div class="row" id="pricing-revenue-list"></div>
+    </section>
+
+    <!-- E-commerce & Retail Calculators Section -->
+    <section id="ecommerce-retail-calculators" class="category-section container">
+        <h2 class="category-title">E-commerce & Retail Calculators</h2>
+        <div class="row" id="ecommerce-retail-list"></div>
+    </section>
+
+    <!-- AI & Predictive Marketing Calculators Section -->
+    <section id="ai-predictive-marketing-calculators" class="category-section container">
+        <h2 class="category-title">AI & Predictive Marketing Calculators</h2>
+        <div class="row" id="ai-predictive-marketing-list"></div>
+    </section>
+
+    <!-- Customer Retention & Engagement Calculators Section -->
+    <section id="customer-retention-engagement-calculators" class="category-section container">
+        <h2 class="category-title">Customer Retention & Engagement Calculators</h2>
+        <div class="row" id="customer-retention-engagement-list"></div>
+    </section>
+
+    <!-- General Marketing Analytics Calculators Section -->
+    <section id="general-marketing-analytics-calculators" class="category-section container">
+        <h2 class="category-title">General Marketing Analytics Calculators</h2>
+        <div class="row" id="general-marketing-analytics-list"></div>
+    </section>
+
+
+
+
+
+
+
 
 
 
@@ -521,10 +571,149 @@
                 {"name": "E-Commerce Upsell Rate from Affiliate Traffic", "link": "e-commerce-upsell-rate-from-affiliate-traffic.html", "icon": "fas fa-arrow-up", "color": "#4CAF50"},
                 {"name": "Video Review vs. Written Review Conversion Rate Calculator", "link": "video-review-vs-written-review-conversion-rate-calculator.html", "icon": "fas fa-video", "color": "#FF9800"},
                 {"name": "Lifetime Value of Affiliate Referred Customers", "link": "lifetime-value-affiliate-referred-customers.html", "icon": "fas fa-users", "color": "#FF9800"}
-
-                
-
             ];
+
+            const brandingPrCalculators = [
+                {"name": "Brand Awareness Score Calculator", "link": "brand-awareness-score-calculator.html", "icon": "fas fa-bullhorn", "color": "#4CAF50"},
+                {"name": "Brand Recognition Rate Estimator", "link": "brand-recognition-rate-estimator.html", "icon": "fas fa-eye", "color": "#2196F3"},
+                {"name": "Brand Loyalty Index Calculator", "link": "brand-loyalty-index-calculator.html", "icon": "fas fa-heart", "color": "#FF5733"},
+                {"name": "Customer Perception Score Calculator", "link": "customer-perception-score-calculator.html", "icon": "fas fa-star", "color": "#FFD700"},
+                {"name": "Brand Consistency Effectiveness Calculator", "link": "brand-consistency-effectiveness-calculator.html", "icon": "fas fa-bullseye", "color": "#FF5733"},
+                {"name": "Brand Equity Valuation Calculator", "link": "brand-equity-valuation-calculator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "Social Media Brand Sentiment Analysis Calculator", "link": "social-media-brand-sentiment-analysis-calculator.html", "icon": "fas fa-comments", "color": "#00BCD4"},
+                {"name": "Brand Trust Index Calculator", "link": "brand-trust-index-calculator.html", "icon": "fas fa-shield-alt", "color": "#FF5722"},
+                {"name": "Public Relations ROI Calculator", "link": "pr-roi-calculator.html", "icon": "fas fa-chart-line", "color": "#3F51B5"},
+                {"name": "Press Release Effectiveness Score", "link": "press-release-effectiveness-score.html", "icon": "fas fa-bullhorn", "color": "#F44336"},
+                {"name": "Earned Media Value Calculator", "link": "earned-media-value-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                {"name": "Cost of Brand Reputation Damage Calculator", "link": "cost-of-brand-reputation-damage-calculator.html", "icon": "fas fa-exclamation-circle", "color": "#FF5722"},
+                {"name": "Crisis Management Impact Estimator", "link": "crisis-management-impact-estimator.html", "icon": "fas fa-exclamation-triangle", "color": "#FF5722"},
+                {"name": "Brand Positioning Strength Calculator", "link": "brand-positioning-strength-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                {"name": "Competitor Brand Comparison Score", "link": "competitor-brand-comparison-score-calculator.html", "icon": "fas fa-trophy", "color": "#FF9800"},
+                {"name": "Sponsorship ROI Calculator", "link": "sponsorship-roi-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                {"name": "Brand Hashtag Engagement Rate Calculator", "link": "hashtag-engagement-rate-calculator.html", "icon": "fas fa-hashtag", "color": "#2196F3"},
+                {"name": "Share of Voice (SOV) in Industry Calculator", "link": "sov-in-industry-calculator.html", "icon": "fas fa-chart-bar", "color": "#2196F3"},
+                {"name": "Press Coverage Impact on Website Traffic Calculator", "link": "press-coverage-traffic-calculator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "Net Promoter Score (NPS) Impact on Branding", "link": "nps-impact-on-branding.html", "icon": "fas fa-star", "color": "#2196F3"},
+                {"name": "Branded vs. Non-Branded Search Volume Estimator", "link": "branded-vs-non-branded-search-volume.html", "icon": "fas fa-search", "color": "#FF5722"},
+                {"name": "AI-Generated Branding Assets Effectiveness Calculator", "link": "ai-generated-branding-assets-effectiveness.html", "icon": "fas fa-cogs", "color": "#3F51B5"},
+                {"name": "Branded Content vs. Traditional Ads Performance Calculator", "link": "branded-content-vs-traditional-ads-performance.html", "icon": "fas fa-chart-bar", "color": "#009688"},
+                {"name": "Celebrity Endorsement ROI Calculator", "link": "celebrity-endorsement-roi-calculator.html", "icon": "fas fa-star", "color": "#FFC107"},
+                {"name": "Online Reputation Score Calculator", "link": "online-reputation-score-calculator.html", "icon": "fas fa-star", "color": "#FF9800"},
+                {"name": "Brand Mention Value Estimator", "link": "brand-mention-value-estimator.html", "icon": "fas fa-bullhorn", "color": "#FF5722"},
+                {"name": "Cost Per PR Impression Calculator", "link": "cost-per-pr-impression-calculator.html", "icon": "fas fa-bullhorn", "color": "#FF5722"},
+                {"name": "Social Proof Strength Index Calculator", "link": "social-proof-strength-index-calculator.html", "icon": "fas fa-users", "color": "#2196F3"},
+                {"name": "Customer Advocacy Score Calculator", "link": "customer-advocacy-score-calculator.html", "icon": "fas fa-users", "color": "#2196F3"},
+                {"name": "Emotional Branding Effectiveness Calculator", "link": "emotional-branding-effectiveness-calculator.html", "icon": "fas fa-heart", "color": "#FF6347"},
+                {"name": "Rebranding Cost Estimator", "link": "rebranding-cost-estimator.html", "icon": "fas fa-pen-alt", "color": "#FF5733"},
+                {"name": "Brand Differentiation Strength Score", "link": "brand-differentiation-strength-score.html", "icon": "fas fa-chart-bar", "color": "#FF5733"},
+                {"name": "Podcast Sponsorship Branding Impact", "link": "podcast-sponsorship-impact.html", "icon": "fas fa-podcast", "color": "#4CAF50"},
+                {"name": "Visual Identity Consistency Score", "link": "visual-identity-consistency.html", "icon": "fas fa-paint-brush", "color": "#4CAF50"},
+                {"name": "Storytelling in Branding Effectiveness", "link": "storytelling-branding.html", "icon": "fas fa-book-open", "color": "#FF9800"},
+                {"name": "UGC Branding Value Estimator", "link": "ugc-branding-value.html", "icon": "fas fa-users", "color": "#2196F3"},
+                {"name": "Brand Community Engagement Score", "link": "brand-community-engagement-score.html", "icon": "fas fa-users", "color": "#2196F3"},
+                {"name": "Customer Perceived Value", "link": "customer-perceived-value-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                {"name": "AI-Powered Brand Analysis Score", "link": "ai-powered-brand-analysis-score.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+                {"name": "Co-Branding Partnership Success Estimator", "link": "co-branding-partnership-success-estimator.html", "icon": "fas fa-users", "color": "#2196F3"},
+                {"name": "Online Review Sentiment Strength Score", "link": "online-review-sentiment-strength-score.html", "icon": "fas fa-comments", "color": "#FFEB3B"},
+                {"name": "Branded Merchandise ROI Calculator", "link": "branded-merchandise-roi-calculator.html", "icon": "fas fa-tshirt", "color": "#FF9800"},
+                {"name": "Brand Licensing Revenue Estimator", "link": "brand-licensing-revenue-estimator.html", "icon": "fas fa-dollar-sign", "color": "#FF6347"},
+                {"name": "Local vs. Global Branding Performance Calculator", "link": "local-global-branding-performance.html", "icon": "fas fa-globe", "color": "#2196F3"},
+                {"name": "Product Packaging Influence on Brand Perception", "link": "product-packaging-brand-perception.html", "icon": "fas fa-box-open", "color": "#FF9800"},
+                {"name": "Experiential Marketing Branding Impact Estimator", "link": "experiential-marketing-brand-impact.html", "icon": "fas fa-users", "color": "#4CAF50"},
+                {"name": "Media Impressions to Brand Awareness Conversion", "link": "media-impressions-to-awareness.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+                {"name": "Sustainability in Branding Impact Score", "link": "sustainability-branding-impact.html", "icon": "fas fa-leaf", "color": "#4CAF50"},
+                {"name": "Color Psychology in Branding Effectiveness", "link": "color-psychology-branding.html", "icon": "fas fa-palette", "color": "#FF5733"},
+                {"name": "Brand Engagement Lift from Gamification", "link": "brand-engagement-lift-gamification.html", "icon": "fas fa-gamepad", "color": "#FF5733"}
+            ];
+
+
+            // Market Research & Customer Insights Calculators
+            const marketResearchCustomerInsightsCalculators = [
+            {"name": "Market Demand Forecasting Calculator", "link": "market-demand-forecasting.html", "icon": "fas fa-chart-line", "color": "#FF5733"},
+            {"name": "Customer Satisfaction Index (CSI) Calculator", "link": "customer-satisfaction-index.html", "icon": "fas fa-smile", "color": "#4CAF50"},
+            {"name": "Customer Lifetime Value (CLV) Estimator", "link": "customer-lifetime-value.html", "icon": "fas fa-users", "color": "#FF5722"},
+            {"name": "Customer Retention Rate (CRR) Calculator", "link": "customer-retention-rate.html", "icon": "fas fa-users", "color": "#FF5722"},
+            {"name": "Voice of Customer (VoC) Score Calculator", "link": "voc-score.html", "icon": "fas fa-comments", "color": "#FF5722"},
+            {"name": "Focus Group Data Interpretation Tool", "link": "focus-group-analysis.html", "icon": "fas fa-users", "color": "#FF9800"},
+            {"name": "Customer Journey Mapping Effectiveness Score", "link": "customer-journey-mapping-effectiveness.html", "icon": "fas fa-map-signs", "color": "#2196F3"},
+            {"name": "Survey Sample Size Calculator", "link": "survey-sample-size-calculator.html", "icon": "fas fa-calculator", "color": "#FF9800"},
+            {"name": "Price Sensitivity Meter Calculator", "link": "price-sensitivity-meter-calculator.html", "icon": "fas fa-calculator", "color": "#FF5722"},
+            {"name": "Market Segmentation Effectiveness Calculator", "link": "market-segmentation-effectiveness-calculator.html", "icon": "fas fa-chart-line", "color": "#3F51B5"},
+            {"name": "Customer Churn Rate Calculator", "link": "customer-churn-rate-calculator.html", "icon": "fas fa-sync-alt", "color": "#FF5722"},
+            {"name": "Product-Market Fit Score Estimator", "link": "product-market-fit-score-estimator.html", "icon": "fas fa-cogs", "color": "#4CAF50"},
+            {"name": "Competitive Analysis Score", "link": "competitive-analysis-score-calculator.html", "icon": "fas fa-chart-bar", "color": "#00BCD4"},
+            {"name": "Industry Growth Rate Calculator", "link": "industry-growth-rate-calculator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+            {"name": "Social Listening Insights Score", "link": "social-listening-insights-score-calculator.html", "icon": "fas fa-volume-up", "color": "#4CAF50"},
+            {"name": "AI-Powered Market Research Insights Calculator", "link": "ai-market-research-insights-calculator.html", "icon": "fas fa-brain", "color": "#9C27B0"},
+            {"name": "Willingness to Pay (WTP) Estimator", "link": "wtp-estimator.html", "icon": "fas fa-dollar-sign", "color": "#FF9800"},
+            {"name": "First-Time Buyer vs. Returning Customer Value Calculator", "link": "first-time-vs-returning-customer-value.html", "icon": "fas fa-users", "color": "#8BC34A"},
+            {"name": "Customer Expectations vs. Reality Gap Score", "link": "customer-expectations-vs-reality-gap.html", "icon": "fas fa-balance-scale", "color": "#FF5722"},
+            {"name": "Competitor Pricing Benchmark Calculator", "link": "competitor-pricing-benchmark.html", "icon": "fas fa-chart-line", "color": "#8E24AA"},
+            {"name": "Sentiment Analysis Accuracy Score", "link": "sentiment-analysis-accuracy-score.html", "icon": "fas fa-smile-beam", "color": "#FF5722"},
+            {"name": "Qualitative Research Impact Score", "link": "qualitative-research-impact-score.html", "icon": "fas fa-users", "color": "#FF9800"},
+            {"name": "Website Heatmap Interpretation Score", "link": "website-heatmap-interpretation-score.html", "icon": "fas fa-fire-alt", "color": "#FF5722"},
+            {"name": "Survey Response Bias Estimator", "link": "survey-response-bias-estimator.html", "icon": "fas fa-poll", "color": "#FF9800"},
+            {"name": "Customer Service Experience Score", "link": "customer-service-experience-score.html", "icon": "fas fa-headset", "color": "#4CAF50"},
+            {"name": "Product Usability Testing Effectiveness Calculator", "link": "product-usability-testing-effectiveness.html", "icon": "fas fa-check-circle", "color": "#2196F3"},
+            {"name": "Consumer Trust Index Calculator", "link": "consumer-trust-index.html", "icon": "fas fa-handshake", "color": "#4CAF50"},
+            {"name": "Sales Funnel Bottleneck Analysis", "link": "sales-funnel-bottleneck.html", "icon": "fas fa-filter", "color": "#FF5733"},
+            {"name": "Data-Driven Decision-Making Effectiveness Score", "link": "data-driven-decision-making.html", "icon": "fas fa-brain", "color": "#4CAF50"},
+            {"name": "Localized Marketing Insights Score", "link": "localized-marketing-score.html", "icon": "fas fa-map-marked-alt", "color": "#FF9800"},
+            {"name": "Market Readiness Score for New Product Launch", "link": "market-readiness-score.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+            {"name": "Customer Complaints vs. Resolution Score", "link": "complaints-resolution-score.html", "icon": "fas fa-exclamation-circle", "color": "#FF5722"},
+            {"name": "Personalized Experience Effectiveness Score", "link": "personalized-experience-score.html", "icon": "fas fa-user-check", "color": "#FF5722"},
+            {"name": "Online Reviews vs. Actual Customer Satisfaction Comparison", "link": "online-reviews-vs-satisfaction.html", "icon": "fas fa-star", "color": "#8BC34A"},
+            {"name": "New Market Entry Risk Score", "link": "new-market-entry-risk-score.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+            {"name": "Competitive Positioning Strength Score", "link": "competitive-positioning-strength-score.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+            {"name": "Predictive Analytics Accuracy for Market Trends", "link": "predictive-analytics-accuracy-for-market-trends.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+            {"name": "Customer Experience (CX) Impact Score", "link": "customer-experience-cx-impact-score.html", "icon": "fas fa-star", "color": "#4CAF50"},
+            {"name": "Advertising Spend vs. Brand Lift Calculator", "link": "advertising-spend-vs-brand-lift-calculator.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+            {"name": "Consumer Behavioral Insights Score", "link": "consumer-behavioral-insights-score-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF9800"},
+            {"name": "Psychographic Segmentation Score", "link": "psychographic-segmentation-score-calculator.html", "icon": "fas fa-palette", "color": "#FF9800"},
+            {"name": "Demographic Targeting Accuracy Score", "link": "demographic-targeting-accuracy-score-calculator.html", "icon": "fas fa-bullseye", "color": "#2196F3"},
+            {"name": "Direct Competitor Market Share Calculator", "link": "direct-competitor-market-share-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+            {"name": "AI-Powered Trend Forecasting Score", "link": "ai-powered-trend-forecasting-score.html", "icon": "fas fa-chart-line", "color": "#00BCD4"},
+            {"name": "Customer Service Wait Time Impact Calculator", "link": "customer-service-wait-time-impact-calculator.html", "icon": "fas fa-clock", "color": "#00BCD4"},
+            {"name": "Personalized Marketing vs. Mass Marketing ROI Comparison", "link": "personalized-marketing-vs-mass-marketing-roi-comparison.html", "icon": "fas fa-chart-bar", "color": "#FF9800"},
+            {"name": "In-Person Focus Group vs. Online Survey Effectiveness Calculator", "link": "in-person-focus-group-vs-online-survey-effectiveness-calculator.html", "icon": "fas fa-chart-bar", "color": "#FF9800"},
+            {"name": "Subscription-Based Model Viability Score", "link": "subscription-based-model-viability-score.html", "icon": "fas fa-chart-pie", "color": "#8BC34A"},
+            {"name": "Loyalty Program Performance Benchmark", "link": "loyalty-program-performance-benchmark.html", "icon": "fas fa-chart-pie", "color": "#8BC34A"},
+            {"name": "Hyperlocal Marketing Effectiveness Score", "link": "hyperlocal-marketing-effectiveness-score.html", "icon": "fas fa-chart-pie", "color": "#FF9800"}
+               
+            ];
+
+            // Pricing & Revenue Optimization Calculators
+            const pricingRevenueOptimizationCalculators = [
+               
+            ];
+
+            // E-commerce & Retail Calculators
+            const ecommerceRetailCalculators = [
+                
+            ];
+
+            // AI & Predictive Marketing Calculators
+            const aiPredictiveMarketingCalculators = [
+               
+            ];
+
+            // Customer Retention & Engagement Calculators
+            const customerRetentionEngagementCalculators = [
+      
+            ];
+
+            // General Marketing Analytics Calculators
+            const generalMarketingAnalyticsCalculators = [
+               {"name": "Marketing Budget Allocation Optimizer", "link": "marketing-budget-allocation-optimizer.html", "icon": "fas fa-chart-pie", "color": "#FF9800"},
+               {"name": "Multi-Touch Attribution Model Analyzer", "link": "multi-touch-attribution-model-analyzer.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+               {"name": "Brand Awareness Growth Predictor", "link": "brand-awareness-growth-predictor.html", "icon": "fas fa-chart-bar", "color": "#FF5722"},
+               {"name": "Competitive Benchmarking Calculator", "link": "competitive-benchmarking-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+               {"name": "Marketing Efficiency Ratio Calculator", "link": "marketing-efficiency-ratio-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF9800"},
+               {"name": "Demand Generation Impact Estimator", "link": "demand-generation-impact-estimator.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+               {"name": "Customer Satisfaction Index Calculator", "link": "customer-satisfaction-index-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+         
+            ];
+
 
 
 
@@ -620,6 +809,105 @@
                 const affiliateInfluencerMarketingListContainer = document.getElementById("affiliate-influencer-marketing-list");
                 affiliateInfluencerMarketingListContainer.appendChild(col);
             });
+
+            brandingPrCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="branding-pr-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const brandingPrListContainer = document.getElementById("branding-pr-list");
+                brandingPrListContainer.appendChild(col);
+            });
+
+            // Market Research & Customer Insights Calculators
+            marketResearchCustomerInsightsCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="market-research-customer-insights-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const marketResearchListContainer = document.getElementById("market-research-list");
+                marketResearchListContainer.appendChild(col);
+            });
+
+            // Pricing & Revenue Optimization Calculators
+            pricingRevenueOptimizationCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="pricing-revenue-optimization-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const pricingRevenueListContainer = document.getElementById("pricing-revenue-list");
+                pricingRevenueListContainer.appendChild(col);
+            });
+
+            // E-commerce & Retail Calculators
+            ecommerceRetailCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="ecommerce-retail-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const ecommerceRetailListContainer = document.getElementById("ecommerce-retail-list");
+                ecommerceRetailListContainer.appendChild(col);
+            });
+
+            // AI & Predictive Marketing Calculators
+            aiPredictiveMarketingCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="ai-predictive-marketing-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const aiPredictiveMarketingListContainer = document.getElementById("ai-predictive-marketing-list");
+                aiPredictiveMarketingListContainer.appendChild(col);
+            });
+
+            // Customer Retention & Engagement Calculators
+            customerRetentionEngagementCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="customer-retention-engagement-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const customerRetentionEngagementListContainer = document.getElementById("customer-retention-engagement-list");
+                customerRetentionEngagementListContainer.appendChild(col);
+            });
+
+            // General Marketing Analytics Calculators
+            generalMarketingAnalyticsCalculators.forEach(calc => {
+                const col = document.createElement("div");
+                col.className = "col-lg-3 col-md-6 col-6 d-flex mb-4";
+                col.innerHTML = `
+                    <a href="general-marketing-analytics-calculators/${calc.link}" class="calculator-card w-100">
+                        <i class="fas ${calc.icon}" style="color: ${calc.color};"></i>
+                        <h5 class="mt-2">${calc.name}</h5>
+                    </a>
+                `;
+                const generalMarketingAnalyticsListContainer = document.getElementById("general-marketing-analytics-list");
+                generalMarketingAnalyticsListContainer.appendChild(col);
+            });
+
+
 
 
 

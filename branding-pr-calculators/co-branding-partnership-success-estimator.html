@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Branding Partnership Success Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Co-Branding Partnership Success Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This estimator helps evaluate the potential success of a co-branding partnership by assessing factors such as alignment of target audiences, brand reputation, and market reach.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Co-Branding Success Score = (Target Audience Alignment + Brand Reputation + Market Reach) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Target Audience Alignment:</b> 80</p>
+        <p><b>Brand Reputation:</b> 70</p>
+        <p><b>Market Reach:</b> 90</p>
+        <p><b>Co-Branding Success Score = (80 + 70 + 90) / 3 = 80.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Co-Branding Success Score Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Target Audience Alignment</b></td>
+                        <td><input type="number" id="audienceAlignment" class="form-control" value="80" oninput="calculateCoBrandingSuccess()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Reputation</b></td>
+                        <td><input type="number" id="brandReputation" class="form-control" value="70" oninput="calculateCoBrandingSuccess()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Market Reach</b></td>
+                        <td><input type="number" id="marketReach" class="form-control" value="90" oninput="calculateCoBrandingSuccess()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Co-Branding Success Score</b></td>
+                        <td><h4 class="text-success" id="coBrandingSuccessScore">80.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="coBrandingChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Co-Branding Success Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Co-Branding Success Score evaluates the potential success of a partnership based on alignment between the target audience, brand reputation, and market reach.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Co-Branding Success Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Target Audience Alignment + Brand Reputation + Market Reach) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is the Co-Branding Success Score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher score indicates that the partnership has better potential for success, with strong alignment, positive brand reputation, and broad market reach, leading to greater mutual benefits.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Co-Branding Success Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let coBrandingChart;
+
+        function calculateCoBrandingSuccess() {
+            let audienceAlignment = parseFloat(document.getElementById('audienceAlignment').value) || 0;
+            let brandReputation = parseFloat(document.getElementById('brandReputation').value) || 0;
+            let marketReach = parseFloat(document.getElementById('marketReach').value) || 0;
+
+            let coBrandingSuccessScore = (audienceAlignment + brandReputation + marketReach) / 3;
+
+            document.getElementById('coBrandingSuccessScore').innerText = coBrandingSuccessScore.toFixed(2);
+
+            updateChart(audienceAlignment, brandReputation, marketReach);
+        }
+
+        function updateChart(audienceAlignment, brandReputation, marketReach) {
+            let ctx = document.getElementById('coBrandingChart').getContext('2d');
+            if (coBrandingChart) {
+                coBrandingChart.destroy();
+            }
+
+            coBrandingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Target Audience Alignment', 'Brand Reputation', 'Market Reach'],
+                    datasets: [{
+                        data: [audienceAlignment, brandReputation, marketReach],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateCoBrandingSuccess;
+    </script>
+</body>
+</html>

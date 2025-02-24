@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Segmentation Effectiveness Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Market Segmentation Effectiveness Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps assess the effectiveness of your market segmentation strategy by analyzing the results based on your target audience's response.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The Market Segmentation Effectiveness score is calculated by measuring:</p>
+        <ul>
+            <li><b>Target Market Penetration Rate:</b> Percentage of the target market reached.</li>
+            <li><b>Conversion Rate:</b> Percentage of target audience that made a purchase or took action.</li>
+            <li><b>Customer Retention Rate:</b> Percentage of retained customers over time.</li>
+        </ul>
+        
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the metrics are as follows:</p>
+        <ul>
+            <li><b>Target Market Penetration Rate:</b> 60%</li>
+            <li><b>Conversion Rate:</b> 25%</li>
+            <li><b>Customer Retention Rate:</b> 80%</li>
+        </ul>
+        <p>The Market Segmentation Effectiveness Score can be calculated as:</p>
+        <p><b>Effectiveness = (60 * 25 * 80) / 10000</b></p>
+        <p><b>Effectiveness = 120000 / 10000</b></p>
+        <p><b>Effectiveness = 12</b></p>
+        <p>Therefore, the Market Segmentation Effectiveness Score is: <b>12</b></p>
+        
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Market Segmentation Effectiveness Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Target Market Penetration Rate (%)</b></td>
+                        <td><input type="number" id="penetrationRate" class="form-control" value="60" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate (%)</b></td>
+                        <td><input type="number" id="conversionRate" class="form-control" value="25" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Retention Rate (%)</b></td>
+                        <td><input type="number" id="retentionRate" class="form-control" value="80" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Market Segmentation Effectiveness Score</b></td>
+                        <td><h4 class="text-success" id="effectivenessScore">120</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="segmentationChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Market Segmentation Effectiveness?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Market Segmentation Effectiveness measures how well a segmentation strategy performs in reaching and converting the target audience. It combines penetration, conversion, and retention metrics to calculate an overall effectiveness score.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is Market Segmentation important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Market segmentation is crucial as it allows businesses to tailor their offerings to specific groups of consumers, improving targeting, conversion rates, and customer retention.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How do I improve Market Segmentation Effectiveness?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improving effectiveness involves refining your segmentation strategy to increase penetration, improve conversion rates, and enhance customer retention through better-targeted messaging and offers.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Market Segmentation Effectiveness Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let segmentationChart;
+
+        function calculateEffectiveness() {
+            let penetrationRate = parseFloat(document.getElementById('penetrationRate').value) || 60;
+            let conversionRate = parseFloat(document.getElementById('conversionRate').value) || 25;
+            let retentionRate = parseFloat(document.getElementById('retentionRate').value) || 80;
+
+            let effectivenessScore = (penetrationRate * conversionRate * retentionRate) / 10000;
+            document.getElementById('effectivenessScore').innerText = effectivenessScore.toFixed(2);
+
+            updateChart(penetrationRate, conversionRate, retentionRate, effectivenessScore);
+        }
+
+        function updateChart(penetrationRate, conversionRate, retentionRate, effectivenessScore) {
+            let ctx = document.getElementById('segmentationChart').getContext('2d');
+            if (segmentationChart) {
+                segmentationChart.destroy();
+            }
+
+            segmentationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Penetration Rate', 'Conversion Rate', 'Retention Rate', 'Effectiveness Score'],
+                    datasets: [{
+                        label: 'Market Segmentation Metrics',
+                        data: [penetrationRate, conversionRate, retentionRate, effectivenessScore],
+                        backgroundColor: ['#FF9800', '#4CAF50', '#FF5722', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateEffectiveness;
+    </script>
+</body>
+</html>

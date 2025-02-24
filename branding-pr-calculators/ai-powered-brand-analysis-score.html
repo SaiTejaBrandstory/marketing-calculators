@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Brand Analysis Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Powered Brand Analysis Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps to calculate the AI-Powered Brand Analysis Score, which assesses the brand's overall performance based on AI-powered sentiment analysis and brand perception metrics.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Analysis Score = (Sentiment Score + Brand Recognition + Customer Satisfaction + Engagement Rate) / 4</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Sentiment Score:</b> 85</p>
+        <p><b>Brand Recognition:</b> 75</p>
+        <p><b>Customer Satisfaction:</b> 90</p>
+        <p><b>Engagement Rate:</b> 80</p>
+        <p><b>Brand Analysis Score = (85 + 75 + 90 + 80) / 4 = 82.50</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Brand Analysis Score Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Sentiment Score</b></td>
+                        <td><input type="number" id="sentimentScore" class="form-control" value="85" oninput="calculateBrandScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Recognition</b></td>
+                        <td><input type="number" id="brandRecognition" class="form-control" value="75" oninput="calculateBrandScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Satisfaction</b></td>
+                        <td><input type="number" id="customerSatisfaction" class="form-control" value="90" oninput="calculateBrandScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Engagement Rate</b></td>
+                        <td><input type="number" id="engagementRate" class="form-control" value="80" oninput="calculateBrandScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Analysis Score</b></td>
+                        <td><h4 class="text-success" id="brandScore">82.50</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="brandScoreChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the AI-Powered Brand Analysis Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The AI-Powered Brand Analysis Score evaluates brand performance using AI-powered sentiment analysis and key brand metrics.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the AI-Powered Brand Analysis Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Sentiment Score + Brand Recognition + Customer Satisfaction + Engagement Rate) / 4</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is the Brand Analysis Score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher Brand Analysis Score indicates strong brand performance, positive sentiment, and high customer engagement, all of which lead to enhanced brand loyalty.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Powered Brand Analysis Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let brandScoreChart;
+
+        function calculateBrandScore() {
+            let sentimentScore = parseFloat(document.getElementById('sentimentScore').value) || 0;
+            let brandRecognition = parseFloat(document.getElementById('brandRecognition').value) || 0;
+            let customerSatisfaction = parseFloat(document.getElementById('customerSatisfaction').value) || 0;
+            let engagementRate = parseFloat(document.getElementById('engagementRate').value) || 0;
+
+            let brandScore = (sentimentScore + brandRecognition + customerSatisfaction + engagementRate) / 4;
+
+            document.getElementById('brandScore').innerText = brandScore.toFixed(2);
+
+            updateChart(sentimentScore, brandRecognition, customerSatisfaction, engagementRate);
+        }
+
+        function updateChart(sentimentScore, brandRecognition, customerSatisfaction, engagementRate) {
+            let ctx = document.getElementById('brandScoreChart').getContext('2d');
+            if (brandScoreChart) {
+                brandScoreChart.destroy();
+            }
+
+            brandScoreChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sentiment Score', 'Brand Recognition', 'Customer Satisfaction', 'Engagement Rate'],
+                    datasets: [{
+                        data: [sentimentScore, brandRecognition, customerSatisfaction, engagementRate],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateBrandScore;
+    </script>
+</body>
+</html>

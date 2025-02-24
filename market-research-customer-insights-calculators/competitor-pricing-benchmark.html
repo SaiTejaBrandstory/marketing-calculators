@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor Pricing Benchmark Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Competitor Pricing Benchmark Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you evaluate your product pricing in comparison with competitors' pricing to understand where your product stands in the market.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The benchmark is calculated as the average competitor price compared to your product price.</p>
+        <ul>
+            <li><b>Benchmark Score</b> = <b>Your Price</b> - <b>Average Competitor Price</b></li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If your price is ₹500 and competitors' prices are ₹400, ₹450, ₹600, and ₹550:</p>
+        <ul>
+            <li><b>Average Competitor Price</b> = (₹400 + ₹450 + ₹600 + ₹550) / 4 = ₹500</li>
+            <li><b>Benchmark Score</b> = ₹500 - ₹500 = ₹0 (Your price is equal to the average competitor price).</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Pricing Benchmark Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Your Price (₹)</b></td>
+                        <td><input type="number" id="yourPrice" class="form-control" value="500" oninput="calculateBenchmark()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitor Price 1 (₹)</b></td>
+                        <td><input type="number" id="competitorPrice1" class="form-control" value="400" oninput="calculateBenchmark()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitor Price 2 (₹)</b></td>
+                        <td><input type="number" id="competitorPrice2" class="form-control" value="450" oninput="calculateBenchmark()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitor Price 3 (₹)</b></td>
+                        <td><input type="number" id="competitorPrice3" class="form-control" value="600" oninput="calculateBenchmark()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitor Price 4 (₹)</b></td>
+                        <td><input type="number" id="competitorPrice4" class="form-control" value="550" oninput="calculateBenchmark()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Benchmark Score</b></td>
+                        <td><h4 class="text-success" id="benchmarkScore">0</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="benchmarkChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Competitor Pricing Benchmark?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Competitor Pricing Benchmark compares your product's price with competitors to help assess your market positioning.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I interpret the Benchmark Score?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A positive benchmark score means your price is higher than competitors, while a negative score means your price is lower.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is this benchmark useful?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It helps you understand where your product stands in the market, whether it's overpriced or underpriced compared to competitors.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Competitor Pricing Benchmark Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let benchmarkChart;
+
+        function calculateBenchmark() {
+            let yourPrice = parseFloat(document.getElementById('yourPrice').value) || 500;
+            let competitorPrice1 = parseFloat(document.getElementById('competitorPrice1').value) || 400;
+            let competitorPrice2 = parseFloat(document.getElementById('competitorPrice2').value) || 450;
+            let competitorPrice3 = parseFloat(document.getElementById('competitorPrice3').value) || 600;
+            let competitorPrice4 = parseFloat(document.getElementById('competitorPrice4').value) || 550;
+
+            let avgCompetitorPrice = (competitorPrice1 + competitorPrice2 + competitorPrice3 + competitorPrice4) / 4;
+            let benchmarkScore = yourPrice - avgCompetitorPrice;
+            document.getElementById('benchmarkScore').innerText = benchmarkScore.toFixed(2);
+
+            updateChart(yourPrice, avgCompetitorPrice);
+        }
+
+        function updateChart(yourPrice, avgCompetitorPrice) {
+            let ctx = document.getElementById('benchmarkChart').getContext('2d');
+            if (benchmarkChart) {
+                benchmarkChart.destroy();
+            }
+
+            benchmarkChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Your Price', 'Average Competitor Price'],
+                    datasets: [{
+                        label: 'Price Comparison (₹)',
+                        data: [yourPrice, avgCompetitorPrice],
+                        backgroundColor: ['#4CAF50', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateBenchmark;
+    </script>
+</body>
+</html>

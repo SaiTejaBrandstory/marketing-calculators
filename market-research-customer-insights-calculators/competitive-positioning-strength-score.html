@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitive Positioning Strength Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Competitive Positioning Strength Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps evaluate your competitive positioning in the market based on key factors like brand awareness, product differentiation, and customer loyalty.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The score is calculated by averaging the following factors:</p>
+        <ul>
+            <li><b>Brand Awareness:</b> Score between 1 (low) and 10 (high).</li>
+            <li><b>Product Differentiation:</b> Score between 1 (low) and 10 (high).</li>
+            <li><b>Customer Loyalty:</b> Score between 1 (low) and 10 (high).</li>
+        </ul>
+        <p>The formula is:</p>
+        <ul>
+            <li><b>Competitive Positioning Strength Score</b> = (Brand Awareness + Product Differentiation + Customer Loyalty) / 3</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the following data is provided:</p>
+        <ul>
+            <li><b>Brand Awareness:</b> 8</li>
+            <li><b>Product Differentiation:</b> 7</li>
+            <li><b>Customer Loyalty:</b> 9</li>
+        </ul>
+        <p>The score would be:</p>
+        <p>Competitive Positioning Strength Score = (8 + 7 + 9) / 3 = <b>8.0</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Competitive Positioning Strength Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Brand Awareness (1-10)</b></td>
+                        <td><input type="number" id="brandAwareness" class="form-control" value="8" min="1" max="10" oninput="calculatePositioningScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Product Differentiation (1-10)</b></td>
+                        <td><input type="number" id="productDifferentiation" class="form-control" value="7" min="1" max="10" oninput="calculatePositioningScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Loyalty (1-10)</b></td>
+                        <td><input type="number" id="customerLoyalty" class="form-control" value="9" min="1" max="10" oninput="calculatePositioningScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitive Positioning Strength Score</b></td>
+                        <td><h4 class="text-success" id="positioningScore">8.0</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="positioningChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What factors affect Competitive Positioning Strength?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score considers brand awareness, product differentiation, and customer loyalty as the core factors that determine your market position.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Competitive Positioning Strength Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score is the average of the three key factors: brand awareness, product differentiation, and customer loyalty.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>What does a higher score indicate?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher score indicates a stronger competitive position in the market, suggesting that your brand is more recognizable, differentiated, and enjoys greater customer loyalty.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Competitive Positioning Strength Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let positioningChart;
+
+        function calculatePositioningScore() {
+            let brandAwareness = parseFloat(document.getElementById('brandAwareness').value) || 1;
+            let productDifferentiation = parseFloat(document.getElementById('productDifferentiation').value) || 1;
+            let customerLoyalty = parseFloat(document.getElementById('customerLoyalty').value) || 1;
+
+            let positioningScore = ((brandAwareness + productDifferentiation + customerLoyalty) / 3).toFixed(1);
+            document.getElementById('positioningScore').innerText = positioningScore;
+
+            updateChart(brandAwareness, productDifferentiation, customerLoyalty);
+        }
+
+        function updateChart(brandAwareness, productDifferentiation, customerLoyalty) {
+            let ctx = document.getElementById('positioningChart').getContext('2d');
+            if (positioningChart) {
+                positioningChart.destroy();
+            }
+
+            positioningChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Brand Awareness', 'Product Differentiation', 'Customer Loyalty'],
+                    datasets: [{
+                        label: 'Factors',
+                        data: [brandAwareness, productDifferentiation, customerLoyalty],
+                        backgroundColor: ['#4CAF50', '#FF9800', '#FF6F61'],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        window.onload = calculatePositioningScore;
+    </script>
+</body>
+</html>

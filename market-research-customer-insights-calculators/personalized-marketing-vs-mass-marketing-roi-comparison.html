@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Marketing vs. Mass Marketing ROI Comparison</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Personalized Marketing vs. Mass Marketing ROI Comparison</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator compares the ROI of personalized marketing versus mass marketing based on various input values.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The ROI comparison is calculated as follows:</p>
+        <ul>
+            <li><b>ROI = (Revenue - Cost) / Cost × 100</b></li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>For <b>Personalized Marketing</b>:</p>
+        <ul>
+            <li>Revenue: ₹50,000</li>
+            <li>Cost: ₹20,000</li>
+            <li><b>ROI = (50,000 - 20,000) / 20,000 × 100 = 150%</b></li>
+        </ul>
+
+        <p>For <b>Mass Marketing</b>:</p>
+        <ul>
+            <li>Revenue: ₹80,000</li>
+            <li>Cost: ₹30,000</li>
+            <li><b>ROI = (80,000 - 30,000) / 30,000 × 100 = 166.67%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Marketing ROI Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Personalized Marketing Revenue (₹)</b></td>
+                        <td><input type="number" id="personalizedRevenue" class="form-control" value="50000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Personalized Marketing Cost (₹)</b></td>
+                        <td><input type="number" id="personalizedCost" class="form-control" value="20000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Mass Marketing Revenue (₹)</b></td>
+                        <td><input type="number" id="massRevenue" class="form-control" value="80000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Mass Marketing Cost (₹)</b></td>
+                        <td><input type="number" id="massCost" class="form-control" value="30000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Personalized Marketing ROI (%)</b></td>
+                        <td><h4 class="text-success" id="personalizedROI">150</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Mass Marketing ROI (%)</b></td>
+                        <td><h4 class="text-success" id="massROI">166.67</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="roiChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is ROI in marketing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI (Return on Investment) in marketing measures the effectiveness of a marketing campaign by comparing the revenue generated to the cost incurred.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is ROI calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula for calculating ROI is: <b>(Revenue - Cost) / Cost × 100</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Personalized Marketing ROI higher than Mass Marketing ROI?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Personalized marketing often generates higher revenue relative to its cost, as it targets specific segments of customers with tailored messages, leading to higher engagement and conversions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Personalized Marketing vs. Mass Marketing ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let personalizedRevenue = parseFloat(document.getElementById('personalizedRevenue').value) || 1;  // default to 1 if empty or invalid
+            let personalizedCost = parseFloat(document.getElementById('personalizedCost').value) || 1;  // default to 1 if empty or invalid
+            let massRevenue = parseFloat(document.getElementById('massRevenue').value) || 1;  // default to 1 if empty or invalid
+            let massCost = parseFloat(document.getElementById('massCost').value) || 1;  // default to 1 if empty or invalid
+
+            // If revenue or cost is zero, set ROI to 0
+            let personalizedROI = (personalizedRevenue && personalizedCost) ? ((personalizedRevenue - personalizedCost) / personalizedCost) * 100 : 0;
+            let massROI = (massRevenue && massCost) ? ((massRevenue - massCost) / massCost) * 100 : 0;
+
+            document.getElementById('personalizedROI').innerText = personalizedROI.toFixed(2);
+            document.getElementById('massROI').innerText = massROI.toFixed(2);
+
+            updateChart(personalizedROI, massROI);
+        }
+
+        function updateChart(personalizedROI, massROI) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Personalized Marketing ROI', 'Mass Marketing ROI'],
+                    datasets: [{
+                        label: 'ROI (%)',
+                        data: [personalizedROI, massROI],
+                        backgroundColor: ['#FF6F61', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

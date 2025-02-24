@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branded Content vs. Traditional Ads Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Branded Content vs. Traditional Ads Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            Compare the effectiveness of Branded Content and Traditional Ads based on Engagement, Conversion Rate, and ROI.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Performance Score = (Engagement + Conversion Rate + ROI) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Branded Content:</b></p>
+        <p><b>Engagement:</b> 80</p>
+        <p><b>Conversion Rate:</b> 70</p>
+        <p><b>ROI:</b> 90</p>
+        <p><b>Performance Score for Branded Content = (80 + 70 + 90) / 3 = 80.00</b></p>
+
+        <p><b>Traditional Ads:</b></p>
+        <p><b>Engagement:</b> 60</p>
+        <p><b>Conversion Rate:</b> 50</p>
+        <p><b>ROI:</b> 65</p>
+        <p><b>Performance Score for Traditional Ads = (60 + 50 + 65) / 3 = 58.33</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Branded Content vs Traditional Ads</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Engagement (Branded Content)</b></td>
+                        <td><input type="number" id="brandedEngagement" class="form-control" value="80" oninput="calculateScores()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate (Branded Content)</b></td>
+                        <td><input type="number" id="brandedConversionRate" class="form-control" value="70" oninput="calculateScores()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI (Branded Content)</b></td>
+                        <td><input type="number" id="brandedROI" class="form-control" value="90" oninput="calculateScores()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Performance Score (Branded Content)</b></td>
+                        <td><h4 class="text-success" id="brandedScore">80.00</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Engagement (Traditional Ads)</b></td>
+                        <td><input type="number" id="traditionalEngagement" class="form-control" value="60" oninput="calculateScores()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate (Traditional Ads)</b></td>
+                        <td><input type="number" id="traditionalConversionRate" class="form-control" value="50" oninput="calculateScores()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI (Traditional Ads)</b></td>
+                        <td><input type="number" id="traditionalROI" class="form-control" value="65" oninput="calculateScores()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Performance Score (Traditional Ads)</b></td>
+                        <td><h4 class="text-success" id="traditionalScore">58.33</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="performanceChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Branded Content vs Traditional Ads Performance Calculator?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The calculator helps compare the performance of branded content and traditional ads based on engagement, conversion rates, and ROI.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Performance Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The performance score is calculated by averaging the Engagement, Conversion Rate, and ROI for both Branded Content and Traditional Ads.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is this comparison important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This comparison helps businesses decide which marketing approach (branded content or traditional ads) yields better performance for their brand.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Branded Content vs Traditional Ads Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let performanceChart;
+
+        function calculateScores() {
+            let brandedEngagement = parseFloat(document.getElementById('brandedEngagement').value) || 0;
+            let brandedConversionRate = parseFloat(document.getElementById('brandedConversionRate').value) || 0;
+            let brandedROI = parseFloat(document.getElementById('brandedROI').value) || 0;
+            
+            let traditionalEngagement = parseFloat(document.getElementById('traditionalEngagement').value) || 0;
+            let traditionalConversionRate = parseFloat(document.getElementById('traditionalConversionRate').value) || 0;
+            let traditionalROI = parseFloat(document.getElementById('traditionalROI').value) || 0;
+            
+            let brandedPerformanceScore = (brandedEngagement + brandedConversionRate + brandedROI) / 3;
+            let traditionalPerformanceScore = (traditionalEngagement + traditionalConversionRate + traditionalROI) / 3;
+            
+            document.getElementById('brandedScore').innerText = brandedPerformanceScore.toFixed(2);
+            document.getElementById('traditionalScore').innerText = traditionalPerformanceScore.toFixed(2);
+
+            updateChart(brandedPerformanceScore, traditionalPerformanceScore);
+        }
+
+        function updateChart(brandedPerformanceScore, traditionalPerformanceScore) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+
+            performanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Branded Content', 'Traditional Ads'],
+                    datasets: [{
+                        label: 'Performance Score',
+                        data: [brandedPerformanceScore, traditionalPerformanceScore],
+                        backgroundColor: ['#4CAF50', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateScores;
+    </script>
+</body>
+</html>

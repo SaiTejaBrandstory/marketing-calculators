@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Journey Mapping Effectiveness Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Journey Mapping Effectiveness Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps evaluate the effectiveness of your customer journey mapping process by assessing customer touchpoints and their impact on the overall customer experience.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Customer Journey Effectiveness Score = (Touchpoint Optimization + Customer Engagement + Brand Consistency + Conversion Rate) / 4</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Touchpoint Optimization:</b> 80</p>
+        <p><b>Customer Engagement:</b> 75</p>
+        <p><b>Brand Consistency:</b> 85</p>
+        <p><b>Conversion Rate:</b> 90</p>
+        <p><b>Customer Journey Effectiveness Score = (80 + 75 + 85 + 90) / 4 = 82.5</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Customer Journey Effectiveness</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Touchpoint Optimization</b></td>
+                        <td><input type="number" id="touchpointOptimization" class="form-control" value="80" oninput="calculateEffectivenessScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Engagement</b></td>
+                        <td><input type="number" id="customerEngagement" class="form-control" value="75" oninput="calculateEffectivenessScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Consistency</b></td>
+                        <td><input type="number" id="brandConsistency" class="form-control" value="85" oninput="calculateEffectivenessScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate</b></td>
+                        <td><input type="number" id="conversionRate" class="form-control" value="90" oninput="calculateEffectivenessScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Journey Effectiveness Score</b></td>
+                        <td><h4 class="text-success" id="effectivenessScore">82.5</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="effectivenessChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Customer Journey Mapping Effectiveness Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Customer Journey Mapping Effectiveness Score evaluates the effectiveness of your customer journey by assessing key touchpoints, engagement, brand consistency, and conversion.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Customer Journey Mapping Effectiveness Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>Customer Journey Effectiveness Score = (Touchpoint Optimization + Customer Engagement + Brand Consistency + Conversion Rate) / 4</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Customer Journey Mapping important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Customer Journey Mapping helps businesses understand the customer experience at every touchpoint, allowing them to optimize interactions, improve engagement, and increase conversions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Journey Mapping Effectiveness Tool. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let effectivenessChart;
+
+        function calculateEffectivenessScore() {
+            let touchpointOptimization = parseFloat(document.getElementById('touchpointOptimization').value) || 0;
+            let customerEngagement = parseFloat(document.getElementById('customerEngagement').value) || 0;
+            let brandConsistency = parseFloat(document.getElementById('brandConsistency').value) || 0;
+            let conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+
+            let effectivenessScore = (touchpointOptimization + customerEngagement + brandConsistency + conversionRate) / 4;
+
+            document.getElementById('effectivenessScore').innerText = effectivenessScore.toFixed(2);
+
+            updateChart(touchpointOptimization, customerEngagement, brandConsistency, conversionRate);
+        }
+
+        function updateChart(touchpointOptimization, customerEngagement, brandConsistency, conversionRate) {
+            let ctx = document.getElementById('effectivenessChart').getContext('2d');
+            if (effectivenessChart) {
+                effectivenessChart.destroy();
+            }
+
+            effectivenessChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Touchpoint Optimization', 'Customer Engagement', 'Brand Consistency', 'Conversion Rate'],
+                    datasets: [{
+                        label: 'Scores',
+                        data: [touchpointOptimization, customerEngagement, brandConsistency, conversionRate],
+                        backgroundColor: '#4CAF50',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateEffectivenessScore;
+    </script>
+</body>
+</html>

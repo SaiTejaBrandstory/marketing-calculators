@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Budget Allocation Optimizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Marketing Budget Allocation Optimizer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you allocate your marketing budget across different channels based on their ROI.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The budget for each channel is calculated as:</p>
+        <ul>
+            <li><b>Allocation for Channel</b> = (Channel ROI / Total ROI) × Total Budget</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the total budget is ₹100,000, and the ROI for channels is as follows:</p>
+        <ul>
+            <li><b>Social Media</b>: ROI = 0.5</li>
+            <li><b>Email Marketing</b>: ROI = 0.3</li>
+            <li><b>SEO</b>: ROI = 0.2</li>
+        </ul>
+        <p>The total ROI = 0.5 + 0.3 + 0.2 = 1.0, so the budget allocation will be:</p>
+        <ul>
+            <li><b>Social Media</b>: ₹50,000</li>
+            <li><b>Email Marketing</b>: ₹30,000</li>
+            <li><b>SEO</b>: ₹20,000</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input Marketing Budget and ROI</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Total Budget (₹)</b></td>
+                        <td><input type="number" id="totalBudget" class="form-control" value="100000" oninput="calculateBudgetAllocation()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI for Social Media</b></td>
+                        <td><input type="number" id="roiSocialMedia" class="form-control" value="0.5" oninput="calculateBudgetAllocation()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI for Email Marketing</b></td>
+                        <td><input type="number" id="roiEmailMarketing" class="form-control" value="0.3" oninput="calculateBudgetAllocation()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI for SEO</b></td>
+                        <td><input type="number" id="roiSEO" class="form-control" value="0.2" oninput="calculateBudgetAllocation()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Allocation for Social Media (₹)</b></td>
+                        <td><h4 class="text-success" id="socialMediaBudget">50,000</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Allocation for Email Marketing (₹)</b></td>
+                        <td><h4 class="text-success" id="emailMarketingBudget">30,000</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Allocation for SEO (₹)</b></td>
+                        <td><h4 class="text-success" id="seoBudget">20,000</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Budget Allocation Chart</b></h4>
+                <canvas id="budgetChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Marketing Budget Allocation?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Marketing budget allocation refers to the process of distributing a set marketing budget across various channels (such as social media, SEO, email marketing) based on their return on investment (ROI).
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the allocation calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The allocation is calculated by dividing the ROI of each channel by the total ROI, and then multiplying by the total budget.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is ROI important for marketing budget allocation?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI helps determine how effectively a marketing channel uses the allocated budget. By calculating the ROI, you can prioritize channels that give the best return on your investment.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Marketing Budget Allocation Optimizer. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let budgetChart;
+
+        function calculateBudgetAllocation() {
+            let totalBudget = parseFloat(document.getElementById('totalBudget').value) || 0;
+            let roiChannels = [
+                { channel: 'Social Media', roi: parseFloat(document.getElementById('roiSocialMedia').value) || 0 },
+                { channel: 'Email Marketing', roi: parseFloat(document.getElementById('roiEmailMarketing').value) || 0 },
+                { channel: 'SEO', roi: parseFloat(document.getElementById('roiSEO').value) || 0 }
+            ];
+
+            let totalRoi = roiChannels.reduce((acc, channel) => acc + channel.roi, 0);
+            
+            // Calculate allocations based on ROI and total budget
+            roiChannels.forEach(channel => {
+                if (totalRoi > 0) {
+                    channel.allocation = totalBudget * (channel.roi / totalRoi);
+                } else {
+                    channel.allocation = 0;
+                }
+            });
+
+            // Display values
+            document.getElementById('socialMediaBudget').innerText = `₹${roiChannels[0].allocation.toFixed(2)}`;
+            document.getElementById('emailMarketingBudget').innerText = `₹${roiChannels[1].allocation.toFixed(2)}`;
+            document.getElementById('seoBudget').innerText = `₹${roiChannels[2].allocation.toFixed(2)}`;
+
+            // Update the chart
+            updateChart(roiChannels);
+        }
+
+        function updateChart(roiChannels) {
+            let ctx = document.getElementById('budgetChart').getContext('2d');
+            if (budgetChart) {
+                budgetChart.destroy();
+            }
+
+            budgetChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: roiChannels.map(channel => channel.channel),
+                    datasets: [{
+                        label: 'Budget Allocation (₹)',
+                        data: roiChannels.map(channel => channel.allocation),
+                        backgroundColor: ['#FF6F61', '#4CAF50', '#FF9800'],
+                        borderColor: ['#FF6F61', '#4CAF50', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateBudgetAllocation;
+    </script>
+</body>
+</html>

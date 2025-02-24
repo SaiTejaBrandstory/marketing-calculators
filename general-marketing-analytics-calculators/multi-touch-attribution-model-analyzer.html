@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Touch Attribution Model Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Multi-Touch Attribution Model Analyzer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool analyzes the distribution of credit to different touchpoints in a customer’s journey based on a multi-touch attribution model.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The attribution to each touchpoint can be calculated using the formula:</p>
+        <ul>
+            <li><b>Attribution for Channel</b> = (Channel Touchpoint Value / Total Touchpoint Value) × Total Conversion Value</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the total conversion value is ₹100,000, and the touchpoint values are as follows:</p>
+        <ul>
+            <li><b>First Touch (Social Media)</b>: Value = 30</li>
+            <li><b>Middle Touch (Email Marketing)</b>: Value = 50</li>
+            <li><b>Last Touch (SEO)</b>: Value = 20</li>
+        </ul>
+        <p>The total touchpoint value = 30 + 50 + 20 = 100, so the attribution will be:</p>
+        <ul>
+            <li><b>Social Media:</b> ₹30,000</li>
+            <li><b>Email Marketing:</b> ₹50,000</li>
+            <li><b>SEO:</b> ₹20,000</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input Touchpoint Values and Conversion Value</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Total Conversion Value (₹)</b></td>
+                        <td><input type="number" id="totalConversionValue" class="form-control" value="100000" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>First Touch Value (Social Media)</b></td>
+                        <td><input type="number" id="firstTouch" class="form-control" value="30" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Middle Touch Value (Email Marketing)</b></td>
+                        <td><input type="number" id="middleTouch" class="form-control" value="50" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Last Touch Value (SEO)</b></td>
+                        <td><input type="number" id="lastTouch" class="form-control" value="20" oninput="calculateAttribution()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Attribution for Social Media (₹)</b></td>
+                        <td><h4 class="text-success" id="socialMediaAttribution">30,000</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Attribution for Email Marketing (₹)</b></td>
+                        <td><h4 class="text-success" id="emailMarketingAttribution">50,000</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Attribution for SEO (₹)</b></td>
+                        <td><h4 class="text-success" id="seoAttribution">20,000</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Attribution Distribution Chart</b></h4>
+                <canvas id="attributionChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Multi-Touch Attribution?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Multi-touch attribution is a method that assigns credit to different touchpoints in a customer’s journey that contribute to a conversion or sale. It takes into account all touchpoints (first, middle, and last) leading to the conversion.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the attribution calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Attribution is calculated by dividing the value of each touchpoint by the total value of all touchpoints and multiplying it by the total conversion value.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Multi-Touch Attribution important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Multi-touch attribution helps marketers understand how different channels contribute to a conversion. By knowing which channels perform better, you can allocate your budget more effectively for greater ROI.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Multi-Touch Attribution Model Analyzer. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let attributionChart;
+
+        function calculateAttribution() {
+            let totalConversionValue = parseFloat(document.getElementById('totalConversionValue').value) || 0;
+            let touchpoints = [
+                { channel: 'Social Media', value: parseFloat(document.getElementById('firstTouch').value) || 0 },
+                { channel: 'Email Marketing', value: parseFloat(document.getElementById('middleTouch').value) || 0 },
+                { channel: 'SEO', value: parseFloat(document.getElementById('lastTouch').value) || 0 }
+            ];
+
+            let totalTouchpointValue = touchpoints.reduce((acc, touchpoint) => acc + touchpoint.value, 0);
+            
+            // Calculate attribution based on touchpoint value and total conversion value
+            touchpoints.forEach(touchpoint => {
+                if (totalTouchpointValue > 0) {
+                    touchpoint.attribution = totalConversionValue * (touchpoint.value / totalTouchpointValue);
+                } else {
+                    touchpoint.attribution = 0;
+                }
+            });
+
+            // Display values
+            document.getElementById('socialMediaAttribution').innerText = `₹${touchpoints[0].attribution.toFixed(2)}`;
+            document.getElementById('emailMarketingAttribution').innerText = `₹${touchpoints[1].attribution.toFixed(2)}`;
+            document.getElementById('seoAttribution').innerText = `₹${touchpoints[2].attribution.toFixed(2)}`;
+
+            // Update the chart
+            updateChart(touchpoints);
+        }
+
+        function updateChart(touchpoints) {
+            let ctx = document.getElementById('attributionChart').getContext('2d');
+            if (attributionChart) {
+                attributionChart.destroy();
+            }
+
+            attributionChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: touchpoints.map(touchpoint => touchpoint.channel),
+                    datasets: [{
+                        label: 'Attribution Distribution (₹)',
+                        data: touchpoints.map(touchpoint => touchpoint.attribution),
+                        backgroundColor: ['#FF6F61', '#4CAF50', '#FF9800'],
+                        borderColor: ['#FF6F61', '#4CAF50', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateAttribution;
+    </script>
+</body>
+</html>

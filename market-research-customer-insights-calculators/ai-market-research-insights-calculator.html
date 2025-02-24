@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Market Research Insights Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Powered Market Research Insights Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator uses AI-powered algorithms to analyze market trends, customer behavior, and competitor insights to generate actionable recommendations for your business.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The AI-Powered Market Research Insights Calculator considers the following key metrics:</p>
+        <ul>
+            <li><b>Customer Demand Score</b>: A score based on customer demand for the product/service.</li>
+            <li><b>Market Trend Score</b>: A score indicating how the market is shifting in favor or against the product.</li>
+            <li><b>Competitor Position Score</b>: A score indicating how your product performs compared to competitors.</li>
+        </ul>
+        <p>The formula to calculate the AI Insights Score is:</p>
+        <p><b>AI Insights Score = (Customer Demand Score + Market Trend Score + Competitor Position Score) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If you have the following scores:</p>
+        <ul>
+            <li><b>Customer Demand Score</b>: 8</li>
+            <li><b>Market Trend Score</b>: 7</li>
+            <li><b>Competitor Position Score</b>: 6</li>
+        </ul>
+        <p>The AI Insights Score is calculated as: <b>(8 + 7 + 6) / 3 = 7.0</b>.</p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for AI-Powered Market Research Insights Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Customer Demand Score (1-10)</b></td>
+                        <td><input type="number" id="customerDemandScore" class="form-control" value="8" oninput="calculateAIInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Market Trend Score (1-10)</b></td>
+                        <td><input type="number" id="marketTrendScore" class="form-control" value="7" oninput="calculateAIInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitor Position Score (1-10)</b></td>
+                        <td><input type="number" id="competitorPositionScore" class="form-control" value="6" oninput="calculateAIInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>AI Insights Score</b></td>
+                        <td><h4 class="text-success" id="aiInsightsScore">7.0</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="aiInsightsChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the AI-Powered Market Research Insights Calculator?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This tool uses AI-powered algorithms to generate insights based on market trends, customer demand, and competitor performance to help businesses make informed decisions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I calculate the AI Insights Score?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The AI Insights Score is the average of three key scores: Customer Demand Score, Market Trend Score, and Competitor Position Score. It helps businesses understand how well they are positioned in the market.
+                        <br><br>
+                        <b>AI Insights Score = (Customer Demand Score + Market Trend Score + Competitor Position Score) / 3</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is AI-Powered Market Research important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI-powered market research helps businesses make data-driven decisions by providing actionable insights about customer preferences, market trends, and competitor strategies. It helps optimize product offerings, marketing strategies, and market positioning.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Powered Market Research Insights Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let aiInsightsChart;
+
+        function calculateAIInsights() {
+            let customerDemandScore = parseFloat(document.getElementById('customerDemandScore').value) || 8;
+            let marketTrendScore = parseFloat(document.getElementById('marketTrendScore').value) || 7;
+            let competitorPositionScore = parseFloat(document.getElementById('competitorPositionScore').value) || 6;
+
+            let aiInsightsScore = (customerDemandScore + marketTrendScore + competitorPositionScore) / 3;
+            document.getElementById('aiInsightsScore').innerText = aiInsightsScore.toFixed(2);
+
+            updateChart(customerDemandScore, marketTrendScore, competitorPositionScore, aiInsightsScore);
+        }
+
+        function updateChart(customerDemandScore, marketTrendScore, competitorPositionScore, aiInsightsScore) {
+            let ctx = document.getElementById('aiInsightsChart').getContext('2d');
+            if (aiInsightsChart) {
+                aiInsightsChart.destroy();
+            }
+
+            aiInsightsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Customer Demand', 'Market Trend', 'Competitor Position'],
+                    datasets: [{
+                        label: 'AI Insights Scores (1-10)',
+                        data: [customerDemandScore, marketTrendScore, competitorPositionScore],
+                        backgroundColor: ['#FF6F61', '#4CAF50', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateAIInsights;
+    </script>
+</body>
+</html>

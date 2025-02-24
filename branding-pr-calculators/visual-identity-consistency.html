@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Identity Consistency Score Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Visual Identity Consistency Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Visual Identity Consistency Score measures how consistently your brand's visual elements are applied across different channels.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Visual Identity Consistency Score = (Logo Consistency + Color Scheme Consistency + Typography Consistency) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Logo Consistency:</b> 85</p>
+        <p><b>Color Scheme Consistency:</b> 90</p>
+        <p><b>Typography Consistency:</b> 80</p>
+        <p><b>Visual Identity Consistency Score = (85 + 90 + 80) / 3 = 85.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Visual Identity Consistency Score</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Logo Consistency</b></td>
+                        <td><input type="number" id="logoConsistency" class="form-control" value="85" oninput="calculateConsistencyScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Color Scheme Consistency</b></td>
+                        <td><input type="number" id="colorConsistency" class="form-control" value="90" oninput="calculateConsistencyScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Typography Consistency</b></td>
+                        <td><input type="number" id="typographyConsistency" class="form-control" value="80" oninput="calculateConsistencyScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Visual Identity Consistency Score</b></td>
+                        <td><h4 class="text-success" id="consistencyScore">85.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="consistencyChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Visual Identity Consistency Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Visual Identity Consistency Score evaluates how consistently your brand’s visual elements (logo, colors, typography) are applied across various platforms.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Visual Identity Consistency Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Logo Consistency + Color Scheme Consistency + Typography Consistency) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Visual Identity Consistency important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A consistent visual identity increases brand recognition and strengthens your brand’s message across all touchpoints.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Visual Identity Consistency Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let consistencyChart;
+
+        function calculateConsistencyScore() {
+            let logoConsistency = parseFloat(document.getElementById('logoConsistency').value) || 0;
+            let colorConsistency = parseFloat(document.getElementById('colorConsistency').value) || 0;
+            let typographyConsistency = parseFloat(document.getElementById('typographyConsistency').value) || 0;
+
+            let consistencyScore = (logoConsistency + colorConsistency + typographyConsistency) / 3;
+
+            document.getElementById('consistencyScore').innerText = consistencyScore.toFixed(2);
+
+            updateChart(logoConsistency, colorConsistency, typographyConsistency);
+        }
+
+        function updateChart(logoConsistency, colorConsistency, typographyConsistency) {
+            let ctx = document.getElementById('consistencyChart').getContext('2d');
+            if (consistencyChart) {
+                consistencyChart.destroy();
+            }
+
+            consistencyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Logo Consistency', 'Color Scheme Consistency', 'Typography Consistency'],
+                    datasets: [{
+                        data: [logoConsistency, colorConsistency, typographyConsistency],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateConsistencyScore;
+    </script>
+</body>
+</html>

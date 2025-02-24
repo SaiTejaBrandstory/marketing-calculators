@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Market Entry Risk Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>New Market Entry Risk Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you assess the risk associated with entering a new market based on various factors like competition, market readiness, and economic conditions.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The risk score is calculated using the following factors:</p>
+        <ul>
+            <li><b>Competition Level:</b> Score between 1 (low) and 10 (high).</li>
+            <li><b>Market Readiness:</b> Score between 1 (low) and 10 (high).</li>
+            <li><b>Economic Stability:</b> Score between 1 (unstable) and 10 (stable).</li>
+        </ul>
+        <p>The formula is:</p>
+        <ul>
+            <li><b>Risk Score</b> = (Competition Level + Market Readiness + Economic Stability) / 3</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the following data is provided:</p>
+        <ul>
+            <li><b>Competition Level:</b> 7</li>
+            <li><b>Market Readiness:</b> 6</li>
+            <li><b>Economic Stability:</b> 8</li>
+        </ul>
+        <p>The risk score would be:</p>
+        <p>Risk Score = (7 + 6 + 8) / 3 = <b>7.0</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for New Market Entry Risk Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Competition Level (1-10)</b></td>
+                        <td><input type="number" id="competitionLevel" class="form-control" value="7" min="1" max="10" oninput="calculateRiskScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Market Readiness (1-10)</b></td>
+                        <td><input type="number" id="marketReadiness" class="form-control" value="6" min="1" max="10" oninput="calculateRiskScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Economic Stability (1-10)</b></td>
+                        <td><input type="number" id="economicStability" class="form-control" value="8" min="1" max="10" oninput="calculateRiskScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Risk Score</b></td>
+                        <td><h4 class="text-danger" id="riskScore">7.0</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="riskScoreChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What factors contribute to the New Market Entry Risk Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score takes into account factors like the competition level in the market, market readiness for your product, and the overall economic stability of the region.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Risk Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The risk score is the average of the three key factors: competition level, market readiness, and economic stability.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>What does a high or low risk score indicate?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A high score indicates higher risk, suggesting that entering the market could be challenging, while a low score indicates lower risk and higher potential for success.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 New Market Entry Risk Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let riskScoreChart;
+
+        function calculateRiskScore() {
+            let competitionLevel = parseFloat(document.getElementById('competitionLevel').value) || 1;
+            let marketReadiness = parseFloat(document.getElementById('marketReadiness').value) || 1;
+            let economicStability = parseFloat(document.getElementById('economicStability').value) || 1;
+
+            let riskScore = ((competitionLevel + marketReadiness + economicStability) / 3).toFixed(1);
+            document.getElementById('riskScore').innerText = riskScore;
+
+            updateChart(competitionLevel, marketReadiness, economicStability);
+        }
+
+        function updateChart(competitionLevel, marketReadiness, economicStability) {
+            let ctx = document.getElementById('riskScoreChart').getContext('2d');
+            if (riskScoreChart) {
+                riskScoreChart.destroy();
+            }
+
+            riskScoreChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Competition Level', 'Market Readiness', 'Economic Stability'],
+                    datasets: [{
+                        label: 'Factors',
+                        data: [competitionLevel, marketReadiness, economicStability],
+                        backgroundColor: ['#FF6F61', '#4CAF50', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        window.onload = calculateRiskScore;
+    </script>
+</body>
+</html>

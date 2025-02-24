@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Licensing Revenue Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Licensing Revenue Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool estimates the potential revenue a brand can generate through licensing agreements by considering the licensing fee, royalty rate, and projected sales.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Licensing Revenue = Licensing Fee + (Royalty Rate * Projected Sales)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Licensing Fee:</b> ₹200000</p>
+        <p><b>Royalty Rate:</b> 5%</p>
+        <p><b>Projected Sales:</b> ₹5000000</p>
+        <p><b>Brand Licensing Revenue = ₹200000 + (5% * ₹5000000) = ₹200000 + ₹250000 = ₹450000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Brand Licensing Revenue Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Licensing Fee (₹)</b></td>
+                        <td><input type="number" id="licensingFee" class="form-control" value="200000" oninput="calculateLicensingRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Royalty Rate (%)</b></td>
+                        <td><input type="number" id="royaltyRate" class="form-control" value="5" oninput="calculateLicensingRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Projected Sales (₹)</b></td>
+                        <td><input type="number" id="projectedSales" class="form-control" value="5000000" oninput="calculateLicensingRevenue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Licensing Revenue</b></td>
+                        <td><h4 class="text-success" id="licensingRevenue">₹450000.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="licensingChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Brand Licensing Revenue?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Brand Licensing Revenue is the income a brand earns by licensing its intellectual property (IP) to other companies, typically through a licensing fee and royalties on sales.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Brand Licensing Revenue calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>Brand Licensing Revenue = Licensing Fee + (Royalty Rate * Projected Sales)</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Brand Licensing Revenue important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Brand Licensing Revenue provides a significant stream of income for brands by monetizing their intellectual property without having to produce the actual goods or services.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Licensing Revenue Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let licensingChart;
+
+        function calculateLicensingRevenue() {
+            let licensingFee = parseFloat(document.getElementById('licensingFee').value) || 0;
+            let royaltyRate = parseFloat(document.getElementById('royaltyRate').value) || 0;
+            let projectedSales = parseFloat(document.getElementById('projectedSales').value) || 0;
+
+            let royaltyRevenue = (royaltyRate / 100) * projectedSales;
+            let licensingRevenue = licensingFee + royaltyRevenue;
+
+            document.getElementById('licensingRevenue').innerText = "₹" + licensingRevenue.toFixed(2);
+
+            updateChart(licensingFee, royaltyRevenue);
+        }
+
+        function updateChart(licensingFee, royaltyRevenue) {
+            let ctx = document.getElementById('licensingChart').getContext('2d');
+            if (licensingChart) {
+                licensingChart.destroy();
+            }
+
+            licensingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Licensing Fee', 'Royalty Revenue'],
+                    datasets: [{
+                        data: [licensingFee, royaltyRevenue],
+                        backgroundColor: ['#FF9800', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateLicensingRevenue;
+    </script>
+</body>
+</html>

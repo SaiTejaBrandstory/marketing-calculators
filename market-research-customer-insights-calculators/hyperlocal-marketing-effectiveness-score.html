@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyperlocal Marketing Effectiveness Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Hyperlocal Marketing Effectiveness Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps evaluate the effectiveness of your hyperlocal marketing campaigns based on different parameters.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The formula for calculating the Hyperlocal Marketing Effectiveness Score (HMES) is:</p>
+        <pre>
+            HMES = (Local Engagement * 0.4) + (Brand Recognition * 0.3) + (Customer Retention * 0.3)
+        </pre>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the values for local engagement, brand recognition, and customer retention are as follows:</p>
+        <ul>
+            <li><b>Local Engagement</b>: 80</li>
+            <li><b>Brand Recognition</b>: 70</li>
+            <li><b>Customer Retention</b>: 75</li>
+        </ul>
+        <p>The formula will be:</p>
+        <pre>
+            HMES = (80 * 0.4) + (70 * 0.3) + (75 * 0.3) = 32 + 21 + 22.5 = 75.5
+        </pre>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Hyperlocal Marketing Effectiveness Score Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Local Engagement (0-100)</b></td>
+                        <td><input type="number" id="localEngagement" class="form-control" value="80" oninput="calculateHMES()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Recognition (0-100)</b></td>
+                        <td><input type="number" id="brandRecognition" class="form-control" value="70" oninput="calculateHMES()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Retention (0-100)</b></td>
+                        <td><input type="number" id="customerRetention" class="form-control" value="75" oninput="calculateHMES()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Hyperlocal Marketing Effectiveness Score (HMES)</b></td>
+                        <td><h4 class="text-success" id="hmesScore">75.5</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="hmesChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Hyperlocal Marketing Effectiveness Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let hmesChart;
+
+        function calculateHMES() {
+            let localEngagement = parseFloat(document.getElementById('localEngagement').value) || 0;
+            let brandRecognition = parseFloat(document.getElementById('brandRecognition').value) || 0;
+            let customerRetention = parseFloat(document.getElementById('customerRetention').value) || 0;
+
+            let hmesScore = (localEngagement * 0.4) + (brandRecognition * 0.3) + (customerRetention * 0.3);
+            document.getElementById('hmesScore').innerText = hmesScore.toFixed(1);
+
+            updateChart(localEngagement, brandRecognition, customerRetention, hmesScore);
+        }
+
+        function updateChart(localEngagement, brandRecognition, customerRetention, hmesScore) {
+            let ctx = document.getElementById('hmesChart').getContext('2d');
+            if (hmesChart) {
+                hmesChart.destroy();
+            }
+
+            hmesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Local Engagement', 'Brand Recognition', 'Customer Retention', 'HMES'],
+                    datasets: [{
+                        label: 'Scores (0-100)',
+                        data: [localEngagement, brandRecognition, customerRetention, hmesScore],
+                        backgroundColor: ['#FF6F61', '#FF9800', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateHMES;
+    </script>
+</body>
+</html>

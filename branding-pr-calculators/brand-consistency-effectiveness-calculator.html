@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Consistency Effectiveness Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Consistency Effectiveness Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps measure how effectively your brand maintains consistency across platforms.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Consistency Score = (Visual Consistency + Message Consistency + Customer Recognition) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Visual Consistency:</b> 90</p>
+        <p><b>Message Consistency:</b> 85</p>
+        <p><b>Customer Recognition:</b> 80</p>
+        <p><b>Brand Consistency Score = (90 + 85 + 80) / 3 = 85.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Brand Consistency Score</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Visual Consistency</b></td>
+                        <td><input type="number" id="visualConsistency" class="form-control" value="90" oninput="calculateConsistency()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Message Consistency</b></td>
+                        <td><input type="number" id="messageConsistency" class="form-control" value="85" oninput="calculateConsistency()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Recognition</b></td>
+                        <td><input type="number" id="customerRecognition" class="form-control" value="80" oninput="calculateConsistency()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Consistency Score</b></td>
+                        <td><h4 class="text-success" id="consistencyScore">85.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="consistencyChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Brand Consistency Effectiveness?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Brand consistency measures how well a brand maintains a uniform identity, including visual elements, messaging, and customer perception.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Brand Consistency Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Visual Consistency + Message Consistency + Customer Recognition) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Brand Consistency important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Consistency strengthens brand recognition, builds trust, and ensures a cohesive customer experience across platforms.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Consistency Effectiveness Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let consistencyChart;
+
+        function calculateConsistency() {
+            let visualConsistency = parseFloat(document.getElementById('visualConsistency').value) || 0;
+            let messageConsistency = parseFloat(document.getElementById('messageConsistency').value) || 0;
+            let customerRecognition = parseFloat(document.getElementById('customerRecognition').value) || 0;
+
+            let consistencyScore = (visualConsistency + messageConsistency + customerRecognition) / 3;
+
+            document.getElementById('consistencyScore').innerText = consistencyScore.toFixed(2);
+
+            updateChart(visualConsistency, messageConsistency, customerRecognition);
+        }
+
+        function updateChart(visualConsistency, messageConsistency, customerRecognition) {
+            let ctx = document.getElementById('consistencyChart').getContext('2d');
+            if (consistencyChart) {
+                consistencyChart.destroy();
+            }
+
+            consistencyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Visual Consistency', 'Message Consistency', 'Customer Recognition'],
+                    datasets: [{
+                        data: [visualConsistency, messageConsistency, customerRecognition],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateConsistency;
+    </script>
+</body>
+</html>

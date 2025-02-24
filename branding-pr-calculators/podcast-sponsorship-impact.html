@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast Sponsorship Branding Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Podcast Sponsorship Branding Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Podcast Sponsorship Branding Impact Calculator evaluates the effectiveness of your podcast sponsorship in terms of audience reach, brand recall, and customer engagement.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Podcast Sponsorship Impact = (Audience Reach + Brand Recall + Customer Engagement) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Audience Reach:</b> 80</p>
+        <p><b>Brand Recall:</b> 70</p>
+        <p><b>Customer Engagement:</b> 90</p>
+        <p><b>Podcast Sponsorship Impact = (80 + 70 + 90) / 3 = 80.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Podcast Sponsorship Impact</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Audience Reach</b></td>
+                        <td><input type="number" id="audienceReach" class="form-control" value="80" oninput="calculatePodcastImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Recall</b></td>
+                        <td><input type="number" id="brandRecall" class="form-control" value="70" oninput="calculatePodcastImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Engagement</b></td>
+                        <td><input type="number" id="customerEngagement" class="form-control" value="90" oninput="calculatePodcastImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Podcast Sponsorship Impact</b></td>
+                        <td><h4 class="text-success" id="podcastImpact">80.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="impactChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Podcast Sponsorship Impact?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Podcast Sponsorship Impact measures how effective your podcast sponsorship has been in terms of audience reach, brand recall, and customer engagement.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Podcast Sponsorship Impact calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>Podcast Sponsorship Impact = (Audience Reach + Brand Recall + Customer Engagement) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Podcast Sponsorship Impact important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher Podcast Sponsorship Impact score indicates better brand exposure and engagement, leading to more effective sponsorships and increased brand loyalty.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Podcast Sponsorship Branding Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let impactChart;
+
+        function calculatePodcastImpact() {
+            let audienceReach = parseFloat(document.getElementById('audienceReach').value) || 0;
+            let brandRecall = parseFloat(document.getElementById('brandRecall').value) || 0;
+            let customerEngagement = parseFloat(document.getElementById('customerEngagement').value) || 0;
+
+            let podcastImpact = (audienceReach + brandRecall + customerEngagement) / 3;
+
+            document.getElementById('podcastImpact').innerText = podcastImpact.toFixed(2);
+
+            updateChart(audienceReach, brandRecall, customerEngagement);
+        }
+
+        function updateChart(audienceReach, brandRecall, customerEngagement) {
+            let ctx = document.getElementById('impactChart').getContext('2d');
+            if (impactChart) {
+                impactChart.destroy();
+            }
+
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Audience Reach', 'Brand Recall', 'Customer Engagement'],
+                    datasets: [{
+                        data: [audienceReach, brandRecall, customerEngagement],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculatePodcastImpact;
+    </script>
+</body>
+</html>

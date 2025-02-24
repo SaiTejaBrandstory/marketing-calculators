@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storytelling in Branding Effectiveness Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Storytelling in Branding Effectiveness Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator measures the effectiveness of storytelling in your brand's marketing efforts. It evaluates key elements such as emotional connection, narrative consistency, and audience engagement.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Storytelling Effectiveness = (Emotional Connection + Narrative Consistency + Audience Engagement) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Emotional Connection:</b> 85</p>
+        <p><b>Narrative Consistency:</b> 80</p>
+        <p><b>Audience Engagement:</b> 90</p>
+        <p><b>Storytelling Effectiveness = (85 + 80 + 90) / 3 = 85.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Storytelling Effectiveness</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Emotional Connection</b></td>
+                        <td><input type="number" id="emotionalConnection" class="form-control" value="85" oninput="calculateStorytellingEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Narrative Consistency</b></td>
+                        <td><input type="number" id="narrativeConsistency" class="form-control" value="80" oninput="calculateStorytellingEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Audience Engagement</b></td>
+                        <td><input type="number" id="audienceEngagement" class="form-control" value="90" oninput="calculateStorytellingEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Storytelling Effectiveness Score</b></td>
+                        <td><h4 class="text-success" id="storytellingScore">85.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="storytellingChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Storytelling in Branding?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Storytelling in branding involves creating a narrative that emotionally connects with your audience, supporting your brand's message and values.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Storytelling Effectiveness calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Emotional Connection + Narrative Consistency + Audience Engagement) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Storytelling important in Branding?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Storytelling helps build emotional connections, enhance brand recall, and foster stronger relationships with customers, improving overall brand loyalty and sales.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Storytelling in Branding Effectiveness Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let storytellingChart;
+
+        function calculateStorytellingEffectiveness() {
+            let emotionalConnection = parseFloat(document.getElementById('emotionalConnection').value) || 0;
+            let narrativeConsistency = parseFloat(document.getElementById('narrativeConsistency').value) || 0;
+            let audienceEngagement = parseFloat(document.getElementById('audienceEngagement').value) || 0;
+
+            let storytellingScore = (emotionalConnection + narrativeConsistency + audienceEngagement) / 3;
+
+            document.getElementById('storytellingScore').innerText = storytellingScore.toFixed(2);
+
+            updateChart(emotionalConnection, narrativeConsistency, audienceEngagement);
+        }
+
+        function updateChart(emotionalConnection, narrativeConsistency, audienceEngagement) {
+            let ctx = document.getElementById('storytellingChart').getContext('2d');
+            if (storytellingChart) {
+                storytellingChart.destroy();
+            }
+
+            storytellingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Emotional Connection', 'Narrative Consistency', 'Audience Engagement'],
+                    datasets: [{
+                        data: [emotionalConnection, narrativeConsistency, audienceEngagement],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateStorytellingEffectiveness;
+    </script>
+</body>
+</html>

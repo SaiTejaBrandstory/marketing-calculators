@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local vs. Global Branding Performance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Local vs. Global Branding Performance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps compare the branding performance of your business at local and global levels. It takes input from different regions and returns the score based on the local and global market performance.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Performance Score = (Local Branding Score + Global Branding Score) / 2</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Local Branding Score:</b> 70</p>
+        <p><b>Global Branding Score:</b> 85</p>
+        <p><b>Brand Performance Score = (70 + 85) / 2 = 77.50</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Local vs. Global Branding Performance Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Local Branding Score</b></td>
+                        <td><input type="number" id="localBranding" class="form-control" value="70" oninput="calculateBrandPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Global Branding Score</b></td>
+                        <td><input type="number" id="globalBranding" class="form-control" value="85" oninput="calculateBrandPerformance()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Performance Score</b></td>
+                        <td><h4 class="text-success" id="performanceScore">77.50</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="performanceChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Brand Performance Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Brand Performance Score combines the local and global branding scores to provide an overall view of the brand's performance in both markets.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Brand Performance Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>Brand Performance Score = (Local Branding Score + Global Branding Score) / 2</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is comparing Local vs. Global Branding important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Comparing local and global branding helps to understand the effectiveness of brand positioning across different markets and optimize strategies accordingly.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Local vs. Global Branding Performance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let performanceChart;
+
+        function calculateBrandPerformance() {
+            let localBranding = parseFloat(document.getElementById('localBranding').value) || 0;
+            let globalBranding = parseFloat(document.getElementById('globalBranding').value) || 0;
+
+            let performanceScore = (localBranding + globalBranding) / 2;
+
+            document.getElementById('performanceScore').innerText = performanceScore.toFixed(2);
+
+            updateChart(localBranding, globalBranding);
+        }
+
+        function updateChart(localBranding, globalBranding) {
+            let ctx = document.getElementById('performanceChart').getContext('2d');
+            if (performanceChart) {
+                performanceChart.destroy();
+            }
+
+            performanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Local Branding', 'Global Branding'],
+                    datasets: [{
+                        data: [localBranding, globalBranding],
+                        backgroundColor: ['#FF9800', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateBrandPerformance;
+    </script>
+</body>
+</html>

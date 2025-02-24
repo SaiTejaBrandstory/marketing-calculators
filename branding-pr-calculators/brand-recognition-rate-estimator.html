@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Recognition Rate Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Recognition Rate Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Brand Recognition Rate Estimator calculates how well a brand is recognized by potential customers. It uses the total number of survey participants and the number of people who recognized the brand.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Recognition Rate = (People Who Recognized the Brand / Total Survey Participants) × 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>People Who Recognized the Brand:</b> 350</p>
+        <p><b>Total Survey Participants:</b> 500</p>
+        <p><b>Brand Recognition Rate = (350 / 500) × 100 = 70.00%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Brand Recognition</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>People Who Recognized the Brand</b></td>
+                        <td><input type="number" id="recognizedPeople" class="form-control" value="350" oninput="calculateRecognitionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Survey Participants</b></td>
+                        <td><input type="number" id="totalParticipants" class="form-control" value="500" oninput="calculateRecognitionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Recognition Rate</b></td>
+                        <td><h4 class="text-success" id="recognitionRate">70.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="recognitionChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Brand Recognition Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Brand Recognition Rate measures the percentage of people in a survey who recognize a brand.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Brand Recognition Rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(People Who Recognized the Brand / Total Survey Participants) × 100</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is brand recognition important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        High brand recognition means more people are familiar with your brand, leading to increased trust and engagement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Recognition Rate Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let recognitionChart;
+
+        function calculateRecognitionRate() {
+            let recognizedPeople = parseFloat(document.getElementById('recognizedPeople').value) || 0;
+            let totalParticipants = parseFloat(document.getElementById('totalParticipants').value) || 1; // Avoid division by zero
+
+            let recognitionRate = (recognizedPeople / totalParticipants) * 100;
+
+            document.getElementById('recognitionRate').innerText = recognitionRate.toFixed(2) + "%";
+
+            updateChart(recognitionRate);
+        }
+
+        function updateChart(recognitionRate) {
+            let ctx = document.getElementById('recognitionChart').getContext('2d');
+            if (recognitionChart) {
+                recognitionChart.destroy();
+            }
+
+            recognitionChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Recognized the Brand', 'Did Not Recognize'],
+                    datasets: [{
+                        data: [recognitionRate, 100 - recognitionRate],
+                        backgroundColor: ['#2196F3', '#e0e0e0'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateRecognitionRate;
+    </script>
+</body>
+</html>

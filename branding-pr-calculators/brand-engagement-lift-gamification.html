@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Engagement Lift from Gamification Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Engagement Lift from Gamification Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool estimates the impact of gamification strategies on brand engagement by considering customer participation, reward systems, and social sharing metrics.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Engagement Lift = (Customer Participation + Reward Systems + Social Sharing) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Customer Participation:</b> 75</p>
+        <p><b>Reward Systems:</b> 85</p>
+        <p><b>Social Sharing:</b> 90</p>
+        <p><b>Brand Engagement Lift = (75 + 85 + 90) / 3 = 83.33</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Brand Engagement Lift from Gamification</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Customer Participation</b></td>
+                        <td><input type="number" id="customerParticipation" class="form-control" value="75" oninput="calculateEngagementLift()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Reward Systems</b></td>
+                        <td><input type="number" id="rewardSystems" class="form-control" value="85" oninput="calculateEngagementLift()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Social Sharing</b></td>
+                        <td><input type="number" id="socialSharing" class="form-control" value="90" oninput="calculateEngagementLift()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Brand Engagement Lift</b></td>
+                        <td><h4 class="text-success" id="engagementLift">83.33</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="engagementChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Brand Engagement Lift from Gamification?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Brand Engagement Lift from Gamification measures the increase in brand engagement driven by gamification strategies such as rewards, participation, and social sharing.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Brand Engagement Lift calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Customer Participation + Reward Systems + Social Sharing) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Brand Engagement Lift important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher Brand Engagement Lift indicates that gamification strategies have successfully enhanced user participation, brand loyalty, and social interaction, ultimately leading to higher brand visibility and success.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Engagement Lift from Gamification Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let engagementChart;
+
+        function calculateEngagementLift() {
+            let customerParticipation = parseFloat(document.getElementById('customerParticipation').value) || 0;
+            let rewardSystems = parseFloat(document.getElementById('rewardSystems').value) || 0;
+            let socialSharing = parseFloat(document.getElementById('socialSharing').value) || 0;
+
+            let engagementLift = (customerParticipation + rewardSystems + socialSharing) / 3;
+
+            document.getElementById('engagementLift').innerText = engagementLift.toFixed(2);
+
+            updateChart(customerParticipation, rewardSystems, socialSharing);
+        }
+
+        function updateChart(customerParticipation, rewardSystems, socialSharing) {
+            let ctx = document.getElementById('engagementChart').getContext('2d');
+            if (engagementChart) {
+                engagementChart.destroy();
+            }
+
+            engagementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Customer Participation', 'Reward Systems', 'Social Sharing'],
+                    datasets: [{
+                        data: [customerParticipation, rewardSystems, socialSharing],
+                        backgroundColor: ['#FF5733', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateEngagementLift;
+    </script>
+</body>
+</html>

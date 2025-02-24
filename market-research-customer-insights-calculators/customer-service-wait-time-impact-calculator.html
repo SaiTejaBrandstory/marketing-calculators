@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Service Wait Time Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Service Wait Time Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator estimates the impact of customer service wait times on customer satisfaction and retention.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The Wait Time Impact Score is calculated as a weighted average of the following factors:</p>
+        <ul>
+            <li><b>Average Wait Time (minutes)</b> (50% weight)</li>
+            <li><b>Customer Satisfaction</b> (30% weight)</li>
+            <li><b>Customer Retention Rate</b> (20% weight)</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the following data is provided:</p>
+        <ul>
+            <li><b>Average Wait Time</b>: 10 minutes</li>
+            <li><b>Customer Satisfaction</b>: 80%</li>
+            <li><b>Customer Retention Rate</b>: 90%</li>
+        </ul>
+        <p>The Wait Time Impact Score would be:</p>
+        <p><b>Wait Time Impact Score = (10 × 0.5 + (100 - 80) × 0.3 + 90 × 0.2) = 29</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Wait Time Impact Score Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Average Wait Time (minutes)</b></td>
+                        <td><input type="number" id="waitTime" class="form-control" value="10" oninput="calculateWaitTimeImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Satisfaction (%)</b></td>
+                        <td><input type="number" id="customerSatisfaction" class="form-control" value="80" oninput="calculateWaitTimeImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Retention Rate (%)</b></td>
+                        <td><input type="number" id="customerRetention" class="form-control" value="90" oninput="calculateWaitTimeImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Wait Time Impact Score</b></td>
+                        <td><h4 class="text-success" id="impactScore">29</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="impactChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Wait Time Impact Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Wait Time Impact Score quantifies how customer service wait times impact customer satisfaction and retention.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Wait Time Impact Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score is calculated by taking a weighted average of the average wait time, customer satisfaction, and retention rate.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is the Wait Time Impact Score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score helps identify the critical impact of wait times on customer satisfaction and retention, which is vital for optimizing customer service.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Service Wait Time Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let impactChart;
+
+        function calculateWaitTimeImpact() {
+            let waitTime = parseFloat(document.getElementById('waitTime').value) || 0;
+            let customerSatisfaction = parseFloat(document.getElementById('customerSatisfaction').value) || 0;
+            let customerRetention = parseFloat(document.getElementById('customerRetention').value) || 0;
+
+            // Calculation of the Wait Time Impact Score
+            let impactScore = (
+                (waitTime * 0.5) +
+                ((100 - customerSatisfaction) * 0.3) +
+                (customerRetention * 0.2)
+            );
+            document.getElementById('impactScore').innerText = impactScore.toFixed(2);
+
+            updateChart(waitTime, customerSatisfaction, customerRetention, impactScore);
+        }
+
+        function updateChart(waitTime, customerSatisfaction, customerRetention, impactScore) {
+            let ctx = document.getElementById('impactChart').getContext('2d');
+            if (impactChart) {
+                impactChart.destroy();
+            }
+
+            // Adjusting the graph values so it doesn't go beyond the 100 scale
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Average Wait Time', 'Customer Satisfaction', 'Customer Retention'],
+                    datasets: [{
+                        label: 'Wait Time Impact Factors',
+                        data: [waitTime, 100 - customerSatisfaction, customerRetention],
+                        backgroundColor: ['rgba(0, 188, 212, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                        borderColor: ['#00BCD4', '#FF6384', '#4BC0C0'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: Math.max(100, Math.max(waitTime, customerRetention, 100 - customerSatisfaction))
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateWaitTimeImpact;
+    </script>
+</body>
+</html>

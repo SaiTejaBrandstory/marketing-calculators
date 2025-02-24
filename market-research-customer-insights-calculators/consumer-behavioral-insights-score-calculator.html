@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Behavioral Insights Score Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Consumer Behavioral Insights Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you evaluate the Consumer Behavioral Insights Score based on various factors such as purchase frequency, purchase volume, and customer engagement level.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The Behavioral Insights Score is calculated using the following formula:</p>
+        <ul>
+            <li><b>Behavioral Insights Score = (Purchase Frequency * Purchase Volume * Customer Engagement Level) / 1000</b></li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the following data is provided:</p>
+        <ul>
+            <li><b>Purchase Frequency:</b> 5 purchases per month</li>
+            <li><b>Purchase Volume:</b> ₹1000</li>
+            <li><b>Customer Engagement Level:</b> 80</li>
+        </ul>
+        <p>The Behavioral Insights Score would be:</p>
+        <p>Behavioral Insights Score = (5 * 1000 * 80) / 1000 = <b>400</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Consumer Behavioral Insights Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Purchase Frequency (per month)</b></td>
+                        <td><input type="number" id="purchaseFrequency" class="form-control" value="5" oninput="calculateBehavioralInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Purchase Volume (₹)</b></td>
+                        <td><input type="number" id="purchaseVolume" class="form-control" value="1000" oninput="calculateBehavioralInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Engagement Level</b></td>
+                        <td><input type="number" id="engagementLevel" class="form-control" value="80" oninput="calculateBehavioralInsights()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Behavioral Insights Score</b></td>
+                        <td><h4 class="text-success" id="behavioralScore">400</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="behavioralChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Consumer Behavioral Insights Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Consumer Behavioral Insights Score is a measure of consumer behavior, incorporating frequency of purchases, volume spent, and engagement with your brand.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I calculate the Behavioral Insights Score?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score is calculated by multiplying the purchase frequency, purchase volume, and customer engagement level, and then dividing the result by 1000.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is this score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score helps businesses understand consumer purchasing behavior, engagement levels, and loyalty, providing insights into potential strategies for improving sales.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Consumer Behavioral Insights Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let behavioralChart;
+
+        function calculateBehavioralInsights() {
+            let purchaseFrequency = parseFloat(document.getElementById('purchaseFrequency').value) || 0;
+            let purchaseVolume = parseFloat(document.getElementById('purchaseVolume').value) || 0;
+            let engagementLevel = parseFloat(document.getElementById('engagementLevel').value) || 0;
+
+            let behavioralScore = (purchaseFrequency * purchaseVolume * engagementLevel) / 1000;
+            document.getElementById('behavioralScore').innerText = behavioralScore.toFixed(2);
+
+            updateChart(purchaseFrequency, purchaseVolume, engagementLevel, behavioralScore);
+        }
+
+        function updateChart(purchaseFrequency, purchaseVolume, engagementLevel, behavioralScore) {
+            let ctx = document.getElementById('behavioralChart').getContext('2d');
+            if (behavioralChart) {
+                behavioralChart.destroy();
+            }
+
+            behavioralChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Purchase Frequency', 'Purchase Volume', 'Engagement Level', 'Behavioral Insights Score'],
+                    datasets: [{
+                        label: 'Consumer Behavior Metrics',
+                        data: [purchaseFrequency, purchaseVolume, engagementLevel, behavioralScore],
+                        backgroundColor: ['#FF9800', '#4CAF50', '#2196F3', '#F44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateBehavioralInsights;
+    </script>
+</body>
+</html>

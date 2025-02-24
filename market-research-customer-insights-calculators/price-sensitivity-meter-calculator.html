@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Sensitivity Meter (PSM) Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Price Sensitivity Meter (PSM) Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you determine the optimal price point for your product based on consumer price sensitivity.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The PSM method uses the following price points:</p>
+        <ul>
+            <li><b>Price Too Low</b>: The price that is perceived as too low.</li>
+            <li><b>Price Acceptable</b>: The price that consumers would consider fair.</li>
+            <li><b>Price Too High</b>: The price that consumers believe is too high.</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the price points are as follows:</p>
+        <ul>
+            <li><b>Price Too Low</b>: ₹100</li>
+            <li><b>Price Acceptable</b>: ₹200</li>
+            <li><b>Price Too High</b>: ₹300</li>
+        </ul>
+        <p>The optimal price would likely be in the middle of the "Price Acceptable" and "Price Too High" range (₹200-₹300), which is ₹250.</p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Price Sensitivity Meter Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Price Too Low (₹)</b></td>
+                        <td><input type="number" id="priceLow" class="form-control" value="100" oninput="calculatePriceSensitivity()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Price Acceptable (₹)</b></td>
+                        <td><input type="number" id="priceAcceptable" class="form-control" value="200" oninput="calculatePriceSensitivity()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Price Too High (₹)</b></td>
+                        <td><input type="number" id="priceHigh" class="form-control" value="300" oninput="calculatePriceSensitivity()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Optimal Price</b></td>
+                        <td><h4 class="text-success" id="optimalPrice">250</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="psmChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Price Sensitivity Meter (PSM)?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Price Sensitivity Meter (PSM) is a method used to gauge consumer reactions to different price points, determining the optimal price for a product or service.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I determine the optimal price?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The optimal price lies between the "Price Acceptable" and "Price Too High" range. It can be determined by averaging these two values.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is PSM important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        PSM helps determine the price that maximizes sales, ensuring you are not underpricing or overpricing your product. It helps in setting a price that consumers find fair and reasonable.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Price Sensitivity Meter Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let psmChart;
+
+        function calculatePriceSensitivity() {
+            let priceLow = parseFloat(document.getElementById('priceLow').value) || 100;
+            let priceAcceptable = parseFloat(document.getElementById('priceAcceptable').value) || 200;
+            let priceHigh = parseFloat(document.getElementById('priceHigh').value) || 300;
+
+            let optimalPrice = (priceAcceptable + priceHigh) / 2;
+            document.getElementById('optimalPrice').innerText = optimalPrice.toFixed(2);
+
+            updateChart(priceLow, priceAcceptable, priceHigh, optimalPrice);
+        }
+
+        function updateChart(priceLow, priceAcceptable, priceHigh, optimalPrice) {
+            let ctx = document.getElementById('psmChart').getContext('2d');
+            if (psmChart) {
+                psmChart.destroy();
+            }
+
+            psmChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Price Too Low', 'Price Acceptable', 'Optimal Price', 'Price Too High'],
+                    datasets: [{
+                        label: 'Price Points (₹)',
+                        data: [priceLow, priceAcceptable, optimalPrice, priceHigh],
+                        backgroundColor: ['#FF6F61', '#4CAF50', '#FF9800', '#F44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculatePriceSensitivity;
+    </script>
+</body>
+</html>

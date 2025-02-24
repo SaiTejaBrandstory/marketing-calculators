@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Efficiency Ratio Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Marketing Efficiency Ratio Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p>The formula for calculating the marketing efficiency ratio:</p>
+        <p><b>Marketing Efficiency Ratio = (Revenue from Marketing Activities) / (Cost of Marketing Activities)</b></p>
+        
+        <h6><b>Example Calculation:</b></h6>
+        <p>For example, if:</p>
+        <ul>
+            <li>Revenue from Marketing Activities = 100,000</li>
+            <li>Cost of Marketing Activities = 50,000</li>
+        </ul>
+        <p>The calculation would be: <b>100,000 / 50,000 = 2.0</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Marketing Efficiency Ratio Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Revenue from Marketing Activities</b></td>
+                        <td><input type="number" id="revenue" class="form-control" value="100000" oninput="calculateMER()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cost of Marketing Activities</b></td>
+                        <td><input type="number" id="cost" class="form-control" value="50000" oninput="calculateMER()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Marketing Efficiency Ratio</b></td>
+                        <td><h4 class="text-success" id="merResult">2.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="merChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Marketing Efficiency Ratio?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Marketing Efficiency Ratio (MER) helps you measure the return on investment (ROI) from your marketing activities. A higher ratio indicates a more efficient marketing spend.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Marketing Efficiency Ratio calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula for MER is: <b>Revenue from Marketing Activities / Cost of Marketing Activities</b>. This provides a ratio that reflects how much revenue is generated for every unit of cost spent on marketing.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Marketing Efficiency important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A high Marketing Efficiency Ratio signifies that your marketing activities are yielding a high return relative to the cost. It helps businesses optimize their marketing budget and increase profitability.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Marketing Efficiency Ratio Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let merChart;
+
+        function calculateMER() {
+            let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            let cost = parseFloat(document.getElementById('cost').value) || 0;
+
+            if (cost === 0) {
+                alert("Cost of Marketing Activities cannot be zero");
+                return;
+            }
+
+            let merScore = revenue / cost;
+            document.getElementById('merResult').innerText = merScore.toFixed(2);
+
+            updateChart(revenue, cost, merScore);
+        }
+
+        function updateChart(revenue, cost, merScore) {
+            let ctx = document.getElementById('merChart').getContext('2d');
+            if (merChart) {
+                merChart.destroy();
+            }
+
+            merChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue', 'Cost', 'MER'],
+                    datasets: [{
+                        label: 'Metric Value',
+                        data: [revenue, cost, merScore],
+                        backgroundColor: ['#4CAF50', '#FF9800', '#F44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateMER;
+    </script>
+</body>
+</html>

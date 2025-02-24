@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rebranding Cost Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Rebranding Cost Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Rebranding Cost Estimator calculates the total costs of rebranding, considering elements such as design, marketing, communication, and legal fees.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Rebranding Cost = (Design Costs + Marketing Costs + Communication Costs + Legal Costs)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Design Costs:</b> ₹200000</p>
+        <p><b>Marketing Costs:</b> ₹150000</p>
+        <p><b>Communication Costs:</b> ₹100000</p>
+        <p><b>Legal Costs:</b> ₹50000</p>
+        <p><b>Rebranding Cost = ₹200000 + ₹150000 + ₹100000 + ₹50000 = ₹500000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Rebranding Cost Estimation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Design Costs (₹)</b></td>
+                        <td><input type="number" id="designCosts" class="form-control" value="200000" oninput="calculateRebrandingCost()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Marketing Costs (₹)</b></td>
+                        <td><input type="number" id="marketingCosts" class="form-control" value="150000" oninput="calculateRebrandingCost()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Communication Costs (₹)</b></td>
+                        <td><input type="number" id="communicationCosts" class="form-control" value="100000" oninput="calculateRebrandingCost()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Legal Costs (₹)</b></td>
+                        <td><input type="number" id="legalCosts" class="form-control" value="50000" oninput="calculateRebrandingCost()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Rebranding Cost (₹)</b></td>
+                        <td><h4 class="text-success" id="totalCost">500000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="costChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Rebranding Cost Estimator?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Rebranding Cost Estimator calculates the total cost involved in rebranding your business, including design, marketing, communication, and legal expenses.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Rebranding Cost calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>Rebranding Cost = (Design Costs + Marketing Costs + Communication Costs + Legal Costs)</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is the Rebranding Cost Estimator important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It helps businesses plan and budget for the costs associated with rebranding by giving a clear estimate of each cost element involved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Rebranding Cost Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let costChart;
+
+        function calculateRebrandingCost() {
+            let designCosts = parseFloat(document.getElementById('designCosts').value) || 0;
+            let marketingCosts = parseFloat(document.getElementById('marketingCosts').value) || 0;
+            let communicationCosts = parseFloat(document.getElementById('communicationCosts').value) || 0;
+            let legalCosts = parseFloat(document.getElementById('legalCosts').value) || 0;
+
+            let totalCost = designCosts + marketingCosts + communicationCosts + legalCosts;
+
+            document.getElementById('totalCost').innerText = totalCost.toFixed(2);
+
+            updateChart(designCosts, marketingCosts, communicationCosts, legalCosts);
+        }
+
+        function updateChart(designCosts, marketingCosts, communicationCosts, legalCosts) {
+            let ctx = document.getElementById('costChart').getContext('2d');
+            if (costChart) {
+                costChart.destroy();
+            }
+
+            costChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Design Costs', 'Marketing Costs', 'Communication Costs', 'Legal Costs'],
+                    datasets: [{
+                        data: [designCosts, marketingCosts, communicationCosts, legalCosts],
+                        backgroundColor: ['#FF5733', '#33FF57', '#FF33F6', '#33B5FF'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 1000000 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateRebrandingCost;
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Awareness Growth Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Awareness Growth Predictor</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p>The formula for predicting brand awareness growth based on advertising spend:</p>
+        <p><b>Brand Awareness Growth = (Advertising Spend × Effectiveness Factor) + Organic Reach</b></p>
+        
+        <h6><b>Example Calculation:</b></h6>
+        <p>For example, if:</p>
+        <ul>
+            <li>Advertising Spend = ₹500,000</li>
+            <li>Effectiveness Factor = 0.3</li>
+            <li>Organic Reach = ₹200,000</li>
+        </ul>
+        <p>The calculation would be: <b>(500,000 × 0.3) + 200,000 = ₹350,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Brand Awareness Growth Predictor</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Advertising Spend (₹)</b></td>
+                        <td><input type="number" id="adSpend" class="form-control" value="500000" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Effectiveness Factor</b></td>
+                        <td><input type="number" step="0.01" id="effectivenessFactor" class="form-control" value="0.3" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Organic Reach (₹)</b></td>
+                        <td><input type="number" id="organicReach" class="form-control" value="200000" oninput="calculateGrowth()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Predicted Brand Awareness Growth</b></td>
+                        <td><h4 class="text-success" id="growthResult">350000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="growthChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Brand Awareness Growth?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Brand Awareness Growth refers to the increase in the recognition and recall of a brand by its target audience due to various marketing efforts.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Effectiveness Factor calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Effectiveness Factor is an estimate of how well your advertising spend translates into increased brand awareness, typically determined from past data or marketing research.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>What is Organic Reach?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Organic Reach refers to the natural visibility of your brand through methods like word-of-mouth, social media shares, or non-paid content exposure.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Awareness Growth Predictor. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let growthChart;
+
+        function calculateGrowth() {
+            let adSpend = parseFloat(document.getElementById('adSpend').value) || 0;
+            let effectivenessFactor = parseFloat(document.getElementById('effectivenessFactor').value) || 0;
+            let organicReach = parseFloat(document.getElementById('organicReach').value) || 0;
+
+            let predictedGrowth = (adSpend * effectivenessFactor) + organicReach;
+            document.getElementById('growthResult').innerText = predictedGrowth.toFixed(2);
+
+            updateChart(adSpend, effectivenessFactor, organicReach, predictedGrowth);
+        }
+
+        function updateChart(adSpend, effectivenessFactor, organicReach, predictedGrowth) {
+            let ctx = document.getElementById('growthChart').getContext('2d');
+            if (growthChart) {
+                growthChart.destroy();
+            }
+
+            growthChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Advertising Spend', 'Effectiveness Factor', 'Organic Reach', 'Predicted Growth'],
+                    datasets: [{
+                        label: 'Amount (₹)',
+                        data: [adSpend, effectivenessFactor * 100, organicReach, predictedGrowth],
+                        backgroundColor: ['#FF6F61', '#FF9800', '#4CAF50', '#F44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateGrowth;
+    </script>
+</body>
+</html>

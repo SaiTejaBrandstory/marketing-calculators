@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Usability Testing Effectiveness Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Product Usability Testing Effectiveness Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool measures the effectiveness of usability testing based on task completion rate, error frequency, user satisfaction, and time efficiency.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The effectiveness score is calculated as:</p>
+        <ul>
+            <li><b>Usability Score</b> = (Task Completion Rate × 0.4) + (User Satisfaction × 0.3) + (Time Efficiency × 0.2) - (Error Rate × 0.1)</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>For the following values:</p>
+        <ul>
+            <li><b>Task Completion Rate:</b> 90%</li>
+            <li><b>User Satisfaction:</b> 85%</li>
+            <li><b>Time Efficiency:</b> 80%</li>
+            <li><b>Error Rate:</b> 5%</li>
+        </ul>
+        <p>Using the formula:</p>
+        <p>
+            <b>(90 × 0.4) + (85 × 0.3) + (80 × 0.2) - (5 × 0.1)</b> <br>
+            = <b>36 + 25.5 + 16 - 0.5</b> <br>
+            = <b>77</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Usability Testing</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Task Completion Rate (%)</b></td>
+                        <td><input type="number" id="taskCompletion" class="form-control" value="90" oninput="calculateUsabilityScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>User Satisfaction (%)</b></td>
+                        <td><input type="number" id="userSatisfaction" class="form-control" value="85" oninput="calculateUsabilityScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Time Efficiency (%)</b></td>
+                        <td><input type="number" id="timeEfficiency" class="form-control" value="80" oninput="calculateUsabilityScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Error Rate (%)</b></td>
+                        <td><input type="number" id="errorRate" class="form-control" value="5" oninput="calculateUsabilityScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Usability Score</b></td>
+                        <td><h4 class="text-danger" id="usabilityScore">77</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="usabilityChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Product Usability Testing Effectiveness Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This score measures the effectiveness of usability testing based on task completion rate, error frequency, user satisfaction, and time efficiency.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score is computed using:<br>
+                        <b>(Task Completion × 0.4) + (Satisfaction × 0.3) + (Efficiency × 0.2) - (Errors × 0.1)</b>.<br>
+                        This ensures a balanced evaluation of usability testing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Usability Testing Score. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let usabilityChart;
+
+        function calculateUsabilityScore() {
+            let taskCompletion = parseFloat(document.getElementById('taskCompletion').value) || 0;
+            let userSatisfaction = parseFloat(document.getElementById('userSatisfaction').value) || 0;
+            let timeEfficiency = parseFloat(document.getElementById('timeEfficiency').value) || 0;
+            let errorRate = parseFloat(document.getElementById('errorRate').value) || 0;
+
+            let score = (taskCompletion * 0.4) + (userSatisfaction * 0.3) + (timeEfficiency * 0.2) - (errorRate * 0.1);
+            document.getElementById('usabilityScore').innerText = score.toFixed(2);
+
+            updateChart(taskCompletion, userSatisfaction, timeEfficiency, errorRate);
+        }
+
+        function updateChart(taskCompletion, userSatisfaction, timeEfficiency, errorRate) {
+            let ctx = document.getElementById('usabilityChart').getContext('2d');
+            if (usabilityChart) {
+                usabilityChart.destroy();
+            }
+
+            usabilityChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Task Completion', 'User Satisfaction', 'Time Efficiency', 'Error Rate'],
+                    datasets: [{
+                        label: 'Usability Factors',
+                        data: [taskCompletion, userSatisfaction, timeEfficiency, errorRate],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#F44336'],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        window.onload = calculateUsabilityScore;
+    </script>
+</body>
+</html>

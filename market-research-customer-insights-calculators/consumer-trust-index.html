@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Trust Index Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Consumer Trust Index Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps measure consumer trust based on brand reputation, product quality, customer service, and transparency.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The Consumer Trust Index (CTI) is calculated as:</p>
+        <ul>
+            <li><b>CTI Score</b> = (Brand Reputation × 0.3) + (Product Quality × 0.3) + (Customer Service × 0.2) + (Transparency × 0.2)</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>For the following values:</p>
+        <ul>
+            <li><b>Brand Reputation:</b> 85</li>
+            <li><b>Product Quality:</b> 90</li>
+            <li><b>Customer Service:</b> 80</li>
+            <li><b>Transparency:</b> 75</li>
+        </ul>
+        <p>Using the formula:</p>
+        <p>
+            <b>(85 × 0.3) + (90 × 0.3) + (80 × 0.2) + (75 × 0.2)</b> <br>
+            = <b>25.5 + 27 + 16 + 15</b> <br>
+            = <b>83.5</b>
+        </p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Consumer Trust Index</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Brand Reputation (0-100)</b></td>
+                        <td><input type="number" id="brandReputation" class="form-control" value="85" oninput="calculateCTI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Product Quality (0-100)</b></td>
+                        <td><input type="number" id="productQuality" class="form-control" value="90" oninput="calculateCTI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Service (0-100)</b></td>
+                        <td><input type="number" id="customerService" class="form-control" value="80" oninput="calculateCTI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Transparency (0-100)</b></td>
+                        <td><input type="number" id="transparency" class="form-control" value="75" oninput="calculateCTI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Consumer Trust Index</b></td>
+                        <td><h4 class="text-success" id="ctiScore">83.5</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="ctiChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Consumer Trust Index?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Consumer Trust Index (CTI) measures how much trust consumers have in a brand based on various factors like reputation, quality, service, and transparency.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the CTI score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The CTI score is computed using:<br>
+                        <b>(Brand Reputation × 0.3) + (Product Quality × 0.3) + (Customer Service × 0.2) + (Transparency × 0.2)</b>.<br>
+                        This formula balances key trust-building factors in consumer perception.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Consumer Trust Index Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let ctiChart;
+
+        function calculateCTI() {
+            let brandReputation = parseFloat(document.getElementById('brandReputation').value) || 0;
+            let productQuality = parseFloat(document.getElementById('productQuality').value) || 0;
+            let customerService = parseFloat(document.getElementById('customerService').value) || 0;
+            let transparency = parseFloat(document.getElementById('transparency').value) || 0;
+
+            let ctiScore = (brandReputation * 0.3) + (productQuality * 0.3) + (customerService * 0.2) + (transparency * 0.2);
+            document.getElementById('ctiScore').innerText = ctiScore.toFixed(2);
+
+            updateChart(brandReputation, productQuality, customerService, transparency);
+        }
+
+        function updateChart(brandReputation, productQuality, customerService, transparency) {
+            let ctx = document.getElementById('ctiChart').getContext('2d');
+            if (ctiChart) {
+                ctiChart.destroy();
+            }
+
+            ctiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Brand Reputation', 'Product Quality', 'Customer Service', 'Transparency'],
+                    datasets: [{
+                        label: 'Trust Factors',
+                        data: [brandReputation, productQuality, customerService, transparency],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        window.onload = calculateCTI;
+    </script>
+</body>
+</html>

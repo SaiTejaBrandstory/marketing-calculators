@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Service Experience Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Service Experience Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool evaluates customer service experience based on key performance indicators such as Response Time, Resolution Rate, Customer Satisfaction, and Agent Professionalism.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The score is calculated as:</p>
+        <ul>
+            <li><b>Experience Score</b> = (Resolution Rate × 0.4) + (Customer Satisfaction × 0.3) + (Agent Professionalism × 0.2) - (Response Time × 0.1)</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>For the following values:</p>
+        <ul>
+            <li><b>Response Time:</b> 2 (lower is better)</li>
+            <li><b>Resolution Rate:</b> 85%</li>
+            <li><b>Customer Satisfaction:</b> 90%</li>
+            <li><b>Agent Professionalism:</b> 80%</li>
+        </ul>
+        <p>The Experience Score would be:</p>
+        <ul>
+            <li><b>Score</b> = (85 × 0.4) + (90 × 0.3) + (80 × 0.2) - (2 × 0.1) = 76.80</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Customer Service Experience</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Response Time (in minutes)</b></td>
+                        <td><input type="number" id="responseTime" class="form-control" value="2" oninput="calculateExperienceScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Resolution Rate (%)</b></td>
+                        <td><input type="number" id="resolutionRate" class="form-control" value="85" oninput="calculateExperienceScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Satisfaction (%)</b></td>
+                        <td><input type="number" id="customerSatisfaction" class="form-control" value="90" oninput="calculateExperienceScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Agent Professionalism (%)</b></td>
+                        <td><input type="number" id="agentProfessionalism" class="form-control" value="80" oninput="calculateExperienceScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Experience Score</b></td>
+                        <td><h4 class="text-danger" id="experienceScore">76.80</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="experienceChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Customer Service Experience Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Customer Service Experience Score helps businesses evaluate their service quality based on response time, resolution rate, customer satisfaction, and professionalism.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula weighs different service aspects and calculates a final score reflecting overall service quality.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is this score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A high score means customers are satisfied, while a low score signals areas needing improvement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Service Score. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let experienceChart;
+
+        function calculateExperienceScore() {
+            let responseTime = parseFloat(document.getElementById('responseTime').value) || 0;
+            let resolutionRate = parseFloat(document.getElementById('resolutionRate').value) || 0;
+            let customerSatisfaction = parseFloat(document.getElementById('customerSatisfaction').value) || 0;
+            let agentProfessionalism = parseFloat(document.getElementById('agentProfessionalism').value) || 0;
+
+            let score = (resolutionRate * 0.4) + (customerSatisfaction * 0.3) + (agentProfessionalism * 0.2) - (responseTime * 0.1);
+            document.getElementById('experienceScore').innerText = score.toFixed(2);
+
+            updateChart(resolutionRate, customerSatisfaction, agentProfessionalism, responseTime);
+        }
+
+        function updateChart(resolutionRate, customerSatisfaction, agentProfessionalism, responseTime) {
+            let ctx = document.getElementById('experienceChart').getContext('2d');
+            if (experienceChart) {
+                experienceChart.destroy();
+            }
+
+            experienceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Resolution Rate', 'Customer Satisfaction', 'Agent Professionalism', 'Response Time'],
+                    datasets: [{
+                        label: 'Customer Service Factors',
+                        data: [resolutionRate, customerSatisfaction, agentProfessionalism, responseTime],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#F44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateExperienceScore;
+    </script>
+</body>
+</html>

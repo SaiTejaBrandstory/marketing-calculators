@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice of Customer (VoC) Score Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Voice of Customer (VoC) Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Voice of Customer (VoC) Score measures customer satisfaction and feedback by capturing their opinions, expectations, and perceptions.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>VoC Score = (Customer Satisfaction + Customer Feedback + Net Promoter Score) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Customer Satisfaction Score:</b> 80</p>
+        <p><b>Customer Feedback Score:</b> 75</p>
+        <p><b>Net Promoter Score (NPS):</b> 70</p>
+        <p><b>VoC Score = (80 + 75 + 70) / 3 = 75.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Voice of Customer (VoC) Score Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Customer Satisfaction Score</b></td>
+                        <td><input type="number" id="customerSatisfaction" class="form-control" value="80" oninput="calculateVOC()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Feedback Score</b></td>
+                        <td><input type="number" id="customerFeedback" class="form-control" value="75" oninput="calculateVOC()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Net Promoter Score (NPS)</b></td>
+                        <td><input type="number" id="nps" class="form-control" value="70" oninput="calculateVOC()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>VoC Score</b></td>
+                        <td><h4 class="text-success" id="vocScore">75.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="vocChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Voice of Customer (VoC)?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Voice of Customer (VoC) is a metric that captures customers' expectations, feedback, and experiences with a brand.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the VoC score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>VoC Score = (Customer Satisfaction + Customer Feedback + NPS) / 3</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is the VoC Score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        VoC Score helps businesses measure customer satisfaction, which can improve retention, loyalty, and overall brand performance.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Voice of Customer Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let vocChart;
+
+        function calculateVOC() {
+            let customerSatisfaction = parseFloat(document.getElementById('customerSatisfaction').value) || 0;
+            let customerFeedback = parseFloat(document.getElementById('customerFeedback').value) || 0;
+            let nps = parseFloat(document.getElementById('nps').value) || 0;
+
+            let vocScore = (customerSatisfaction + customerFeedback + nps) / 3;
+
+            document.getElementById('vocScore').innerText = vocScore.toFixed(2);
+
+            updateChart(customerSatisfaction, customerFeedback, nps);
+        }
+
+        function updateChart(customerSatisfaction, customerFeedback, nps) {
+            let ctx = document.getElementById('vocChart').getContext('2d');
+            if (vocChart) {
+                vocChart.destroy();
+            }
+
+            vocChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Satisfaction', 'Feedback', 'NPS'],
+                    datasets: [{
+                        data: [customerSatisfaction, customerFeedback, nps],
+                        backgroundColor: ['#4CAF50', '#FF9800', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateVOC;
+    </script>
+</body>
+</html>

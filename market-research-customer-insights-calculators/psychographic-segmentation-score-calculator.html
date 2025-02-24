@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychographic Segmentation Score Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Psychographic Segmentation Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you evaluate the Psychographic Segmentation Score based on factors like interests, lifestyle, and personality traits.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The Psychographic Segmentation Score is calculated using the following formula:</p>
+        <ul>
+            <li><b>Psychographic Segmentation Score = (Interest Score * Lifestyle Score * Personality Traits Score) / 1000</b></li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the following data is provided:</p>
+        <ul>
+            <li><b>Interest Score:</b> 80</li>
+            <li><b>Lifestyle Score:</b> 70</li>
+            <li><b>Personality Traits Score:</b> 60</li>
+        </ul>
+        <p>The Psychographic Segmentation Score would be:</p>
+        <p>Psychographic Segmentation Score = (80 * 70 * 60) / 1000 = <b>336</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Psychographic Segmentation Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Interest Score</b></td>
+                        <td><input type="number" id="interestScore" class="form-control" value="80" oninput="calculateSegmentationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Lifestyle Score</b></td>
+                        <td><input type="number" id="lifestyleScore" class="form-control" value="70" oninput="calculateSegmentationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Personality Traits Score</b></td>
+                        <td><input type="number" id="personalityScore" class="form-control" value="60" oninput="calculateSegmentationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Psychographic Segmentation Score</b></td>
+                        <td><h4 class="text-success" id="segmentationScore">336</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="segmentationChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Psychographic Segmentation Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Psychographic Segmentation Score helps determine consumer segments based on their interests, lifestyle, and personality traits, assisting businesses in targeting the right audience.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I calculate the Psychographic Segmentation Score?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Multiply the Interest Score, Lifestyle Score, and Personality Traits Score, then divide the result by 1000.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is this score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Psychographic Segmentation Score helps businesses understand their target audience better, enabling them to tailor their marketing strategies and product offerings.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Psychographic Segmentation Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let segmentationChart;
+
+        function calculateSegmentationScore() {
+            let interestScore = parseFloat(document.getElementById('interestScore').value) || 0;
+            let lifestyleScore = parseFloat(document.getElementById('lifestyleScore').value) || 0;
+            let personalityScore = parseFloat(document.getElementById('personalityScore').value) || 0;
+
+            let segmentationScore = (interestScore * lifestyleScore * personalityScore) / 1000;
+            document.getElementById('segmentationScore').innerText = segmentationScore.toFixed(2);
+
+            updateChart(interestScore, lifestyleScore, personalityScore, segmentationScore);
+        }
+
+        function updateChart(interestScore, lifestyleScore, personalityScore, segmentationScore) {
+            let ctx = document.getElementById('segmentationChart').getContext('2d');
+            if (segmentationChart) {
+                segmentationChart.destroy();
+            }
+
+            segmentationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Interest Score', 'Lifestyle Score', 'Personality Traits Score', 'Segmentation Score'],
+                    datasets: [{
+                        label: 'Psychographic Segmentation Metrics',
+                        data: [interestScore, lifestyleScore, personalityScore, segmentationScore],
+                        backgroundColor: ['#FF9800', '#4CAF50', '#2196F3', '#F44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateSegmentationScore;
+    </script>
+</body>
+</html>

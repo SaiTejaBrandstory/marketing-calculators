@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Person Focus Group vs. Online Survey Effectiveness Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>In-Person Focus Group vs. Online Survey Effectiveness Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator compares the effectiveness of in-person focus groups versus online surveys based on revenue and costs.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The effectiveness comparison is calculated as follows:</p>
+        <ul>
+            <li><b>Effectiveness = (Revenue / Cost) × 100</b></li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>For <b>In-Person Focus Group</b>:</p>
+        <ul>
+            <li>Revenue: ₹30,000</li>
+            <li>Cost: ₹10,000</li>
+            <li><b>Effectiveness = (30,000 / 10,000) × 100 = 300%</b></li>
+        </ul>
+
+        <p>For <b>Online Survey</b>:</p>
+        <ul>
+            <li>Revenue: ₹25,000</li>
+            <li>Cost: ₹5,000</li>
+            <li><b>Effectiveness = (25,000 / 5,000) × 100 = 500%</b></li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Effectiveness Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>In-Person Focus Group Revenue (₹)</b></td>
+                        <td><input type="number" id="inPersonRevenue" class="form-control" value="30000" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>In-Person Focus Group Cost (₹)</b></td>
+                        <td><input type="number" id="inPersonCost" class="form-control" value="10000" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Online Survey Revenue (₹)</b></td>
+                        <td><input type="number" id="onlineRevenue" class="form-control" value="25000" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Online Survey Cost (₹)</b></td>
+                        <td><input type="number" id="onlineCost" class="form-control" value="5000" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>In-Person Focus Group Effectiveness (%)</b></td>
+                        <td><h4 class="text-success" id="inPersonEffectiveness">300</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Online Survey Effectiveness (%)</b></td>
+                        <td><h4 class="text-success" id="onlineEffectiveness">500</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="effectivenessChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the effectiveness of In-Person Focus Groups?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        In-person focus groups allow for deeper engagement and discussions, providing richer qualitative data, though they often come with higher costs compared to online surveys.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the effectiveness of Online Surveys measured?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The effectiveness of online surveys is measured by comparing the revenue generated from the survey insights versus the cost incurred for running the survey.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Which method is more effective, In-Person Focus Groups or Online Surveys?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It depends on the specific context of the research, budget, and the depth of insights needed. In-person focus groups tend to provide richer, qualitative insights, whereas online surveys are more cost-effective and easier to scale.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 In-Person Focus Group vs. Online Survey Effectiveness Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let effectivenessChart;
+
+        function calculateEffectiveness() {
+            let inPersonRevenue = parseFloat(document.getElementById('inPersonRevenue').value);
+            let inPersonCost = parseFloat(document.getElementById('inPersonCost').value);
+            let onlineRevenue = parseFloat(document.getElementById('onlineRevenue').value);
+            let onlineCost = parseFloat(document.getElementById('onlineCost').value);
+
+            // Handling empty or zero inputs
+            let inPersonEffectiveness = 0;
+            let onlineEffectiveness = 0;
+
+            if (inPersonRevenue > 0 && inPersonCost > 0) {
+                inPersonEffectiveness = (inPersonRevenue / inPersonCost) * 100;
+            }
+
+            if (onlineRevenue > 0 && onlineCost > 0) {
+                onlineEffectiveness = (onlineRevenue / onlineCost) * 100;
+            }
+
+            document.getElementById('inPersonEffectiveness').innerText = inPersonEffectiveness.toFixed(2);
+            document.getElementById('onlineEffectiveness').innerText = onlineEffectiveness.toFixed(2);
+
+            updateChart(inPersonEffectiveness, onlineEffectiveness);
+        }
+
+        function updateChart(inPersonEffectiveness, onlineEffectiveness) {
+            let ctx = document.getElementById('effectivenessChart').getContext('2d');
+            if (effectivenessChart) {
+                effectivenessChart.destroy();
+            }
+
+            effectivenessChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['In-Person Focus Group Effectiveness', 'Online Survey Effectiveness'],
+                    datasets: [{
+                        label: 'Effectiveness (%)',
+                        data: [inPersonEffectiveness, onlineEffectiveness],
+                        backgroundColor: ['#FF6F61', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateEffectiveness;
+    </script>
+</body>
+</html>

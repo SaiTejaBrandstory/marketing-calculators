@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product-Market Fit (PMF) Score Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Product-Market Fit (PMF) Score Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This estimator helps you calculate your Product-Market Fit (PMF) Score based on customer feedback.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The PMF score is determined using the following survey responses:</p>
+        <ul>
+            <li><b>Promoters</b>: Percentage of customers who rate your product 9 or 10 on a scale of 1 to 10.</li>
+            <li><b>Detractors</b>: Percentage of customers who rate your product 6 or below on a scale of 1 to 10.</li>
+        </ul>
+        <p>The PMF formula is:</p>
+        <p><b>PMF Score (%) = Promoters (%) - Detractors (%)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If you receive the following survey responses:</p>
+        <ul>
+            <li><b>Promoters</b>: 60%</li>
+            <li><b>Detractors</b>: 20%</li>
+        </ul>
+        <p>The PMF Score would be calculated as: <b>60% - 20% = 40%</b>.</p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Product-Market Fit Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Promoters (%)</b></td>
+                        <td><input type="number" id="promoters" class="form-control" value="60" oninput="calculatePMF()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Detractors (%)</b></td>
+                        <td><input type="number" id="detractors" class="form-control" value="20" oninput="calculatePMF()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>PMF Score (%)</b></td>
+                        <td><h4 class="text-success" id="pmfScore">40</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="pmfChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Product-Market Fit (PMF) Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The PMF score measures the alignment between your product and the needs of your target market, based on customer feedback.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I calculate the PMF score?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Subtract the percentage of detractors from the percentage of promoters. The result is the PMF score.
+                        <br><br>
+                        <b>PMF Score (%) = Promoters (%) - Detractors (%)</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is PMF important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        PMF indicates whether your product satisfies the market demand and helps guide decisions on scaling or improving the product.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Product-Market Fit Score Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let pmfChart;
+
+        function calculatePMF() {
+            let promoters = parseFloat(document.getElementById('promoters').value) || 60;
+            let detractors = parseFloat(document.getElementById('detractors').value) || 20;
+
+            let pmfScore = promoters - detractors;
+            document.getElementById('pmfScore').innerText = pmfScore.toFixed(2);
+
+            updateChart(promoters, detractors, pmfScore);
+        }
+
+        function updateChart(promoters, detractors, pmfScore) {
+            let ctx = document.getElementById('pmfChart').getContext('2d');
+            if (pmfChart) {
+                pmfChart.destroy();
+            }
+
+            pmfChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Promoters', 'Detractors'],
+                    datasets: [{
+                        label: 'Customer Feedback (%)',
+                        data: [promoters, detractors],
+                        backgroundColor: ['#4CAF50', '#F44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculatePMF;
+    </script>
+</body>
+</html>

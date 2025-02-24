@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Perceived Value of a Brand</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Perceived Value of a Brand</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps to evaluate the perceived value of a brand based on customer assessments of product quality, price, and service.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Customer Perceived Value = (Product Quality + Service Quality - Price) / 2</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Product Quality:</b> 80</p>
+        <p><b>Service Quality:</b> 90</p>
+        <p><b>Price:</b> 70</p>
+        <p><b>Customer Perceived Value = (80 + 90 - 70) / 2 = 50.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Perceived Value Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Product Quality</b></td>
+                        <td><input type="number" id="productQuality" class="form-control" value="80" oninput="calculatePerceivedValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Service Quality</b></td>
+                        <td><input type="number" id="serviceQuality" class="form-control" value="90" oninput="calculatePerceivedValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Price</b></td>
+                        <td><input type="number" id="price" class="form-control" value="70" oninput="calculatePerceivedValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Perceived Value</b></td>
+                        <td><h4 class="text-success" id="perceivedValue">50.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="perceivedValueChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Customer Perceived Value?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Customer Perceived Value is the customer's overall assessment of a product's quality, service, and its price relative to the benefits.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Customer Perceived Value calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Product Quality + Service Quality - Price) / 2</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Customer Perceived Value important for a brand?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A high customer perceived value indicates a strong competitive edge, customer satisfaction, and loyalty towards the brand.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Perceived Value of a Brand Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let perceivedValueChart;
+
+        function calculatePerceivedValue() {
+            let productQuality = parseFloat(document.getElementById('productQuality').value) || 0;
+            let serviceQuality = parseFloat(document.getElementById('serviceQuality').value) || 0;
+            let price = parseFloat(document.getElementById('price').value) || 0;
+
+            let perceivedValue = (productQuality + serviceQuality - price) / 2;
+
+            document.getElementById('perceivedValue').innerText = perceivedValue.toFixed(2);
+
+            updateChart(productQuality, serviceQuality, price);
+        }
+
+        function updateChart(productQuality, serviceQuality, price) {
+            let ctx = document.getElementById('perceivedValueChart').getContext('2d');
+            if (perceivedValueChart) {
+                perceivedValueChart.destroy();
+            }
+
+            perceivedValueChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Product Quality', 'Service Quality', 'Price'],
+                    datasets: [{
+                        data: [productQuality, serviceQuality, price],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculatePerceivedValue;
+    </script>
+</body>
+</html>

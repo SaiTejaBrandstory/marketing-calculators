@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost of Brand Reputation Damage Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Cost of Brand Reputation Damage Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Cost of Brand Reputation Damage Calculator helps estimate the financial impact of negative public perception and brand reputation damage.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Cost of Brand Reputation Damage = (Loss of Revenue + Legal Costs + PR & Crisis Management + Customer Loss) </b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Loss of Revenue:</b> ₹500000</p>
+        <p><b>Legal Costs:</b> ₹100000</p>
+        <p><b>PR & Crisis Management:</b> ₹200000</p>
+        <p><b>Customer Loss:</b> ₹150000</p>
+        <p><b>Cost of Reputation Damage = ₹500000 + ₹100000 + ₹200000 + ₹150000 = ₹950000.00        </b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Brand Reputation Damage Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Loss of Revenue (₹)</b></td>
+                        <td><input type="number" id="revenueLoss" class="form-control" value="500000" oninput="calculateReputationDamage()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Legal Costs (₹)</b></td>
+                        <td><input type="number" id="legalCosts" class="form-control" value="100000" oninput="calculateReputationDamage()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>PR & Crisis Management (₹)</b></td>
+                        <td><input type="number" id="prCrisis" class="form-control" value="200000" oninput="calculateReputationDamage()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Loss (₹)</b></td>
+                        <td><input type="number" id="customerLoss" class="form-control" value="150000" oninput="calculateReputationDamage()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Cost of Reputation Damage</b></td>
+                        <td><h4 class="text-success" id="totalDamageCost">₹950000.00    </h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="damageChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Cost of Brand Reputation Damage?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It is the financial cost incurred due to the loss in revenue, legal expenses, crisis management efforts, and customer attrition from negative brand perception.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the cost calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>Loss of Revenue + Legal Costs + PR & Crisis Management + Customer Loss</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is this important for businesses?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Understanding the potential cost of brand reputation damage helps businesses plan for risk management and allocate resources for reputation protection.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Reputation Damage Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let damageChart;
+
+        function calculateReputationDamage() {
+            let revenueLoss = parseFloat(document.getElementById('revenueLoss').value) || 0;
+            let legalCosts = parseFloat(document.getElementById('legalCosts').value) || 0;
+            let prCrisis = parseFloat(document.getElementById('prCrisis').value) || 0;
+            let customerLoss = parseFloat(document.getElementById('customerLoss').value) || 0;
+
+            let totalDamageCost = revenueLoss + legalCosts + prCrisis + customerLoss;
+
+            document.getElementById('totalDamageCost').innerText = '₹' + totalDamageCost.toFixed(2);
+
+            updateChart(revenueLoss, legalCosts, prCrisis, customerLoss);
+        }
+
+        function updateChart(revenueLoss, legalCosts, prCrisis, customerLoss) {
+            let ctx = document.getElementById('damageChart').getContext('2d');
+            if (damageChart) {
+                damageChart.destroy();
+            }
+
+            damageChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Revenue Loss', 'Legal Costs', 'PR & Crisis Management', 'Customer Loss'],
+                    datasets: [{
+                        data: [revenueLoss, legalCosts, prCrisis, customerLoss],
+                        backgroundColor: ['#4CAF50', '#FF9800', '#2196F3', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateReputationDamage;
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsorship ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Sponsorship ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Sponsorship ROI (Return on Investment) Calculator helps you evaluate the effectiveness of your sponsorship investment by comparing the revenue generated and the costs incurred.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Sponsorship ROI = (Revenue Generated - Sponsorship Costs) / Sponsorship Costs * 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Revenue Generated:</b> ₹500000</p>
+        <p><b>Sponsorship Costs:</b> ₹200000</p>
+        <p><b>Sponsorship ROI = (500000 - 200000) / 200000 * 100 = 150%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Sponsorship ROI</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Revenue Generated (₹)</b></td>
+                        <td><input type="number" id="revenueGenerated" class="form-control" value="500000" oninput="calculateSponsorshipROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sponsorship Costs (₹)</b></td>
+                        <td><input type="number" id="sponsorshipCosts" class="form-control" value="200000" oninput="calculateSponsorshipROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sponsorship ROI</b></td>
+                        <td><h4 class="text-success" id="roiResult">150%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="roiChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Sponsorship ROI?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sponsorship ROI (Return on Investment) measures the financial return from a sponsorship compared to the cost incurred.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Sponsorship ROI calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>(Revenue Generated - Sponsorship Costs) / Sponsorship Costs * 100</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Sponsorship ROI important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sponsorship ROI helps determine if the sponsorship investment is delivering a positive return and supports business decision-making.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Sponsorship ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateSponsorshipROI() {
+            let revenueGenerated = parseFloat(document.getElementById('revenueGenerated').value) || 0;
+            let sponsorshipCosts = parseFloat(document.getElementById('sponsorshipCosts').value) || 0;
+
+            let roi = ((revenueGenerated - sponsorshipCosts) / sponsorshipCosts) * 100;
+
+            document.getElementById('roiResult').innerText = roi.toFixed(2) + "%";
+
+            updateChart(revenueGenerated, sponsorshipCosts, roi);
+        }
+
+        function updateChart(revenueGenerated, sponsorshipCosts, roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue Generated', 'Sponsorship Costs'],
+                    datasets: [{
+                        data: [revenueGenerated, sponsorshipCosts],
+                        backgroundColor: ['#4CAF50', '#FF9800'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: Math.max(revenueGenerated, sponsorshipCosts) }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateSponsorshipROI;
+    </script>
+</body>
+</html>

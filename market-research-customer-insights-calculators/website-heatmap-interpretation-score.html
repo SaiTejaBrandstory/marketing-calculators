@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Heatmap Interpretation Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Website Heatmap Interpretation Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates how effectively users engage with your website by analyzing engagement level, click concentration, and scroll depth.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The Website Heatmap Interpretation Score is determined using:</p>
+        <ul>
+            <li><b>Engagement Level</b> (0-10) – How actively users interact.</li>
+            <li><b>Click Concentration</b> (0-10) – How focused clicks are on key areas.</li>
+            <li><b>Scroll Depth</b> (0-10) – How far users scroll down a page.</li>
+        </ul>
+        <p>The score is calculated as the average of these factors:</p>
+        <ul>
+            <li><b>Heatmap Score</b> = (Engagement Level + Click Concentration + Scroll Depth) / 3</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If a website has the following scores:</p>
+        <ul>
+            <li><b>Engagement Level</b>: 7</li>
+            <li><b>Click Concentration</b>: 8</li>
+            <li><b>Scroll Depth</b>: 6</li>
+        </ul>
+        <p>The Heatmap Score would be:</p>
+        <ul>
+            <li><b>Heatmap Score</b> = (7 + 8 + 6) / 3 = 7.00</li>
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Website Heatmap Interpretation Score</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Engagement Level (0-10)</b></td>
+                        <td><input type="number" id="engagement" class="form-control" value="7" oninput="calculateHeatmapScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Click Concentration (0-10)</b></td>
+                        <td><input type="number" id="clicks" class="form-control" value="8" oninput="calculateHeatmapScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Scroll Depth (0-10)</b></td>
+                        <td><input type="number" id="scrollDepth" class="form-control" value="6" oninput="calculateHeatmapScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Heatmap Score</b></td>
+                        <td><h4 class="text-success" id="heatmapScore">7.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="heatmapChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Website Heatmap Interpretation Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Website Heatmap Interpretation Score evaluates how effectively users engage with a website by analyzing interaction patterns.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Heatmap Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The score is calculated as the average of Engagement Level, Click Concentration, and Scroll Depth.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is the Heatmap Score important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Understanding how users interact with a website helps improve design, enhance UX, and optimize conversion rates.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Website Heatmap Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let heatmapChart;
+
+        function calculateHeatmapScore() {
+            let engagement = parseFloat(document.getElementById('engagement').value) || 0;
+            let clicks = parseFloat(document.getElementById('clicks').value) || 0;
+            let scrollDepth = parseFloat(document.getElementById('scrollDepth').value) || 0;
+
+            let heatmapScore = (engagement + clicks + scrollDepth) / 3;
+            document.getElementById('heatmapScore').innerText = heatmapScore.toFixed(2);
+
+            updateChart(engagement, clicks, scrollDepth);
+        }
+
+        function updateChart(engagement, clicks, scrollDepth) {
+            let ctx = document.getElementById('heatmapChart').getContext('2d');
+            if (heatmapChart) {
+                heatmapChart.destroy();
+            }
+
+            heatmapChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Engagement', 'Click Concentration', 'Scroll Depth'],
+                    datasets: [{
+                        label: 'Heatmap Factors',
+                        data: [engagement, clicks, scrollDepth],
+                        backgroundColor: ['#FF5722', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateHeatmapScore;
+    </script>
+</body>
+</html>
