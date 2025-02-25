@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Perception Index Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Brand Perception Index Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p><b>Brand Perception Index = (Positive Perception × 0.6) + (Neutral Perception × 0.3) + (Negative Perception × 0.1)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If you have:</p>
+        <ul>
+            <li><b>Positive Perception: 80%</b></li>
+            <li><b>Neutral Perception: 15%</b></li>
+            <li><b>Negative Perception: 5%</b></li>
+        </ul>
+        <p><b>Brand Perception Index = (80 × 0.6) + (15 × 0.3) + (5 × 0.1) = 48 + 4.5 + 0.5 = 53</b></p>
+
+        <h4 class="my-4">Enter Perceptions:</h4>
+        <div class="row">
+            <div class="col-lg-4 mb-3">
+                <label for="positivePerception">Positive Perception (%)</label>
+                <input id="positivePerception" class="form-control" type="number" min="0" max="100" value="80" oninput="calculateBrandPerception()">
+            </div>
+            <div class="col-lg-4 mb-3">
+                <label for="neutralPerception">Neutral Perception (%)</label>
+                <input id="neutralPerception" class="form-control" type="number" min="0" max="100" value="15" oninput="calculateBrandPerception()">
+            </div>
+            <div class="col-lg-4 mb-3">
+                <label for="negativePerception">Negative Perception (%)</label>
+                <input id="negativePerception" class="form-control" type="number" min="0" max="100" value="5" oninput="calculateBrandPerception()">
+            </div>
+        </div>
+
+        <h4 class="my-4">Brand Perception Index: <span id="brandPerceptionScore" class="text-primary">53</span></h4>
+
+        <div class="row">
+            <div class="col-lg-6 my-4" style="margin: auto;">
+                <h4><b>Brand Perception Graph</b></h4>
+                <canvas id="brandPerceptionChart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Brand Perception Index?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Brand Perception Index measures the general perception of a brand based on positive, neutral, and negative sentiments. It is calculated using the weighted average of these perceptions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is Brand Perception important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Brand perception directly affects consumer purchasing behavior and brand loyalty. A positive perception can boost sales, while a negative one can harm the brand's reputation.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How do the weights in the formula impact the result?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The weights reflect the relative importance of each perception type. Positive perceptions are weighted more heavily, neutral perceptions contribute less, and negative perceptions have the least impact.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Brand Perception Index Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let brandPerceptionChart;
+
+        function calculateBrandPerception() {
+            const positivePerception = parseFloat(document.getElementById('positivePerception').value) || 0;
+            const neutralPerception = parseFloat(document.getElementById('neutralPerception').value) || 0;
+            const negativePerception = parseFloat(document.getElementById('negativePerception').value) || 0;
+
+            const brandPerceptionScore = (positivePerception * 0.6) + (neutralPerception * 0.3) + (negativePerception * 0.1);
+
+            document.getElementById('brandPerceptionScore').innerText = brandPerceptionScore.toFixed(2);
+            updateChart(positivePerception, neutralPerception, negativePerception);
+        }
+
+        function updateChart(positivePerception, neutralPerception, negativePerception) {
+            let ctx = document.getElementById('brandPerceptionChart').getContext('2d');
+            if (brandPerceptionChart) {
+                brandPerceptionChart.destroy();
+            }
+
+            brandPerceptionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Positive Perception', 'Neutral Perception', 'Negative Perception'],
+                    datasets: [{
+                        data: [positivePerception, neutralPerception, negativePerception],
+                        backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+                        borderColor: ['#388E3C', '#FF9800', '#D32F2F'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Initial calculation for default values
+        calculateBrandPerception();
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Discount Personalization ROI Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>AI-Powered Discount Personalization ROI Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool estimates the return on investment (ROI) of personalized discounts powered by AI. It helps assess how AI-driven discount strategies impact overall revenue and customer retention.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>ROI = (Revenue from Personalized Discounts - Cost of Personalization) / Cost of Personalization</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Revenue from Personalized Discounts:</b> ₹100,000</p>
+        <p><b>Cost of Personalization:</b> ₹20,000</p>
+        <p><b>ROI = (100,000 - 20,000) / 20,000 = ₹4</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for AI-Powered Discount Personalization ROI Estimator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Revenue from Personalized Discounts</b></td>
+                        <td><input type="number" id="revenue" class="form-control" value="100000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cost of Personalization</b></td>
+                        <td><input type="number" id="cost" class="form-control" value="20000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI</b></td>
+                        <td><h4 class="text-success" id="roi">4.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>ROI Visualization</b></h4>
+                <canvas id="roiChart" style="max-width: 400px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is AI-Powered Discount Personalization?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI-Powered Discount Personalization uses machine learning algorithms to tailor discounts to individual customers based on their purchasing behavior, preferences, and predicted future behavior.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why should I track ROI for personalized discounts?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Tracking ROI helps you understand the effectiveness of your discount strategy, ensuring that the benefits from increased revenue justify the costs of implementing the AI-powered solution.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 AI-Powered Discount Personalization ROI Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            let cost = parseFloat(document.getElementById('cost').value) || 0;
+
+            let roi = (revenue - cost) / cost;
+
+            document.getElementById('roi').innerText = roi.toFixed(2);
+
+            updateChart(roi);
+        }
+
+        function updateChart(roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ROI'],
+                    datasets: [{
+                        data: [roi],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

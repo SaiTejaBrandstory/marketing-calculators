@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Recovery from Price Drops Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Revenue Recovery from Price Drops Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you calculate how much additional sales volume is required to recover revenue lost from a price drop. This can help you understand the impact of a price reduction on your revenue.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Required Sales Volume Increase = (Old Price - New Price) * Old Volume / New Price</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Old Price:</b> ₹1000</p>
+        <p><b>New Price:</b> ₹800</p>
+        <p><b>Old Sales Volume:</b> 500</p>
+        <p><b>Required Sales Volume Increase = (1000 - 800) * 500 / 800 = 200 * 500 / 800 = 125</p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Revenue Recovery from Price Drops Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Old Price</b></td>
+                        <td><input type="number" id="oldPrice" class="form-control" value="1000" oninput="calculateRecovery()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>New Price</b></td>
+                        <td><input type="number" id="newPrice" class="form-control" value="800" oninput="calculateRecovery()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Old Sales Volume</b></td>
+                        <td><input type="number" id="oldVolume" class="form-control" value="500" oninput="calculateRecovery()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Required Sales Volume Increase</b></td>
+                        <td><h4 class="text-success" id="salesIncrease">125</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Required Sales Volume Increase</b></h4>
+                <canvas id="recoveryChart" style="max-width: 400px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>Why does a price drop require more sales to recover revenue?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        When you lower the price, you earn less per unit. To recover the revenue lost from the price drop, you need to sell more units to make up for the reduction in price.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I use the Sales Volume Increase to assess price drops?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        By calculating the required sales volume increase, you can assess whether the additional volume is achievable based on your customer demand, marketing, and other factors.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Revenue Recovery from Price Drops Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let recoveryChart;
+
+        function calculateRecovery() {
+            let oldPrice = parseFloat(document.getElementById('oldPrice').value) || 0;
+            let newPrice = parseFloat(document.getElementById('newPrice').value) || 0;
+            let oldVolume = parseFloat(document.getElementById('oldVolume').value) || 0;
+
+            let salesIncrease = ((oldPrice - newPrice) * oldVolume) / newPrice;
+
+            document.getElementById('salesIncrease').innerText = salesIncrease.toFixed(2);
+
+            updateChart(salesIncrease);
+        }
+
+        function updateChart(salesIncrease) {
+            let ctx = document.getElementById('recoveryChart').getContext('2d');
+            if (recoveryChart) {
+                recoveryChart.destroy();
+            }
+
+            recoveryChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sales Volume Increase'],
+                    datasets: [{
+                        data: [salesIncrease],
+                        backgroundColor: ['#FF5733'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateRecovery;
+    </script>
+</body>
+</html>

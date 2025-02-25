@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume-Based Discount Optimization Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Volume-Based Discount Optimization Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps you optimize volume-based discounts by calculating the discount effectiveness score based on the discount percentage and the total purchase volume. It helps you understand how the volume discount impacts your overall revenue.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Optimization Score = (Discount % * Volume) / Total Revenue</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Discount Percentage:</b> 10%</p>
+        <p><b>Volume:</b> 100 units</p>
+        <p><b>Total Revenue:</b> ₹10000</p>
+        <p><b>Optimization Score = (10 * 100) / 10000 = 0.10</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Volume-Based Discount Optimization Score Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Discount Percentage (%)</b></td>
+                        <td><input type="number" id="discountPercentage" class="form-control" value="10" oninput="calculateOptimizationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Volume</b></td>
+                        <td><input type="number" id="volume" class="form-control" value="100" oninput="calculateOptimizationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Revenue</b></td>
+                        <td><input type="number" id="totalRevenue" class="form-control" value="10000" oninput="calculateOptimizationScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Optimization Score</b></td>
+                        <td><h4 class="text-success" id="optimizationScore">0.10</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Optimization Score Chart</b></h4>
+                <canvas id="optimizationScoreChart" style="max-width: 400px; max-height: 300px; width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Volume-Based Discount?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A volume-based discount is a price reduction offered to customers based on the quantity of products purchased. It encourages larger purchases by providing a better deal for bulk buys.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is the Optimization Score important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The optimization score helps businesses determine the effectiveness of their volume discount strategy by considering how much discount is applied and the resulting impact on overall revenue.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Volume-Based Discount Optimization Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let optimizationScoreChart;
+
+        function calculateOptimizationScore() {
+            let discountPercentage = parseFloat(document.getElementById('discountPercentage').value) || 0;
+            let volume = parseFloat(document.getElementById('volume').value) || 0;
+            let totalRevenue = parseFloat(document.getElementById('totalRevenue').value) || 0;
+
+            let optimizationScore = (discountPercentage * volume) / totalRevenue;
+
+            document.getElementById('optimizationScore').innerText = optimizationScore.toFixed(2);
+
+            updateChart(optimizationScore);
+        }
+
+        function updateChart(optimizationScore) {
+            let ctx = document.getElementById('optimizationScoreChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (optimizationScoreChart) {
+                optimizationScoreChart.destroy();
+            }
+
+            // Create new chart with updated data
+            optimizationScoreChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Optimization Score'],
+                    datasets: [{
+                        data: [optimizationScore],
+                        backgroundColor: ['#FF5733'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateOptimizationScore;
+    </script>
+</body>
+</html>

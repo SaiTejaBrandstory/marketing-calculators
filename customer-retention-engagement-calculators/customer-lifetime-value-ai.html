@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Lifetime Value (AI-Based)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Lifetime Value (AI-Based)</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p>The formula for calculating Customer Lifetime Value (CLV) using an AI-based approach:</p>
+        <p><b>CLV = (Average Purchase Value × Purchase Frequency × Customer Lifespan) × AI Adjustment Factor</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If:</p>
+        <ul>
+            <li>Average Purchase Value = ₹1,500</li>
+            <li>Purchase Frequency = 5 times per year</li>
+            <li>Customer Lifespan = 4 years</li>
+            <li>AI Adjustment Factor = 1.2</li>
+        </ul>
+        <p><b>CLV = (1,500 × 5 × 4) × 1.2 = ₹36,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Enter Customer Metrics</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Average Purchase Value (₹)</b></td>
+                        <td><input type="number" id="avgPurchase" class="form-control" value="1500" oninput="calculateCLV()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Purchase Frequency (times per year)</b></td>
+                        <td><input type="number" id="purchaseFreq" class="form-control" value="5" oninput="calculateCLV()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Lifespan (years)</b></td>
+                        <td><input type="number" id="lifespan" class="form-control" value="4" oninput="calculateCLV()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>AI Adjustment Factor</b></td>
+                        <td><input type="number" id="aiFactor" class="form-control" value="1.2" step="0.1" oninput="calculateCLV()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Lifetime Value (₹)</b></td>
+                        <td><h4 class="text-success" id="clvResult">36,000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="clvChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Customer Lifetime Value (CLV)?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Customer Lifetime Value (CLV) estimates the total revenue a business can expect from a customer throughout their relationship.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How does AI enhance CLV calculation?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        AI helps refine CLV predictions by analyzing past customer behavior, trends, and engagement patterns, adjusting the CLV for better accuracy.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How can businesses increase CLV?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Businesses can increase CLV by improving customer retention, offering personalized experiences, and enhancing their product or service offerings.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Lifetime Value Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let clvChart;
+
+        function calculateCLV() {
+            let avgPurchase = parseFloat(document.getElementById('avgPurchase').value) || 0;
+            let purchaseFreq = parseFloat(document.getElementById('purchaseFreq').value) || 0;
+            let lifespan = parseFloat(document.getElementById('lifespan').value) || 0;
+            let aiFactor = parseFloat(document.getElementById('aiFactor').value) || 1;
+
+            let clv = (avgPurchase * purchaseFreq * lifespan) * aiFactor;
+            document.getElementById('clvResult').innerText = clv.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
+
+            updateChart(avgPurchase, purchaseFreq, lifespan, aiFactor);
+        }
+
+        function updateChart(avgPurchase, purchaseFreq, lifespan, aiFactor) {
+            let ctx = document.getElementById('clvChart').getContext('2d');
+            if (clvChart) {
+                clvChart.destroy();
+            }
+
+            clvChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Avg Purchase (₹)', 'Purchase Frequency', 'Lifespan', 'AI Factor'],
+                    datasets: [{
+                        label: 'Values',
+                        data: [avgPurchase, purchaseFreq, lifespan, aiFactor],
+                        backgroundColor: ['#4CAF50', '#FF9800', '#3F51B5', '#E91E63'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateCLV;
+    </script>
+</body>
+</html>

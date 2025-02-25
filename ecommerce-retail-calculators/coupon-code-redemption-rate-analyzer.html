@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupon Code Redemption Rate Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Coupon Code Redemption Rate Analyzer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates the redemption rate of a coupon code by comparing the number of redemptions to the total issued.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Redemption Rate = (Number of Redemptions / Number of Coupon Codes Issued) * 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Number of Redemptions:</b> 250</p>
+        <p><b>Number of Coupon Codes Issued:</b> 1000</p>
+        <p><b>Redemption Rate = (250 / 1000) * 100 = 25%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Coupon Code Redemption Rate</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Number of Redemptions</b></td>
+                        <td><input type="number" id="numRedemptions" class="form-control" value="250" oninput="calculateRedemptionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Coupon Codes Issued</b></td>
+                        <td><input type="number" id="numIssued" class="form-control" value="1000" oninput="calculateRedemptionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Redemption Rate (%)</b></td>
+                        <td><h4 class="text-success" id="redemptionRate">25</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="redemptionChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Coupon Code Redemption Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Coupon Code Redemption Rate measures how often coupon codes are redeemed compared to how many are issued, indicating the effectiveness of the coupon campaign.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Redemption Rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula for Redemption Rate is: <b>(Number of Redemptions / Number of Coupon Codes Issued) * 100</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Redemption Rate important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher redemption rate indicates that your coupon strategy is engaging customers effectively, leading to higher sales and customer retention.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Coupon Code Redemption Rate Analyzer. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let redemptionChart;
+
+        function calculateRedemptionRate() {
+            let numRedemptions = parseFloat(document.getElementById('numRedemptions').value) || 0;
+            let numIssued = parseFloat(document.getElementById('numIssued').value) || 0;
+
+            let redemptionRate = (numRedemptions / numIssued) * 100;
+
+            if (redemptionRate > 100) redemptionRate = 100;  // Limit to 100%
+
+            document.getElementById('redemptionRate').innerText = redemptionRate.toFixed(2);
+
+            updateChart(numRedemptions, numIssued, redemptionRate);
+        }
+
+        function updateChart(numRedemptions, numIssued, redemptionRate) {
+            let ctx = document.getElementById('redemptionChart').getContext('2d');
+            if (redemptionChart) {
+                redemptionChart.destroy();
+            }
+
+            redemptionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Number of Redemptions', 'Number of Coupon Codes Issued', 'Redemption Rate'],
+                    datasets: [{
+                        data: [numRedemptions, numIssued, redemptionRate],
+                        backgroundColor: ['#FF5733', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateRedemptionRate;
+    </script>
+</body>
+</html>

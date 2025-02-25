@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bundling Strategy Profit Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Bundling Strategy Profit Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates the profit generated from bundling multiple products together based on the bundle price, cost, and number of bundles sold.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Profit from Bundling = (Bundle Price - Bundle Cost) * Number of Bundles Sold</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Bundle Price:</b> ₹1000</p>
+        <p><b>Bundle Cost:</b> ₹600</p>
+        <p><b>Number of Bundles Sold:</b> 500</p>
+        <p><b>Profit = (1000 - 600) * 500 = ₹200,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Bundling Strategy</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Bundle Price (₹)</b></td>
+                        <td><input type="number" id="bundlePrice" class="form-control" value="1000" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Bundle Cost (₹)</b></td>
+                        <td><input type="number" id="bundleCost" class="form-control" value="600" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Bundles Sold</b></td>
+                        <td><input type="number" id="numberOfBundles" class="form-control" value="500" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Profit from Bundling</b></td>
+                        <td><h4 class="text-success" id="bundlingProfit">₹200000</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="profitChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Bundling Strategy in pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Bundling strategy involves grouping products together and selling them as a package at a price that is typically lower than the sum of the individual prices.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do I calculate the profit from bundling?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The profit from bundling can be calculated using the formula:  
+                        <b>(Bundle Price - Bundle Cost) * Number of Bundles Sold</b>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Bundling Strategy Profit Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let profitChart;
+
+        function calculateProfit() {
+            let bundlePrice = parseFloat(document.getElementById('bundlePrice').value) || 0;
+            let bundleCost = parseFloat(document.getElementById('bundleCost').value) || 0;
+            let numberOfBundles = parseFloat(document.getElementById('numberOfBundles').value) || 0;
+
+            let bundlingProfit = (bundlePrice - bundleCost) * numberOfBundles;
+
+            document.getElementById('bundlingProfit').innerText = '₹' + bundlingProfit.toFixed(2);
+
+            updateChart(bundlingProfit);
+        }
+
+        function updateChart(bundlingProfit) {
+            let ctx = document.getElementById('profitChart').getContext('2d');
+            if (profitChart) {
+                profitChart.destroy();
+            }
+
+            profitChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Bundling Profit'],
+                    datasets: [{
+                        data: [bundlingProfit],
+                        backgroundColor: ['#FF5733'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateProfit;
+    </script>
+</body>
+</html>

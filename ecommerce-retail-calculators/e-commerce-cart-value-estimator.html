@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Cart Value Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>E-commerce Cart Value Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps estimate the average cart value for your e-commerce store, based on product price and the number of items added to the cart.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Average Cart Value = Product Price × Number of Items</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Product Price:</b> ₹500</p>
+        <p><b>Number of Items:</b> 3</p>
+        <p><b>Average Cart Value = ₹500 × 3 = ₹1500</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Cart Value Estimation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Product Price (in ₹)</b></td>
+                        <td><input type="number" id="productPrice" class="form-control" value="500" oninput="calculateCartValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Items</b></td>
+                        <td><input type="number" id="numberOfItems" class="form-control" value="3" oninput="calculateCartValue()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Average Cart Value (in ₹)</b></td>
+                        <td><h4 class="text-success" id="cartValue">1500</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="cartValueChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is E-commerce Cart Value?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        E-commerce Cart Value is the total value of the items added to the shopping cart, which is calculated by multiplying the product price by the number of items.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is Cart Value important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The cart value is an important metric to track for e-commerce businesses as it indicates how much customers are spending on average, which can help in forecasting revenue and designing pricing strategies.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 E-commerce Cart Value Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let cartValueChart;
+
+        function calculateCartValue() {
+            let productPrice = parseFloat(document.getElementById('productPrice').value) || 0;
+            let numberOfItems = parseFloat(document.getElementById('numberOfItems').value) || 0;
+
+            let cartValue = productPrice * numberOfItems;
+
+            document.getElementById('cartValue').innerText = cartValue.toFixed(2);
+
+            updateChart(productPrice, numberOfItems);
+        }
+
+        function updateChart(productPrice, numberOfItems) {
+            let ctx = document.getElementById('cartValueChart').getContext('2d');
+            if (cartValueChart) {
+                cartValueChart.destroy();
+            }
+
+            cartValueChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Product Price', 'Number of Items'],
+                    datasets: [{
+                        data: [productPrice, numberOfItems],
+                        backgroundColor: ['#FF5733', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 1000 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateCartValue;
+    </script>
+</body>
+</html>

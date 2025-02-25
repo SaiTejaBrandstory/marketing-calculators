@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment-Driven Customer Segmentation Model</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Sentiment-Driven Customer Segmentation Model</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p>
+            The Sentiment-Driven Customer Segmentation Model helps businesses segment their customers based on sentiment analysis of customer feedback, reviews, and survey data. 
+            This model identifies customer groups based on their emotional responses, such as positive, neutral, and negative sentiments, and helps tailor marketing and engagement strategies accordingly. 
+            The segmentation model provides insights into customer satisfaction and loyalty by grouping them based on how they feel about your product or service.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Sentiment Score = (Positive Sentiment * Weight for Positive Sentiment) + (Neutral Sentiment * Weight for Neutral Sentiment) + (Negative Sentiment * Weight for Negative Sentiment)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If your sentiment data is as follows:
+            <ul>
+                <li>Positive Sentiment: 60%</li>
+                <li>Neutral Sentiment: 25%</li>
+                <li>Negative Sentiment: 15%</li>
+            </ul>
+            and the weights are:
+            <ul>
+                <li>Weight for Positive Sentiment: 0.5</li>
+                <li>Weight for Neutral Sentiment: 0.3</li>
+                <li>Weight for Negative Sentiment: 0.2</li>
+            </ul>
+            then the Sentiment Score will be:
+            <p><b>Sentiment Score = (60 * 0.5) + (25 * 0.3) + (15 * 0.2) = 48 + 7.5 + 3 = 40.50</b></p>
+        </p>
+
+        <h4 class="my-4">Enter Sentiment Metrics:</h4>
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Metric</th>
+                            <th scope="col">Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Positive Sentiment (%)</td>
+                            <td><input id="positiveSentiment" class="form-control" type="number" value="60" oninput="calculateSentiment()"></td>
+                        </tr>
+                        <tr>
+                            <td>Neutral Sentiment (%)</td>
+                            <td><input id="neutralSentiment" class="form-control" type="number" value="25" oninput="calculateSentiment()"></td>
+                        </tr>
+                        <tr>
+                            <td>Negative Sentiment (%)</td>
+                            <td><input id="negativeSentiment" class="form-control" type="number" value="15" oninput="calculateSentiment()"></td>
+                        </tr>
+                        <tr>
+                            <td>Weight for Positive Sentiment</td>
+                            <td><input id="weightPositive" class="form-control" type="number" value="0.5" step="0.1" oninput="calculateSentiment()"></td>
+                        </tr>
+                        <tr>
+                            <td>Weight for Neutral Sentiment</td>
+                            <td><input id="weightNeutral" class="form-control" type="number" value="0.3" step="0.1" oninput="calculateSentiment()"></td>
+                        </tr>
+                        <tr>
+                            <td>Weight for Negative Sentiment</td>
+                            <td><input id="weightNegative" class="form-control" type="number" value="0.2" step="0.1" oninput="calculateSentiment()"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Sentiment Score</b></td>
+                            <td><span id="sentimentResult" class="text-primary">40.50</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Sentiment Distribution Graph</b></h4>
+                <canvas id="sentimentChart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is sentiment analysis?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sentiment analysis is the process of analyzing customer feedback, reviews, and survey responses to determine the emotional tone (positive, neutral, or negative) behind the text. It helps businesses understand customer feelings toward their products or services.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How does sentiment analysis help customer segmentation?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sentiment analysis allows businesses to categorize customers based on how they feel about their experiences. By grouping customers according to their sentiment, businesses can target each group with tailored marketing strategies that match their emotional response.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>What are the key benefits of sentiment-driven segmentation?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The key benefits include improved customer targeting, enhanced customer engagement, personalized marketing, and better understanding of customer satisfaction and loyalty based on emotional feedback.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Sentiment-Driven Customer Segmentation Model. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let sentimentChart;
+
+        function calculateSentiment() {
+            const positiveSentiment = parseFloat(document.getElementById('positiveSentiment').value) || 0;
+            const neutralSentiment = parseFloat(document.getElementById('neutralSentiment').value) || 0;
+            const negativeSentiment = parseFloat(document.getElementById('negativeSentiment').value) || 0;
+
+            const weightPositive = parseFloat(document.getElementById('weightPositive').value) || 0;
+            const weightNeutral = parseFloat(document.getElementById('weightNeutral').value) || 0;
+            const weightNegative = parseFloat(document.getElementById('weightNegative').value) || 0;
+
+            const sentimentScore = (positiveSentiment * weightPositive) + (neutralSentiment * weightNeutral) + (negativeSentiment * weightNegative);
+
+            document.getElementById('sentimentResult').innerText = sentimentScore.toFixed(2);
+            updateChart(positiveSentiment, neutralSentiment, negativeSentiment);
+        }
+
+        function updateChart(positiveSentiment, neutralSentiment, negativeSentiment) {
+            let ctx = document.getElementById('sentimentChart').getContext('2d');
+            if (sentimentChart) {
+                sentimentChart.destroy();
+            }
+
+            sentimentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Positive', 'Neutral', 'Negative'],
+                    datasets: [{
+                        data: [positiveSentiment, neutralSentiment, negativeSentiment],
+                        backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+                        borderColor: ['#388E3C', '#FF9800', '#D32F2F'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Initial calculation for default values
+        calculateSentiment();
+    </script>
+</body>
+</html>

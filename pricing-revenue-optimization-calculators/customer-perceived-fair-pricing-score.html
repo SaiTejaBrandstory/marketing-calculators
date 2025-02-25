@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Perceived Fair Pricing Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Perceived Fair Pricing Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you calculate the perceived fairness of your pricing strategy based on customer satisfaction, competitor pricing, and perceived value of your product.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Fair Pricing Score = (Customer Satisfaction Score + Competitor Pricing Score + Perceived Value Score) / 3</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Customer Satisfaction Score:</b> 8</p>
+        <p><b>Competitor Pricing Score:</b> 7</p>
+        <p><b>Perceived Value Score:</b> 9</p>
+        <p><b>Fair Pricing Score = (8 + 7 + 9) / 3 = 8.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Fair Pricing Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Customer Satisfaction Score (1-10)</b></td>
+                        <td><input type="number" id="customerSatisfaction" class="form-control" value="8" oninput="calculateFairPricingScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitor Pricing Score (1-10)</b></td>
+                        <td><input type="number" id="competitorPricing" class="form-control" value="7" oninput="calculateFairPricingScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Perceived Value Score (1-10)</b></td>
+                        <td><input type="number" id="perceivedValue" class="form-control" value="9" oninput="calculateFairPricingScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Fair Pricing Score</b></td>
+                        <td><h4 class="text-success" id="fairPricingScore">8.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Pricing Comparison Chart</b></h4>
+                <canvas id="pricingChart" style="max-width: 400px; max-height: 300px; width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Perceived Fair Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Perceived fair pricing refers to how customers view the price of a product in comparison to its value, customer satisfaction, and the price of competitors' products.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is it important to calculate fair pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Fair pricing is crucial for customer satisfaction and loyalty. If your customers perceive your pricing as fair, they are more likely to stay with your product, increasing customer retention.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Perceived Fair Pricing Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let pricingChart;
+
+        function calculateFairPricingScore() {
+            let customerSatisfaction = parseFloat(document.getElementById('customerSatisfaction').value) || 0;
+            let competitorPricing = parseFloat(document.getElementById('competitorPricing').value) || 0;
+            let perceivedValue = parseFloat(document.getElementById('perceivedValue').value) || 0;
+
+            let fairPricingScore = (customerSatisfaction + competitorPricing + perceivedValue) / 3;
+
+            document.getElementById('fairPricingScore').innerText = fairPricingScore.toFixed(2);
+
+            updateChart(customerSatisfaction, competitorPricing, perceivedValue, fairPricingScore);
+        }
+
+        function updateChart(customerSatisfaction, competitorPricing, perceivedValue, fairPricingScore) {
+            let ctx = document.getElementById('pricingChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (pricingChart) {
+                pricingChart.destroy();
+            }
+
+            // Create new chart with updated data
+            pricingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Customer Satisfaction', 'Competitor Pricing', 'Perceived Value', 'Fair Pricing Score'],
+                    datasets: [{
+                        label: 'Pricing Comparison',
+                        data: [customerSatisfaction, competitorPricing, perceivedValue, fairPricingScore],
+                        backgroundColor: ['#FF5733', '#FF9800', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateFairPricingScore;
+    </script>
+</body>
+</html>

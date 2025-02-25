@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI of Pricing A/B Tests Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>ROI of Pricing A/B Tests Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates the ROI (Return on Investment) of your pricing A/B test by comparing the revenue generated from two different pricing strategies (A and B). You can input the number of customers, conversion rates, and pricing details to estimate the ROI.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>ROI = (Revenue from Pricing B - Revenue from Pricing A) / Cost of A/B Test</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Price A:</b> ₹500, <b>Price B:</b> ₹600</p>
+        <p><b>Conversion Rate A:</b> 0.20, <b>Conversion Rate B:</b> 0.25</p>
+        <p><b>Number of Customers:</b> 1000</p>
+        <p><b>Cost of A/B Test:</b> ₹10,000</p>
+        <p><b>Revenue A = ₹500 * 0.20 * 1000 = ₹100,000</b></p>
+        <p><b>Revenue B = ₹600 * 0.25 * 1000 = ₹150,000</b></p>
+        <p><b>ROI = (₹150,000 - ₹100,000) / ₹10,000 = 5.00</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Pricing A/B Test</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Price A</b></td>
+                        <td><input type="number" id="priceA" class="form-control" value="500" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Price B</b></td>
+                        <td><input type="number" id="priceB" class="form-control" value="600" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate A</b></td>
+                        <td><input type="number" id="conversionA" class="form-control" value="0.20" step="0.01" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate B</b></td>
+                        <td><input type="number" id="conversionB" class="form-control" value="0.25" step="0.01" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Customers</b></td>
+                        <td><input type="number" id="customers" class="form-control" value="1000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cost of A/B Test</b></td>
+                        <td><input type="number" id="testCost" class="form-control" value="10000" oninput="calculateROI()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>ROI</b></td>
+                        <td><h4 class="text-success" id="roi">5.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Revenue Comparison Chart</b></h4>
+                <canvas id="roiChart" style="max-width: 500px; max-height: 400px; width: 100%; height: auto; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is A/B Testing in Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A/B testing in pricing is the process of comparing two different pricing strategies to determine which one generates more revenue or attracts more customers.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is ROI important in Pricing A/B Tests?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        ROI (Return on Investment) helps you assess the effectiveness of your A/B test. A positive ROI means that the new pricing strategy is yielding higher returns compared to the cost of the test.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Pricing A/B Test ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            // Get input values
+            let priceA = parseFloat(document.getElementById('priceA').value) || 0;
+            let priceB = parseFloat(document.getElementById('priceB').value) || 0;
+            let conversionA = parseFloat(document.getElementById('conversionA').value) || 0;
+            let conversionB = parseFloat(document.getElementById('conversionB').value) || 0;
+            let customers = parseInt(document.getElementById('customers').value) || 0;
+            let testCost = parseFloat(document.getElementById('testCost').value) || 0;
+
+            // Calculate revenue from both pricing strategies
+            let revenueA = priceA * conversionA * customers;
+            let revenueB = priceB * conversionB * customers;
+
+            // Calculate ROI
+            let roi = (revenueB - revenueA) / testCost;
+
+            // Update ROI text
+            document.getElementById('roi').innerText = roi.toFixed(2);
+
+            // Update chart
+            updateChart(revenueA, revenueB);
+        }
+
+        function updateChart(revenueA, revenueB) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            // Create new chart with updated data
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue A', 'Revenue B'],
+                    datasets: [{
+                        data: [revenueA, revenueB],
+                        backgroundColor: ['#FF5733', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateROI;
+    </script>
+</body>
+</html>

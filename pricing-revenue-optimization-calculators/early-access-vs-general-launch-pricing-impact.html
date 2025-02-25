@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Early Access vs. General Launch Pricing Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Early Access vs. General Launch Pricing Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps calculate the revenue impact of early access pricing versus general launch pricing. By comparing the sales and pricing during early access and the general launch phase, you can assess how the pricing strategy affects overall revenue.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Revenue Impact = (Early Access Price * Early Access Sales) + (Launch Price * Launch Sales) - Total Revenue</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Early Access Price:</b> ₹200</p>
+        <p><b>Early Access Sales:</b> 500</p>
+        <p><b>Launch Price:</b> ₹350</p>
+        <p><b>Launch Sales:</b> 1000</p>
+        <p><b>Total Revenue:</b> ₹200,000</p>
+        <p><b>Revenue Impact = (200 * 500) + (350 * 1000) - 200000 = ₹250,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Early Access vs. General Launch Pricing Impact Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Early Access Price</b></td>
+                        <td><input type="number" id="earlyAccessPrice" class="form-control" value="200" oninput="calculateRevenueImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Early Access Sales</b></td>
+                        <td><input type="number" id="earlyAccessSales" class="form-control" value="500" oninput="calculateRevenueImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Launch Price</b></td>
+                        <td><input type="number" id="launchPrice" class="form-control" value="350" oninput="calculateRevenueImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Launch Sales</b></td>
+                        <td><input type="number" id="launchSales" class="form-control" value="1000" oninput="calculateRevenueImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Revenue</b></td>
+                        <td><input type="number" id="totalRevenue" class="form-control" value="200000" oninput="calculateRevenueImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Revenue Impact</b></td>
+                        <td><h4 class="text-success" id="revenueImpact">250000</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Revenue Impact Visualization</b></h4>
+                <canvas id="impactChart" style="max-width: 400px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Early Access Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Early access pricing is the special pricing offered to customers before a product is fully launched, often at a discounted rate in exchange for early feedback or support.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why compare Early Access and General Launch pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Comparing early access and general launch pricing helps you assess the revenue and customer response to different pricing strategies and decide which one yields the best results.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Early Access vs. General Launch Pricing Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let impactChart;
+
+        function calculateRevenueImpact() {
+            let earlyAccessPrice = parseFloat(document.getElementById('earlyAccessPrice').value) || 0;
+            let earlyAccessSales = parseFloat(document.getElementById('earlyAccessSales').value) || 0;
+            let launchPrice = parseFloat(document.getElementById('launchPrice').value) || 0;
+            let launchSales = parseFloat(document.getElementById('launchSales').value) || 0;
+            let totalRevenue = parseFloat(document.getElementById('totalRevenue').value) || 0;
+
+            let revenueImpact = (earlyAccessPrice * earlyAccessSales) + (launchPrice * launchSales) - totalRevenue;
+
+            document.getElementById('revenueImpact').innerText = revenueImpact.toFixed(2);
+
+            updateChart(revenueImpact);
+        }
+
+        function updateChart(revenueImpact) {
+            let ctx = document.getElementById('impactChart').getContext('2d');
+            if (impactChart) {
+                impactChart.destroy();
+            }
+
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue Impact'],
+                    datasets: [{
+                        data: [revenueImpact],
+                        backgroundColor: ['#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateRevenueImpact;
+    </script>
+</body>
+</html>

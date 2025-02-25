@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Trial vs. Paid Trial Conversion Rate Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Free Trial vs. Paid Trial Conversion Rate Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you estimate the conversion rate from free trials to paid trials. By inputting the number of free trial sign-ups and the number of those who convert to a paid plan, you can assess the effectiveness of your trial-to-paid conversion strategy.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Conversion Rate = (Paid Conversions / Free Trial Sign-ups) * 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Free Trial Sign-ups:</b> 1000</p>
+        <p><b>Paid Conversions:</b> 200</p>
+        <p><b>Conversion Rate = (200 / 1000) * 100 = 20%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Free Trial vs. Paid Trial Conversion Rate Estimator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Free Trial Sign-ups</b></td>
+                        <td><input type="number" id="freeTrialSignUps" class="form-control" value="1000" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Paid Conversions</b></td>
+                        <td><input type="number" id="paidConversions" class="form-control" value="200" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate</b></td>
+                        <td><h4 class="text-success" id="conversionRate">20.00%</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Conversion Rate Chart</b></h4>
+                <canvas id="conversionChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is a Free Trial?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A free trial is a period during which users can try a product or service without paying. It's often used to entice customers to convert into paying users.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>What is a Paid Trial Conversion Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The paid trial conversion rate is the percentage of users who sign up for a free trial and then convert to a paid subscription or plan.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Free Trial vs. Paid Trial Conversion Rate Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let conversionChart;
+
+        function calculateConversionRate() {
+            let freeTrialSignUps = parseInt(document.getElementById('freeTrialSignUps').value) || 0;
+            let paidConversions = parseInt(document.getElementById('paidConversions').value) || 0;
+
+            let conversionRate = (paidConversions / freeTrialSignUps) * 100;
+
+            document.getElementById('conversionRate').innerText = conversionRate.toFixed(2) + '%';
+
+            updateChart(conversionRate);
+        }
+
+        function updateChart(conversionRate) {
+            let ctx = document.getElementById('conversionChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (conversionChart) {
+                conversionChart.destroy();
+            }
+
+            // Create new chart with updated data
+            conversionChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Paid Conversions', 'Non-Conversions'],
+                    datasets: [{
+                        data: [conversionRate, 100 - conversionRate],
+                        backgroundColor: ['#4CAF50', '#FF5733'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateConversionRate;
+    </script>
+</body>
+</html>

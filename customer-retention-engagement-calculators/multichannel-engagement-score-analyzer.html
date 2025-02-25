@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multichannel Engagement Score Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Multichannel Engagement Score Analyzer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p><b>Engagement Score = (Engagement in Channel 1 × Weight 1) + (Engagement in Channel 2 × Weight 2) + ... + (Engagement in Channel N × Weight N)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If:</p>
+        <ul>
+            <li>Engagement on Website = 60, Weight = 0.3</li>
+            <li>Engagement on Social Media = 70, Weight = 0.4</li>
+            <li>Engagement on Email = 80, Weight = 0.3</li>
+        </ul>
+        <p><b>Engagement Score = (60 × 0.3) + (70 × 0.4) + (80 × 0.3) = 72</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Enter Data</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Engagement on Website</b></td>
+                        <td><input type="number" id="websiteEngagement" class="form-control" value="60" oninput="calculateEngagementScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Engagement on Social Media</b></td>
+                        <td><input type="number" id="socialMediaEngagement" class="form-control" value="70" oninput="calculateEngagementScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Engagement on Email</b></td>
+                        <td><input type="number" id="emailEngagement" class="form-control" value="80" oninput="calculateEngagementScore()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Multichannel Engagement Score</b></td>
+                        <td><h4 class="text-success" id="calculatedScore">72</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="engagementChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Multichannel Engagement Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Multichannel Engagement Score is a metric that combines engagement across multiple marketing channels (website, social media, email, etc.) to evaluate overall engagement effectiveness.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is multichannel engagement important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Multichannel engagement ensures that your audience is engaged across different touchpoints, leading to higher brand awareness, loyalty, and sales.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How do I improve my multichannel engagement score?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improve content quality, frequency, and interaction across all your channels. Ensure consistency in messaging and create personalized experiences.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Multichannel Engagement. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let engagementChart;
+
+        function calculateEngagementScore() {
+            let websiteEngagement = parseInt(document.getElementById('websiteEngagement').value) || 0;
+            let socialMediaEngagement = parseInt(document.getElementById('socialMediaEngagement').value) || 0;
+            let emailEngagement = parseInt(document.getElementById('emailEngagement').value) || 0;
+
+            let websiteWeight = 0.3;
+            let socialMediaWeight = 0.4;
+            let emailWeight = 0.3;
+
+            let engagementScore = (websiteEngagement * websiteWeight) + (socialMediaEngagement * socialMediaWeight) + (emailEngagement * emailWeight);
+            document.getElementById('calculatedScore').innerText = engagementScore.toFixed(2);
+
+            updateChart(engagementScore);
+        }
+
+        function updateChart(engagementScore) {
+            let ctx = document.getElementById('engagementChart').getContext('2d');
+            if (engagementChart) {
+                engagementChart.destroy();
+            }
+
+            engagementChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Engaged', 'Non-Engaged'],
+                    datasets: [{
+                        data: [engagementScore, 100 - engagementScore],
+                        backgroundColor: ['#673AB7', '#E1BEE7']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        window.onload = calculateEngagementScore;
+    </script>
+</body>
+</html>

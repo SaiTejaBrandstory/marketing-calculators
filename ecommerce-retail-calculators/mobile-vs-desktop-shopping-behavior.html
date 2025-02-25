@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile vs. Desktop Shopping Behavior Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Mobile vs. Desktop Shopping Behavior Analyzer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool compares shopping behaviors across mobile and desktop users, analyzing key metrics such as traffic, conversion rates, and average order value.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Conversion Rate (%) = (Successful Transactions / Total Visitors) × 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Mobile Users:</b> 2000 visitors, 300 purchases</p>
+        <p><b>Desktop Users:</b> 1500 visitors, 400 purchases</p>
+        <p><b>Mobile Conversion Rate = (300 / 2000) × 100 = 15%</b></p>
+        <p><b>Desktop Conversion Rate = (400 / 1500) × 100 = 26.67%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Shopping Behavior Analysis</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Mobile Visitors</b></td>
+                        <td><input type="number" id="mobileVisitors" class="form-control" value="2000" oninput="calculateBehavior()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Mobile Purchases</b></td>
+                        <td><input type="number" id="mobilePurchases" class="form-control" value="300" oninput="calculateBehavior()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Desktop Visitors</b></td>
+                        <td><input type="number" id="desktopVisitors" class="form-control" value="1500" oninput="calculateBehavior()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Desktop Purchases</b></td>
+                        <td><input type="number" id="desktopPurchases" class="form-control" value="400" oninput="calculateBehavior()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Mobile Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="mobileConversionRate">15.00</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Desktop Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="desktopConversionRate">26.67</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="behaviorChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What does this tool analyze?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This tool compares shopping behaviors of mobile and desktop users, providing insights into conversion rates and purchasing trends.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the conversion rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is: <b>(Successful Transactions / Total Visitors) × 100</b>. It helps measure the effectiveness of each shopping platform.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is this analysis important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Understanding mobile vs. desktop shopping behavior helps businesses optimize their marketing strategies, UI/UX, and checkout processes for better conversions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Mobile vs. Desktop Shopping Behavior Analyzer. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let behaviorChart;
+
+        function calculateBehavior() {
+            let mobileVisitors = parseFloat(document.getElementById('mobileVisitors').value) || 0;
+            let mobilePurchases = parseFloat(document.getElementById('mobilePurchases').value) || 0;
+            let desktopVisitors = parseFloat(document.getElementById('desktopVisitors').value) || 0;
+            let desktopPurchases = parseFloat(document.getElementById('desktopPurchases').value) || 0;
+
+            let mobileConversionRate = mobileVisitors > 0 ? (mobilePurchases / mobileVisitors) * 100 : 0;
+            let desktopConversionRate = desktopVisitors > 0 ? (desktopPurchases / desktopVisitors) * 100 : 0;
+
+            document.getElementById('mobileConversionRate').innerText = mobileConversionRate.toFixed(2);
+            document.getElementById('desktopConversionRate').innerText = desktopConversionRate.toFixed(2);
+
+            updateChart(mobileConversionRate, desktopConversionRate);
+        }
+
+        function updateChart(mobileRate, desktopRate) {
+            let ctx = document.getElementById('behaviorChart').getContext('2d');
+            if (behaviorChart) {
+                behaviorChart.destroy();
+            }
+
+            behaviorChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mobile Conversion Rate', 'Desktop Conversion Rate'],
+                    datasets: [{
+                        data: [mobileRate, desktopRate],
+                        backgroundColor: ['#FF5733', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateBehavior;
+    </script>
+</body>
+</html>

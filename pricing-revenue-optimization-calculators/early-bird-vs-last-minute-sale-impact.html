@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Early Bird Discount vs. Last-Minute Sale Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Early Bird Discount vs. Last-Minute Sale Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool compares the impact of Early Bird Discounts and Last-Minute Sales on your sales revenue. You can adjust the discount rates and calculate the expected revenue for both scenarios.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Revenue Impact = (Base Price * Discount Rate) * Number of Sales</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Base Price:</b> ₹1000</p>
+        <p><b>Discount Rate:</b> 0.20 (20%)</p>
+        <p><b>Number of Sales:</b> 150</p>
+        <p><b>Revenue Impact = (1000 * 0.20) * 150 = ₹30,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Early Bird Discount</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Base Price</b></td>
+                        <td><input type="number" id="basePrice" class="form-control" value="1000" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Early Bird Discount Rate</b></td>
+                        <td><input type="number" id="earlyBirdDiscount" class="form-control" value="0.20" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Sales</b></td>
+                        <td><input type="number" id="earlyBirdSales" class="form-control" value="150" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Early Bird Revenue Impact</b></td>
+                        <td><h4 class="text-success" id="earlyBirdRevenue">30,000.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Last Minute Sale Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Last-Minute Sale</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Base Price</b></td>
+                        <td><input type="number" id="basePriceLastMinute" class="form-control" value="1000" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Last-Minute Discount Rate</b></td>
+                        <td><input type="number" id="lastMinuteDiscount" class="form-control" value="0.30" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Sales</b></td>
+                        <td><input type="number" id="lastMinuteSales" class="form-control" value="100" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Last-Minute Revenue Impact</b></td>
+                        <td><h4 class="text-danger" id="lastMinuteRevenue">30,000.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Impact Comparison Graph</b></h3>
+        <div class="row">
+            <div class="col-lg-12">
+                <canvas id="impactChart" style="max-width: 600px; height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is an Early Bird Discount?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        An Early Bird Discount is a promotional offer where customers receive a discount for purchasing in advance, usually before the event or product is released.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>What is a Last-Minute Sale?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A Last-Minute Sale is a promotion where customers can purchase a product at a discount just before the product or service is unavailable, usually as a last opportunity to buy.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Early Bird vs Last-Minute Sale Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let impactChart;
+    
+        function calculateImpact() {
+            // Get the input values
+            let basePrice = parseFloat(document.getElementById('basePrice').value) || 0;
+            let earlyBirdDiscount = parseFloat(document.getElementById('earlyBirdDiscount').value) || 0;
+            let earlyBirdSales = parseFloat(document.getElementById('earlyBirdSales').value) || 0;
+    
+            let basePriceLastMinute = parseFloat(document.getElementById('basePriceLastMinute').value) || 0;
+            let lastMinuteDiscount = parseFloat(document.getElementById('lastMinuteDiscount').value) || 0;
+            let lastMinuteSales = parseFloat(document.getElementById('lastMinuteSales').value) || 0;
+    
+            // Calculate the revenue impact
+            let earlyBirdRevenue = (basePrice * earlyBirdDiscount) * earlyBirdSales;
+            let lastMinuteRevenue = (basePriceLastMinute * lastMinuteDiscount) * lastMinuteSales;
+    
+            // Update the displayed revenue values
+            document.getElementById('earlyBirdRevenue').innerText = earlyBirdRevenue.toFixed(2);
+            document.getElementById('lastMinuteRevenue').innerText = lastMinuteRevenue.toFixed(2);
+    
+            // Update the chart with new data
+            updateChart(earlyBirdRevenue, lastMinuteRevenue);
+        }
+    
+        function updateChart(earlyBirdRevenue, lastMinuteRevenue) {
+            // Get the chart canvas context
+            let ctx = document.getElementById('impactChart').getContext('2d');
+    
+            // If a chart already exists, destroy it to avoid multiple charts rendering on top of each other
+            if (impactChart) {
+                impactChart.destroy();
+            }
+    
+            // Create a new chart with updated data
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Early Bird Revenue', 'Last Minute Sale Revenue'],
+                    datasets: [{
+                        data: [earlyBirdRevenue, lastMinuteRevenue],
+                        backgroundColor: ['#4CAF50', '#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true 
+                        }
+                    }
+                }
+            });
+        }
+    
+        // Run calculateImpact on window load to initialize the values
+        window.onload = calculateImpact;
+    </script>
+    
+</body>
+</html>

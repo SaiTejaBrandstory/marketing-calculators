@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Experiments Statistical Significance Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Pricing Experiments Statistical Significance Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps determine if the results from your pricing experiment are statistically significant by calculating the p-value, sample size, and expected conversion difference.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>p-value = (Difference in conversion rates) / (Standard error of the difference)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Conversion Rate A:</b> 0.15 (15%)</p>
+        <p><b>Conversion Rate B:</b> 0.18 (18%)</p>
+        <p><b>Sample Size A:</b> 1000</p>
+        <p><b>Sample Size B:</b> 1200</p>
+        <p><b>Standard Error:</b> 0.01</p>
+        <p><b>p-value = (0.18 - 0.15) / 0.01 = 3</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Statistical Significance Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Conversion Rate A</b></td>
+                        <td><input type="number" id="conversionRateA" class="form-control" value="0.15" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate B</b></td>
+                        <td><input type="number" id="conversionRateB" class="form-control" value="0.18" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sample Size A</b></td>
+                        <td><input type="number" id="sampleSizeA" class="form-control" value="1000" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sample Size B</b></td>
+                        <td><input type="number" id="sampleSizeB" class="form-control" value="1200" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Standard Error</b></td>
+                        <td><input type="number" id="standardError" class="form-control" value="0.01" oninput="calculateSignificance()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>p-value</b></td>
+                        <td><h4 class="text-success" id="pValue">30</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Statistical Significance Breakdown</b></h4>
+                <canvas id="significanceChart" style="max-width: 400px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is a p-value?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The p-value measures the probability that the observed difference in conversion rates between two groups is due to chance. A low p-value indicates statistical significance.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is statistical significance important in pricing experiments?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Statistical significance ensures that the results of your pricing experiment are reliable and not due to random variations, allowing you to make data-driven pricing decisions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Pricing Experiments Statistical Significance Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let significanceChart;
+
+        function calculateSignificance() {
+            let conversionRateA = parseFloat(document.getElementById('conversionRateA').value) || 0;
+            let conversionRateB = parseFloat(document.getElementById('conversionRateB').value) || 0;
+            let sampleSizeA = parseFloat(document.getElementById('sampleSizeA').value) || 0;
+            let sampleSizeB = parseFloat(document.getElementById('sampleSizeB').value) || 0;
+            let standardError = parseFloat(document.getElementById('standardError').value) || 0;
+
+            let pValue = Math.abs((conversionRateB - conversionRateA) / standardError);
+
+            document.getElementById('pValue').innerText = pValue.toFixed(2);
+
+            updateChart(conversionRateA, conversionRateB, pValue);
+        }
+
+        function updateChart(conversionRateA, conversionRateB, pValue) {
+            let ctx = document.getElementById('significanceChart').getContext('2d');
+            if (significanceChart) {
+                significanceChart.destroy();
+            }
+
+            significanceChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Conversion Rate A', 'Conversion Rate B', 'p-value'],
+                    datasets: [{
+                        data: [conversionRateA, conversionRateB, pValue],
+                        backgroundColor: ['#4CAF50', '#FF5733', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateSignificance;
+    </script>
+</body>
+</html>

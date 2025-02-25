@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upselling vs Cross-Selling Profit Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Upselling vs Cross-Selling Profit Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you compare the profitability of upselling and cross-selling strategies by considering the average sale price and the number of additional sales generated.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Upselling Profit = (Upsell Price - Original Price) * Number of Upsells</b></p>
+        <p><b>Cross-Selling Profit = (Cross-sell Price - Original Price) * Number of Cross-sells</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Original Price:</b> ₹100</p>
+        <p><b>Upsell Price:</b> ₹150</p>
+        <p><b>Number of Upsells:</b> 10</p>
+        <p><b>Upselling Profit = (150 - 100) * 10 = ₹500</b></p>
+        <p><b>Cross-sell Price:</b> ₹120</p>
+        <p><b>Number of Cross-sells:</b> 10</p>
+        <p><b>Cross-Selling Profit = (120 - 100) * 10 = ₹200</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Upselling vs Cross-Selling Profit Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Original Price</b></td>
+                        <td><input type="number" id="originalPrice" class="form-control" value="100" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Upsell Price</b></td>
+                        <td><input type="number" id="upsellPrice" class="form-control" value="150" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Upsells</b></td>
+                        <td><input type="number" id="upsellCount" class="form-control" value="10" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cross-sell Price</b></td>
+                        <td><input type="number" id="crossSellPrice" class="form-control" value="120" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Cross-sells</b></td>
+                        <td><input type="number" id="crossSellCount" class="form-control" value="10" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Upselling Profit</b></td>
+                        <td><h4 class="text-success" id="upsellProfit">500</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cross-Selling Profit</b></td>
+                        <td><h4 class="text-success" id="crossSellProfit">200</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="profitChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Upselling?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Upselling is when a business encourages a customer to purchase a more expensive version of a product they are considering or have already purchased.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>What is Cross-Selling?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Cross-selling involves offering additional products to complement the customer's original purchase.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Upselling vs Cross-Selling Profit Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let profitChart;
+
+        function calculateProfit() {
+            let originalPrice = parseFloat(document.getElementById('originalPrice').value) || 0;
+            let upsellPrice = parseFloat(document.getElementById('upsellPrice').value) || 0;
+            let upsellCount = parseFloat(document.getElementById('upsellCount').value) || 0;
+            let crossSellPrice = parseFloat(document.getElementById('crossSellPrice').value) || 0;
+            let crossSellCount = parseFloat(document.getElementById('crossSellCount').value) || 0;
+
+            let upsellProfit = (upsellPrice - originalPrice) * upsellCount;
+            let crossSellProfit = (crossSellPrice - originalPrice) * crossSellCount;
+
+            document.getElementById('upsellProfit').innerText = upsellProfit.toFixed(2);
+            document.getElementById('crossSellProfit').innerText = crossSellProfit.toFixed(2);
+
+            updateChart(upsellProfit, crossSellProfit);
+        }
+
+        function updateChart(upsellProfit, crossSellProfit) {
+            let ctx = document.getElementById('profitChart').getContext('2d');
+            if (profitChart) {
+                profitChart.destroy();
+            }
+
+            profitChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Upselling Profit', 'Cross-Selling Profit'],
+                    datasets: [{
+                        data: [upsellProfit, crossSellProfit],
+                        backgroundColor: ['#4CAF50', '#FF5733'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateProfit;
+    </script>
+</body>
+</html>

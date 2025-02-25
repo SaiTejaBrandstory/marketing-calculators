@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Engagement Score Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Email Engagement Score Predictor</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool predicts the engagement score of your email campaign based on factors such as open rates, click-through rates, and conversion rates. These metrics play a key role in determining the effectiveness of your email marketing efforts.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The Email Engagement Score is calculated using the following formula:</p>
+        <ul>
+            <li><b>Email Engagement Score</b> = (Open Rate × 0.4) + (Click-Through Rate × 0.3) + (Conversion Rate × 0.3)</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the values are:</p>
+        <ul>
+            <li><b>Open Rate</b>: 75%</li>
+            <li><b>Click-Through Rate</b>: 40%</li>
+            <li><b>Conversion Rate</b>: 20%</li>
+        </ul>
+        <p>The engagement score would be:</p>
+        <pre>(75 × 0.4) + (40 × 0.3) + (20 × 0.3) = 30 + 12 + 6 = 48</pre>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Email Engagement Estimation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Open Rate (%)</b></td>
+                        <td><input type="number" id="openRate" class="form-control" value="75" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Click-Through Rate (%)</b></td>
+                        <td><input type="number" id="clickThroughRate" class="form-control" value="40" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate (%)</b></td>
+                        <td><input type="number" id="conversionRate" class="form-control" value="20" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Email Engagement Score</b></td>
+                        <td><h4 class="text-success" id="engagementScore">48</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="engagementChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Email Engagement Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Email Engagement Score predicts the effectiveness of your email campaign by evaluating open rates, click-through rates, and conversion rates.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Email Engagement Score calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It is calculated using a weighted formula: Open Rate (40%), Click-Through Rate (30%), and Conversion Rate (30%).
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>What factors influence Email Engagement?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The key factors are the open rate, click-through rate, and conversion rate. These metrics determine how effectively your email reaches and engages its recipients.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Email Engagement Score Predictor. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let engagementChart;
+
+        function calculateEngagement() {
+            let openRate = parseFloat(document.getElementById('openRate').value) || 0;
+            let clickThroughRate = parseFloat(document.getElementById('clickThroughRate').value) || 0;
+            let conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+
+            let engagementScore = (openRate * 0.4) + (clickThroughRate * 0.3) + (conversionRate * 0.3);
+            document.getElementById('engagementScore').innerText = engagementScore.toFixed(2);
+
+            updateChart(engagementScore);
+        }
+
+        function updateChart(engagementScore) {
+            let ctx = document.getElementById('engagementChart').getContext('2d');
+            if (engagementChart) {
+                engagementChart.destroy();
+            }
+
+            engagementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Email Engagement'],
+                    datasets: [{
+                        label: 'Engagement Score (%)',
+                        data: [engagementScore],
+                        backgroundColor: ['#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateEngagement;
+    </script>
+</body>
+</html>

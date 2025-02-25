@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Anchoring Strategy Effectiveness Score</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Price Anchoring Strategy Effectiveness Score</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you calculate the effectiveness of your price anchoring strategy. By comparing the anchor price and the target price, you can estimate how much customers perceive the value of your product.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Effectiveness Score = ((Anchor Price - Target Price) / Target Price) * 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Anchor Price:</b> ₹1500</p>
+        <p><b>Target Price:</b> ₹1000</p>
+        <p><b>Effectiveness Score = ((1500 - 1000) / 1000) * 100 = 50%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Price Anchoring Strategy Effectiveness</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Anchor Price</b></td>
+                        <td><input type="number" id="anchorPrice" class="form-control" value="1500" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Target Price</b></td>
+                        <td><input type="number" id="targetPrice" class="form-control" value="1000" oninput="calculateEffectiveness()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Effectiveness Score</b></td>
+                        <td><h4 class="text-success" id="effectivenessScore">50</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="effectivenessChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Price Anchoring?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Price anchoring is a psychological strategy where a higher-priced item (anchor) is placed next to a lower-priced item, making the lower price seem more attractive.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How does the Effectiveness Score help?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Effectiveness Score quantifies how strong the anchoring effect is by comparing the anchor price with the target price, giving insight into how much customers perceive the value difference.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Price Anchoring Strategy Effectiveness. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let effectivenessChart;
+
+        function calculateEffectiveness() {
+            let anchorPrice = parseFloat(document.getElementById('anchorPrice').value) || 0;
+            let targetPrice = parseFloat(document.getElementById('targetPrice').value) || 0;
+
+            let effectivenessScore = ((anchorPrice - targetPrice) / targetPrice) * 100;
+
+            document.getElementById('effectivenessScore').innerText = effectivenessScore.toFixed(2);
+
+            updateChart(anchorPrice, targetPrice, effectivenessScore);
+        }
+
+        function updateChart(anchorPrice, targetPrice, effectivenessScore) {
+            let ctx = document.getElementById('effectivenessChart').getContext('2d');
+            if (effectivenessChart) {
+                effectivenessChart.destroy();
+            }
+
+            effectivenessChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Anchor Price', 'Target Price', 'Effectiveness Score'],
+                    datasets: [{
+                        data: [anchorPrice, targetPrice, effectivenessScore],
+                        backgroundColor: ['#FF5722', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateEffectiveness;
+    </script>
+</body>
+</html>

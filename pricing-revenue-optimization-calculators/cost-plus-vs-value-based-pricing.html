@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost-Plus vs. Value-Based Pricing Profit Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Cost-Plus vs. Value-Based Pricing Profit Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            Compare profits using cost-plus pricing and value-based pricing strategies.
+        </p>
+
+        <h5><b>Formulas:</b></h5>
+        <p><b>Cost-Plus Price = Cost Price + (Cost Price × Markup %)</b></p>
+        <p><b>Value-Based Price = Perceived Value</b></p>
+        <p><b>Profit = (Selling Price - Cost Price) × Quantity Sold</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Cost Price:</b> ₹500</p>
+        <p><b>Markup:</b> 40% → Cost-Plus Price: ₹700</p>
+        <p><b>Perceived Value Price:</b> ₹900</p>
+        <p><b>Units Sold:</b> 100</p>
+        <p><b>Cost-Plus Profit = (700 - 500) × 100 = ₹20,000</b></p>
+        <p><b>Value-Based Profit = (900 - 500) × 100 = ₹40,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Pricing Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Cost Price (₹)</b></td>
+                        <td><input type="number" id="costPrice" class="form-control" value="500" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Markup (%)</b></td>
+                        <td><input type="number" id="markup" class="form-control" value="40" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Perceived Value Price (₹)</b></td>
+                        <td><input type="number" id="perceivedValue" class="form-control" value="900" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Units Sold</b></td>
+                        <td><input type="number" id="unitsSold" class="form-control" value="100" oninput="calculateProfit()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cost-Plus Profit (₹)</b></td>
+                        <td><h4 class="text-success" id="costPlusProfit">20,000</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Value-Based Profit (₹)</b></td>
+                        <td><h4 class="text-success" id="valueBasedProfit">40,000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="pricingChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the difference between cost-plus and value-based pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Cost-plus pricing adds a markup to the cost price, while value-based pricing sets the price based on perceived customer value.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Which pricing strategy is better?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Value-based pricing often leads to higher profits as it aligns with customer perception, but cost-plus pricing ensures predictable margins.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is value-based pricing more profitable?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It allows businesses to capture more of the product’s true worth, often leading to higher profit margins compared to cost-plus pricing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Cost-Plus vs. Value-Based Pricing Profit Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let pricingChart;
+
+        function calculateProfit() {
+            let costPrice = parseFloat(document.getElementById('costPrice').value) || 0;
+            let markup = parseFloat(document.getElementById('markup').value) || 0;
+            let perceivedValue = parseFloat(document.getElementById('perceivedValue').value) || 0;
+            let unitsSold = parseFloat(document.getElementById('unitsSold').value) || 0;
+
+            let costPlusPrice = costPrice + (costPrice * markup / 100);
+            let costPlusProfit = (costPlusPrice - costPrice) * unitsSold;
+            let valueBasedProfit = (perceivedValue - costPrice) * unitsSold;
+
+            document.getElementById('costPlusProfit').innerText = costPlusProfit.toLocaleString('en-IN');
+            document.getElementById('valueBasedProfit').innerText = valueBasedProfit.toLocaleString('en-IN');
+
+            updateChart(costPlusProfit, valueBasedProfit);
+        }
+
+        function updateChart(costPlusProfit, valueBasedProfit) {
+            let ctx = document.getElementById('pricingChart').getContext('2d');
+            if (pricingChart) {
+                pricingChart.destroy();
+            }
+
+            pricingChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cost-Plus Profit', 'Value-Based Profit'],
+                    datasets: [{
+                        data: [costPlusProfit, valueBasedProfit],
+                        backgroundColor: ['#FF9800', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateProfit;
+    </script>
+</body>
+</html>

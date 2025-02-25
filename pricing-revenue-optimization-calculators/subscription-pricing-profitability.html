@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Pricing Model Profitability Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Subscription Pricing Model Profitability Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool estimates the profitability of your subscription pricing model by considering the monthly subscription fee, customer acquisition cost (CAC), and churn rate. It helps you assess how different pricing models impact your profits over time.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Profitability = (Subscription Fee - CAC) * (1 - Churn Rate)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Subscription Fee:</b> ₹500</p>
+        <p><b>CAC (Customer Acquisition Cost):</b> ₹200</p>
+        <p><b>Churn Rate:</b> 0.05 (5%)</p>
+        <p><b>Profitability = (500 - 200) * (1 - 0.05) = ₹285</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Subscription Pricing Model Profitability Estimator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Subscription Fee</b></td>
+                        <td><input type="number" id="subscriptionFee" class="form-control" value="500" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>CAC (Customer Acquisition Cost)</b></td>
+                        <td><input type="number" id="cac" class="form-control" value="200" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Churn Rate (decimal)</b></td>
+                        <td><input type="number" id="churnRate" class="form-control" value="0.05" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Profitability</b></td>
+                        <td><h4 class="text-success" id="profitability">285.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="profitabilityChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is a Subscription Pricing Model?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A subscription pricing model is a strategy where customers pay a recurring price (typically monthly or annually) to access a product or service.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is CAC important in Subscription Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Customer Acquisition Cost (CAC) is important as it determines how much it costs to acquire each new customer, impacting overall profitability. A high CAC can lead to lower profits.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Subscription Pricing Model Profitability Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let profitabilityChart;
+
+        function calculateProfitability() {
+            let subscriptionFee = parseFloat(document.getElementById('subscriptionFee').value) || 0;
+            let cac = parseFloat(document.getElementById('cac').value) || 0;
+            let churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
+
+            let profitability = (subscriptionFee - cac) * (1 - churnRate);
+
+            document.getElementById('profitability').innerText = profitability.toFixed(2);
+
+            updateChart(subscriptionFee, cac, profitability);
+        }
+
+        function updateChart(subscriptionFee, cac, profitability) {
+            let ctx = document.getElementById('profitabilityChart').getContext('2d');
+            if (profitabilityChart) {
+                profitabilityChart.destroy();
+            }
+
+            profitabilityChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Subscription Fee', 'CAC', 'Profitability'],
+                    datasets: [{
+                        data: [subscriptionFee, cac, profitability],
+                        backgroundColor: ['#4CAF50', '#FF5733', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateProfitability;
+    </script>
+</body>
+</html>

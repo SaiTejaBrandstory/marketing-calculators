@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LTV:CAC Ratio Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>LTV:CAC Ratio Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you calculate the Lifetime Value to Customer Acquisition Cost ratio, which is an important metric for assessing the profitability and efficiency of your marketing efforts.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>LTV:CAC Ratio = Lifetime Value (LTV) / Customer Acquisition Cost (CAC)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Lifetime Value (LTV):</b> ₹150,000</p>
+        <p><b>Customer Acquisition Cost (CAC):</b> ₹50,000</p>
+        <p><b>LTV:CAC Ratio = 150,000 / 50,000 = 3</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for LTV:CAC Ratio Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Lifetime Value (LTV) (₹)</b></td>
+                        <td><input type="number" id="ltv" class="form-control" value="150000" oninput="calculateLtvCacRatio()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Acquisition Cost (CAC) (₹)</b></td>
+                        <td><input type="number" id="cac" class="form-control" value="50000" oninput="calculateLtvCacRatio()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>LTV:CAC Ratio</b></td>
+                        <td><h4 class="text-success" id="ltvCacRatio">3.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="ltvCacChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is LTV:CAC Ratio?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The LTV:CAC Ratio compares the lifetime value (LTV) of a customer to the cost of acquiring that customer (CAC). A higher ratio indicates better customer retention and acquisition efficiency.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is LTV:CAC Ratio calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is:  
+                        <b>LTV:CAC Ratio = Lifetime Value (LTV) / Customer Acquisition Cost (CAC)</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is LTV:CAC Ratio important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A high LTV:CAC ratio shows that the business is generating significant value from its customers compared to what it spends on acquiring them, indicating strong profitability and sustainable growth.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 LTV:CAC Ratio Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let ltvCacChart;
+
+        function calculateLtvCacRatio() {
+            let ltv = parseFloat(document.getElementById('ltv').value) || 0;
+            let cac = parseFloat(document.getElementById('cac').value) || 0;
+
+            let ltvCacRatio = ltv / cac;
+
+            document.getElementById('ltvCacRatio').innerText = ltvCacRatio.toFixed(2);
+
+            updateChart(ltvCacRatio);
+        }
+
+        function updateChart(ltvCacRatio) {
+            let ctx = document.getElementById('ltvCacChart').getContext('2d');
+            if (ltvCacChart) {
+                ltvCacChart.destroy();
+            }
+
+            ltvCacChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['LTV:CAC Ratio'],
+                    datasets: [{
+                        data: [ltvCacRatio],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateLtvCacRatio;
+    </script>
+</body>
+</html>

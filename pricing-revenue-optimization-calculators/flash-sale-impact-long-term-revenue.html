@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Sale Impact on Long-Term Revenue Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Flash Sale Impact on Long-Term Revenue</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps calculate the impact of a flash sale on your long-term revenue by factoring in the discount percentage, sale duration, customer retention rate, and average lifetime value (LTV) of customers.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Long-Term Revenue = (Flash Sale Revenue) + (Post-Sale Retained Revenue)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Flash Sale Revenue:</b> ₹50,000</p>
+        <p><b>Post-Sale Retained Revenue (due to 20% retention rate):</b> ₹10,000</p>
+        <p><b>Long-Term Revenue = ₹50,000 + ₹10,000 = ₹60,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Flash Sale Impact</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Flash Sale Revenue</b></td>
+                        <td><input type="number" id="flashSaleRevenue" class="form-control" value="50000" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Post-Sale Retained Revenue</b></td>
+                        <td><input type="number" id="postSaleRevenue" class="form-control" value="10000" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Long-Term Revenue</b></td>
+                        <td><h4 class="text-success" id="longTermRevenue">60000.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Impact Analysis Chart</b></h4>
+                <canvas id="impactChart" style="max-width: 400px; max-height: 300px; width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is a Flash Sale?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A flash sale is a limited-time promotion offering a significant discount on products or services to encourage quick sales.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is Retained Revenue important in Flash Sale Impact?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Retained revenue represents the income generated from customers who return after a flash sale, impacting long-term profitability and sustainability.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Flash Sale Impact on Long-Term Revenue. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let impactChart;
+
+        function calculateImpact() {
+            let flashSaleRevenue = parseFloat(document.getElementById('flashSaleRevenue').value) || 0;
+            let postSaleRevenue = parseFloat(document.getElementById('postSaleRevenue').value) || 0;
+
+            let longTermRevenue = flashSaleRevenue + postSaleRevenue;
+
+            document.getElementById('longTermRevenue').innerText = longTermRevenue.toFixed(2);
+
+            updateChart(flashSaleRevenue, postSaleRevenue, longTermRevenue);
+        }
+
+        function updateChart(flashSaleRevenue, postSaleRevenue, longTermRevenue) {
+            let ctx = document.getElementById('impactChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (impactChart) {
+                impactChart.destroy();
+            }
+
+            // Create new chart with updated data
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Flash Sale Revenue', 'Post-Sale Retained Revenue', 'Long-Term Revenue'],
+                    datasets: [{
+                        label: 'Revenue Impact',
+                        data: [flashSaleRevenue, postSaleRevenue, longTermRevenue],
+                        backgroundColor: ['#FF5733', '#2196F3', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateImpact;
+    </script>
+</body>
+</html>

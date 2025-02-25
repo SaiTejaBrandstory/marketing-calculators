@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Method Conversion Rate Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Payment Method Conversion Rate Analyzer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates the conversion rate of different payment methods used by customers to complete their purchases.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Payment Method Conversion Rate = (Number of Successful Transactions / Number of Attempts) × 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Number of Successful Transactions:</b> 80</p>
+        <p><b>Number of Attempts:</b> 100</p>
+        <p><b>Payment Method Conversion Rate = (80 / 100) × 100 = 80%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Payment Method Conversion Rate</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Number of Successful Transactions</b></td>
+                        <td><input type="number" id="successfulTransactions" class="form-control" value="80" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Number of Attempts</b></td>
+                        <td><input type="number" id="attempts" class="form-control" value="100" oninput="calculateConversionRate()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Payment Method Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="conversionRate">80</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="conversionRateChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Payment Method Conversion Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Payment Method Conversion Rate measures the effectiveness of a payment method in completing transactions. It is calculated by comparing successful transactions to the total number of attempts.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Payment Method Conversion Rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is: <b>(Number of Successful Transactions / Number of Attempts) × 100</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Payment Method Conversion Rate important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher Payment Method Conversion Rate indicates a higher success rate for the payment method being used, which is essential for optimizing payment processing and improving customer experience.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Payment Method Conversion Rate Analyzer. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let conversionRateChart;
+
+        function calculateConversionRate() {
+            let successfulTransactions = parseFloat(document.getElementById('successfulTransactions').value) || 0;
+            let attempts = parseFloat(document.getElementById('attempts').value) || 0;
+
+            let conversionRate = (successfulTransactions / attempts) * 100;
+
+            document.getElementById('conversionRate').innerText = conversionRate.toFixed(2);
+
+            updateChart(successfulTransactions, attempts, conversionRate);
+        }
+
+        function updateChart(successfulTransactions, attempts, conversionRate) {
+            let ctx = document.getElementById('conversionRateChart').getContext('2d');
+            if (conversionRateChart) {
+                conversionRateChart.destroy();
+            }
+
+            conversionRateChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Successful Transactions', 'Attempts', 'Conversion Rate'],
+                    datasets: [{
+                        data: [successfulTransactions, attempts, conversionRate],
+                        backgroundColor: ['#FF5733', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateConversionRate;
+    </script>
+</body>
+</html>

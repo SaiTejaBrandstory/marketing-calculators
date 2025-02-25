@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychological Pricing Impact Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Psychological Pricing Impact Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool calculates the impact of psychological pricing strategies on customer purchasing behavior. It evaluates how slight pricing adjustments, like pricing ending in '.99', can increase sales and attract more buyers.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Psychological Pricing Impact = (Original Price - Discount Price) / Original Price</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Original Price:</b> ₹1000</p>
+        <p><b>Discount Price:</b> ₹999</p>
+        <p><b>Psychological Pricing Impact = (1000 - 999) / 1000 = 0.001</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Psychological Pricing Impact</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Original Price</b></td>
+                        <td><input type="number" id="originalPrice" class="form-control" value="1000" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Discount Price</b></td>
+                        <td><input type="number" id="discountPrice" class="form-control" value="999" oninput="calculateImpact()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Psychological Pricing Impact</b></td>
+                        <td><h4 class="text-success" id="impact">0.001</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="impactChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Psychological Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Psychological pricing is a strategy where prices are set slightly lower than a round number (e.g., ₹999 instead of ₹1000) to encourage customer purchases.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why does this pricing strategy work?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This strategy works due to the perception of getting a better deal when seeing prices ending in '.99', often making customers feel like they are saving money.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Psychological Pricing Impact Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let impactChart;
+
+        function calculateImpact() {
+            let originalPrice = parseFloat(document.getElementById('originalPrice').value) || 0;
+            let discountPrice = parseFloat(document.getElementById('discountPrice').value) || 0;
+
+            let impact = (originalPrice - discountPrice) / originalPrice;
+
+            document.getElementById('impact').innerText = impact.toFixed(3);
+
+            updateChart(originalPrice, discountPrice, impact);
+        }
+
+        function updateChart(originalPrice, discountPrice, impact) {
+            let ctx = document.getElementById('impactChart').getContext('2d');
+            if (impactChart) {
+                impactChart.destroy();
+            }
+
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Original Price', 'Discount Price', 'Impact'],
+                    datasets: [{
+                        data: [originalPrice, discountPrice, impact * 100],  // Showing impact in percentage
+                        backgroundColor: ['#FF5733', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 1000 }  // Setting max for visibility
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateImpact;
+    </script>
+</body>
+</html>

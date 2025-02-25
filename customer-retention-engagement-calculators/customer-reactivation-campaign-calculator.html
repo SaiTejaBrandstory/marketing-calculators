@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reactivation Campaign Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Reactivation Campaign Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p><b>Reactivation Rate = (Number of Reactivated Customers / Total Targeted Customers) × 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If:</p>
+        <ul>
+            <li>Number of Reactivated Customers = 150</li>
+            <li>Total Targeted Customers = 500</li>
+        </ul>
+        <p><b>Reactivation Rate = (150 / 500) × 100 = 30%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Enter Data</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Number of Reactivated Customers</b></td>
+                        <td><input type="number" id="reactivated" class="form-control" value="150" oninput="calculateReactivation()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Targeted Customers</b></td>
+                        <td><input type="number" id="targeted" class="form-control" value="500" oninput="calculateReactivation()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Reactivation Rate (%)</b></td>
+                        <td><h4 class="text-success" id="reactivationRate">30%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="reactivationChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Reactivation Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Reactivation Rate represents the percentage of targeted customers who have re-engaged with your campaign.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is the Reactivation Rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It is calculated by dividing the number of reactivated customers by the total targeted customers and multiplying the result by 100.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How can I increase the Reactivation Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improve your messaging, offer attractive incentives, and ensure a seamless customer experience during the re-engagement process.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Reactivation Campaign. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let reactivationChart;
+
+        function calculateReactivation() {
+            let reactivated = parseFloat(document.getElementById('reactivated').value) || 0;
+            let targeted = parseFloat(document.getElementById('targeted').value) || 0;
+
+            if (targeted === 0) {
+                document.getElementById('reactivationRate').innerText = "Invalid Value";
+                return;
+            }
+
+            let reactivationRate = (reactivated / targeted) * 100;
+            document.getElementById('reactivationRate').innerText = reactivationRate.toFixed(2) + "%";
+
+            updateChart(reactivated, targeted, reactivationRate);
+        }
+
+        function updateChart(reactivated, targeted, reactivationRate) {
+            let ctx = document.getElementById('reactivationChart').getContext('2d');
+            if (reactivationChart) {
+                reactivationChart.destroy();
+            }
+
+            reactivationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Reactivated', 'Targeted', 'Reactivation Rate'],
+                    datasets: [{
+                        label: 'Customers',
+                        data: [reactivated, targeted, reactivationRate],
+                        backgroundColor: ['#4CAF50', '#FFEB3B', '#2196F3']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateReactivation;
+    </script>
+</body>
+</html>

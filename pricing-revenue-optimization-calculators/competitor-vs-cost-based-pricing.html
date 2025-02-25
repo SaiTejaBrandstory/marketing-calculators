@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor-Based vs. Cost-Based Pricing Profitability Comparison</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Competitor-Based vs. Cost-Based Pricing Profitability Comparison</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool compares the profitability of competitor-based and cost-based pricing models by calculating the price, cost, and profitability for each model.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Profitability = Price - Cost</b></p>
+
+        <h6><b>Example Calculation for Competitor-Based Pricing:</b></h6>
+        <p><b>Competitor-Based Price:</b> ₹500</p>
+        <p><b>Cost:</b> ₹300</p>
+        <p><b>Profitability (Competitor-Based) = ₹500 - ₹300 = ₹200</b></p>
+
+        <h6><b>Example Calculation for Cost-Based Pricing:</b></h6>
+        <p><b>Cost-Based Price:</b> ₹450</p>
+        <p><b>Cost:</b> ₹300</p>
+        <p><b>Profitability (Cost-Based) = ₹450 - ₹300 = ₹150</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Competitor-Based vs. Cost-Based Pricing Comparison</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Competitor-Based Price</b></td>
+                        <td><input type="number" id="competitorPrice" class="form-control" value="500" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cost</b></td>
+                        <td><input type="number" id="cost" class="form-control" value="300" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cost-Based Price</b></td>
+                        <td><input type="number" id="costBasedPrice" class="form-control" value="450" oninput="calculateProfitability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Profitability (Competitor-Based)</b></td>
+                        <td><h4 class="text-success" id="competitorProfitability">200.00</h4></td>
+                    </tr>
+                    <tr>
+                        <td><b>Profitability (Cost-Based)</b></td>
+                        <td><h4 class="text-success" id="costBasedProfitability">150.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Profitability Comparison</b></h4>
+                <canvas id="profitabilityChart" style="max-width: 400px; max-height: 300px;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Competitor-Based Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Competitor-based pricing is a strategy where you set your prices based on what competitors are charging for similar products or services.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>What is Cost-Based Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Cost-based pricing is a strategy where you set your price based on the cost to produce the product, with a markup to ensure profitability.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Competitor-Based vs. Cost-Based Pricing Profitability Comparison. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let profitabilityChart;
+
+        function calculateProfitability() {
+            let competitorPrice = parseFloat(document.getElementById('competitorPrice').value) || 0;
+            let cost = parseFloat(document.getElementById('cost').value) || 0;
+            let costBasedPrice = parseFloat(document.getElementById('costBasedPrice').value) || 0;
+
+            let competitorProfitability = competitorPrice - cost;
+            let costBasedProfitability = costBasedPrice - cost;
+
+            document.getElementById('competitorProfitability').innerText = competitorProfitability.toFixed(2);
+            document.getElementById('costBasedProfitability').innerText = costBasedProfitability.toFixed(2);
+
+            updateChart(competitorProfitability, costBasedProfitability);
+        }
+
+        function updateChart(competitorProfitability, costBasedProfitability) {
+            let ctx = document.getElementById('profitabilityChart').getContext('2d');
+            if (profitabilityChart) {
+                profitabilityChart.destroy();
+            }
+
+            profitabilityChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Competitor-Based', 'Cost-Based'],
+                    datasets: [{
+                        data: [competitorProfitability, costBasedProfitability],
+                        backgroundColor: ['#4CAF50', '#FF5733'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateProfitability;
+    </script>
+</body>
+</html>

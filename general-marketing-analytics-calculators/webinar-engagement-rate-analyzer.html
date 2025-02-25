@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webinar Engagement Rate Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Webinar Engagement Rate Analyzer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p>The formula for calculating webinar engagement rate:</p>
+        <p><b>Engagement Rate (%) = ((Attendees × Avg. Watch Time) / (Registrants × Webinar Duration)) × 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If:</p>
+        <ul>
+            <li>Attendees = 500</li>
+            <li>Avg. Watch Time = 40 minutes</li>
+            <li>Registrants = 800</li>
+            <li>Webinar Duration = 60 minutes</li>
+        </ul>
+        <p><b>Engagement Rate = ((500 × 40) / (800 × 60)) × 100 = 41.67%</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Enter Values</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Attendees</b></td>
+                        <td><input type="number" id="attendees" class="form-control" value="500" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Avg. Watch Time (min)</b></td>
+                        <td><input type="number" id="watchTime" class="form-control" value="40" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Registrants</b></td>
+                        <td><input type="number" id="registrants" class="form-control" value="800" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Webinar Duration (min)</b></td>
+                        <td><input type="number" id="duration" class="form-control" value="60" oninput="calculateEngagement()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Engagement Rate (%)</b></td>
+                        <td><h4 class="text-success" id="engagementResult">41.67%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="engagementChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>How is webinar engagement rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        It is calculated based on the number of attendees, their average watch time, total registrants, and webinar duration.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>What is a good engagement rate for webinars?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A good engagement rate is typically above 40%, with highly engaging webinars reaching 60% or more.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How can I increase my webinar engagement rate?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        You can improve engagement by making the content interactive, using polls, Q&A sessions, and engaging visuals.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Webinar Engagement Rate Analyzer. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let engagementChart;
+
+        function calculateEngagement() {
+            let attendees = parseFloat(document.getElementById('attendees').value) || 0;
+            let watchTime = parseFloat(document.getElementById('watchTime').value) || 0;
+            let registrants = parseFloat(document.getElementById('registrants').value) || 1; // Avoid division by zero
+            let duration = parseFloat(document.getElementById('duration').value) || 1; // Avoid division by zero
+
+            let engagementRate = ((attendees * watchTime) / (registrants * duration)) * 100;
+            document.getElementById('engagementResult').innerText = engagementRate.toFixed(2) + '%';
+
+            updateChart(attendees, watchTime, engagementRate);
+        }
+
+        function updateChart(attendees, watchTime, engagementRate) {
+            let ctx = document.getElementById('engagementChart').getContext('2d');
+            if (engagementChart) {
+                engagementChart.destroy();
+            }
+
+            engagementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Attendees', 'Avg. Watch Time', 'Engagement Rate'],
+                    datasets: [{
+                        label: 'Value',
+                        data: [attendees, watchTime, engagementRate],
+                        backgroundColor: ['#2196F3', '#FF9800', '#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateEngagement;
+    </script>
+</body>
+</html>

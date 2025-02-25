@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Effectiveness ROI Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>CRM Effectiveness ROI Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p><b>CRM ROI (%) = ((Revenue from CRM - CRM Investment) / CRM Investment) × 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If you have:</p>
+        <ul>
+            <li><b>Revenue from CRM: ₹2,500,000</b></li>
+            <li><b>CRM Investment: ₹500,000</b></li>
+        </ul>
+        <p><b>CRM ROI = ((₹2,500,000 - ₹500,000) / ₹500,000) × 100 = (₹2,000,000 / ₹500,000) × 100 = 400%</b></p>
+
+        <h4 class="my-4">Enter Metrics:</h4>
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Metric</th>
+                            <th scope="col">Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Revenue from CRM</td>
+                            <td><input id="revenue" class="form-control" type="number" value="2500000" oninput="calculateROI()"></td>
+                        </tr>
+                        <tr>
+                            <td>CRM Investment</td>
+                            <td><input id="investment" class="form-control" type="number" value="500000" oninput="calculateROI()"></td>
+                        </tr>
+                        <tr>
+                            <td><b>CRM ROI (%)</b></td>
+                            <td><span id="roiResult" class="text-primary">400%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>CRM ROI Graph</b></h4>
+                <canvas id="roiChart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is CRM ROI?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        CRM ROI measures the return on investment made in Customer Relationship Management (CRM) tools. It shows how much revenue is generated compared to the amount spent on the CRM system.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is CRM ROI Important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        CRM ROI is crucial for evaluating the effectiveness of CRM tools in driving revenue and customer loyalty. A high CRM ROI indicates that the CRM system is adding value to the business.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How do I improve CRM ROI?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improving CRM ROI involves better utilization of CRM features, improving customer segmentation, enhancing customer communication, and optimizing sales processes.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 CRM Effectiveness ROI Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let roiChart;
+
+        function calculateROI() {
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const investment = parseFloat(document.getElementById('investment').value) || 0;
+
+            const roi = ((revenue - investment) / investment) * 100;
+
+            document.getElementById('roiResult').innerText = roi.toFixed(2) + '%';
+            updateChart(revenue, investment, roi);
+        }
+
+        function updateChart(revenue, investment, roi) {
+            let ctx = document.getElementById('roiChart').getContext('2d');
+            if (roiChart) {
+                roiChart.destroy();
+            }
+
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue from CRM', 'CRM Investment', 'ROI'],
+                    datasets: [{
+                        data: [revenue, investment, roi],
+                        backgroundColor: ['#4CAF50', '#FFC107', '#2196F3'],
+                        borderColor: ['#388E3C', '#FF9800', '#1976D2'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Initial calculation for default values
+        calculateROI();
+    </script>
+</body>
+</html>

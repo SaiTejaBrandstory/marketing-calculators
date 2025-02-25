@@ -684,21 +684,132 @@
 
             // Pricing & Revenue Optimization Calculators
             const pricingRevenueOptimizationCalculators = [
+                 {"name": "Cost-Plus vs. Value-Based Pricing Profit Calculator", "link": "cost-plus-vs-value-based-pricing.html", "icon": "fas fa-balance-scale", "color": "#2196F3"},
+                 {"name": "Dynamic Pricing Effectiveness Calculator", "link": "dynamic-pricing-effectiveness.html", "icon": "fas fa-chart-line", "color": "#673AB7"},
+                 {"name": "Price Elasticity of Demand Calculator", "link": "price-elasticity-demand.html", "icon": "fas fa-balance-scale", "color": "#009688"},
+                 {"name": "Psychological Pricing Impact Calculator", "link": "psychological-pricing-impact-calculator.html", "icon": "fas fa-dollar-sign", "color": "#FF9800"},
+                 {"name": "Discount Strategy Revenue Impact Calculator", "link": "discount-strategy-revenue-impact.html", "icon": "fas fa-tags", "color": "#FF9800"},
+                 {"name": "Tiered Pricing Model Optimization Calculator", "link": "tiered-pricing-optimization.html", "icon": "fas fa-layer-group", "color": "#4CAF50"},
+                 {"name": "Subscription Pricing Model Profitability Estimator", "link": "subscription-pricing-profitability.html", "icon": "fas fa-dollar-sign", "color": "#FF9800"},
+                 {"name": "Competitor Pricing Comparison Tool", "link": "competitor-pricing-comparison.html", "icon": "fas fa-tags", "color": "#FF9800"},
+                 {"name": "Freemium vs. Premium Model Revenue Forecasting", "link": "freemium-vs-premium-revenue-forecasting.html", "icon": "fas fa-chart-line", "color": "#FFC107"},
+                 {"name": "Bundling Strategy Profit Calculator", "link": "bundling-strategy-profit-calculator.html", "icon": "fas fa-box", "color": "#FF5722"},
+                 {"name": "AI-Powered Pricing Optimization Score", "link": "ai-pricing-optimization-score.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                 {"name": "Time-Based Pricing Strategy Effectiveness Calculator", "link": "time-based-pricing-effectiveness.html", "icon": "fas fa-clock", "color": "#FF5722"},
+                 {"name": "Cost Per Unit Break-Even Calculator", "link": "cost-per-unit-break-even.html", "icon": "fas fa-calculator", "color": "#FF5722"},
+                 {"name": "Gross Profit Margin Calculator", "link": "gross-profit-margin-calculator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                 {"name": "Net Profit Margin Calculator", "link": "net-profit-margin-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+                 {"name": "LTV:CAC Ratio Calculator", "link": "ltv-cac-ratio-calculator.html", "icon": "fas fa-calculator", "color": "#FF5722"},
+                 {"name": "Upselling vs. Cross-Selling Profit Calculator", "link": "upselling-vs-cross-selling-profit.html", "icon": "fas fa-chart-bar", "color": "#FF5722"},
+                 {"name": "One-Time Purchase vs Subscription Model Revenue Forecasting", "link": "one-time-vs-subscription-revenue.html", "icon": "fas fa-calculator", "color": "#009688"},
+                 {"name": "Loss Leader Pricing Impact Calculator", "link": "loss-leader-pricing-impact.html", "icon": "fas fa-dollar-sign", "color": "#FF5722"},
+                 {"name": "Price Anchoring Strategy Effectiveness Score", "link": "price-anchoring-strategy-effectiveness.html", "icon": "fas fa-tag", "color": "#FF5722"},
+                 {"name": "Early Bird Discount vs. Last-Minute Sale Impact Calculator", "link": "early-bird-vs-last-minute-sale-impact.html", "icon": "fas fa-calendar-check", "color": "#FF5722"},
+                 {"name": "ROI of Pricing A/B Tests Calculator", "link": "roi-of-pricing-ab-tests-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                 {"name": "Free Trial vs. Paid Trial Conversion Rate Estimator", "link": "free-trial-vs-paid-trial-conversion-rate-estimator.html", "icon": "fas fa-calendar-check", "color": "#FF5722"},
+                 {"name": "Demand-Based Pricing Model Calculator", "link": "demand-based-pricing-model-calculator.html", "icon": "fas fa-calculator", "color": "#FF5722"},
+                 {"name": "Cost Per Acquisition (CPA) to Revenue Ratio Calculator", "link": "cpa-to-revenue-ratio-calculator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                 {"name": "Peak Pricing Strategy Effectiveness Calculator", "link": "peak-pricing-strategy-effectiveness-calculator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                 {"name": "Volume-Based Discount Optimization Score", "link": "volume-based-discount-optimization-score.html", "icon": "fas fa-percent", "color": "#FF5722"},
+                 {"name": "Pay-What-You-Want (PWYW) Pricing Model Feasibility Score", "link": "pwyw-pricing-model-feasibility-score.html", "icon": "fas fa-hand-holding-usd", "color": "#FF5722"},
+                 {"name": "Referral Program Pricing Strategy Calculator", "link": "referral-program-pricing-strategy-calculator.html", "icon": "fas fa-user-plus", "color": "#FF5722"},
+                 {"name": "Customer Willingness to Pay (WTP) Prediction Tool", "link": "customer-wtp-prediction-tool.html", "icon": "fas fa-chart-line", "color": "#2196F3"},
+                 {"name": "Pricing Model Sensitivity Analysis", "link": "pricing-model-sensitivity-analysis.html", "icon": "fas fa-chart-line", "color": "#FF5733"},
+                 {"name": "Flash Sale Impact on Long-Term Revenue Calculator", "link": "flash-sale-impact-long-term-revenue.html", "icon": "fas fa-gift", "color": "#FF5722"},
+                 {"name": "Cart Abandonment Discount Strategy ROI Calculator", "link": "cart-abandonment-discount-strategy-roi.html", "icon": "fas fa-shopping-cart", "color": "#FF5722"},
+                 {"name": "Wholesale vs. Direct-to-Consumer (DTC) Pricing Strategy Calculator", "link": "wholesale-vs-dtc-pricing-strategy.html", "icon": "fas fa-store", "color": "#FF5722"},
+                 {"name": "Inflation Impact on Pricing Strategy Calculator", "link": "inflation-impact-on-pricing.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                 {"name": "Customer Perceived Fair Pricing Score", "link": "customer-perceived-fair-pricing-score.html", "icon": "fas fa-dollar-sign", "color": "#4CAF50"},
+                 {"name": "Custom Quote vs. Fixed Pricing Model Efficiency", "link": "custom-quote-vs-fixed-pricing-efficiency.html", "icon": "fas fa-chart-bar", "color": "#FF9800"},
+                 {"name": "Pay-Per-Use Model Profitability Calculator", "link": "pay-per-use-model-profitability.html", "icon": "fas fa-calculator", "color": "#FF5722"},
+                 {"name": "Personalized Pricing Strategy ROI Calculator", "link": "personalized-pricing-roi.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                 {"name": "Membership Pricing Model Viability Score Calculator", "link": "membership-pricing-viability.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+                 {"name": "Freemium-to-Paid Conversion Rate Predictor", "link": "freemium-to-paid-conversion.html", "icon": "fas fa-arrow-up", "color": "#FF5722"},
+                 {"name": "Pricing Experiments Statistical Significance Calculator", "link": "pricing-experiments-statistical-significance.html", "icon": "fas fa-chart-bar", "color": "#FF5722"},
+                 {"name": "Competitor-Based vs. Cost-Based Pricing Profitability Comparison", "link": "competitor-vs-cost-based-pricing.html", "icon": "fas fa-chart-bar", "color": "#FF5722"},
+                 {"name": "Predictive Demand Forecasting for Pricing Adjustments", "link": "predictive-demand-forecasting.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                 {"name": "Wholesale Price vs. Retail Price Revenue Impact Calculator", "link": "wholesale-vs-retail-price-revenue-impact.html", "icon": "fas fa-chart-bar", "color": "#FF5722"},
+                 {"name": "Subscription Cancellation Prevention Discount Effectiveness Calculator", "link": "subscription-cancellation-prevention-discount-effectiveness.html", "icon": "fas fa-percent", "color": "#FF5722"},
+                 {"name": "Revenue Recovery from Price Drops Calculator", "link": "revenue-recovery-from-price-drops.html", "icon": "fas fa-arrow-down", "color": "#FF5722"},
+                 {"name": "AI-Powered Discount Personalization ROI Estimator", "link": "ai-powered-discount-personalization-roi.html", "icon": "fas fa-percent", "color": "#FF5722"},
+                 {"name": "Early Access vs. General Launch Pricing Impact Calculator", "link": "early-access-vs-general-launch-pricing-impact.html", "icon": "fas fa-calendar-alt", "color": "#FF5722"},
+                 {"name": "Premium vs. Economy Tier Pricing Strategy ROI Calculator", "link": "premium-vs-economy-tier-pricing-strategy-roi.html", "icon": "fas fa-chart-line", "color": "#FF5722"}
                
             ];
 
             // E-commerce & Retail Calculators
             const ecommerceRetailCalculators = [
+                {"name": "E-commerce Revenue Predictor", "link": "e-commerce-revenue-predictor.html", "icon": "fas fa-chart-line", "color": "#2196F3"},
+                {"name": "Profit Margin After Discount", "link": "profit-margin-after-discount.html", "icon": "fas fa-percent", "color": "#FF5722"},
+                {"name": "Stock Turnover Ratio", "link": "stock-turnover-ratio.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                {"name": "E-commerce Cart Value Estimator", "link": "e-commerce-cart-value-estimator.html", "icon": "fas fa-shopping-cart", "color": "#FF9800"},
+                {"name": "Customer Acquisition Cost (CAC) Calculator", "link": "customer-acquisition-cost-cac-calculator.html", "icon": "fas fa-wallet", "color": "#4CAF50"},
+                {"name": "Average Order Value (AOV) Calculator", "link": "average-order-value-aov-calculator.html", "icon": "fas fa-box", "color": "#4CAF50"},
+                {"name": "Cart Abandonment Recovery Estimator", "link": "cart-abandonment-recovery-estimator.html", "icon": "fas fa-shopping-cart", "color": "#2196F3"},
+                {"name": "Subscription Churn Rate Calculator", "link": "subscription-churn-rate-calculator.html", "icon": "fas fa-user-times", "color": "#FF5722"},
+                {"name": "Repeat Purchase Probability Calculator", "link": "repeat-purchase-probability-calculator.html", "icon": "fas fa-sync-alt", "color": "#4CAF50"},
+                {"name": "Flash Sale Performance Predictor", "link": "flash-sale-performance-predictor.html", "icon": "fas fa-bolt", "color": "#2196F3"},
+                {"name": "Conversion Rate for Discounted Products", "link": "conversion-rate-for-discounted-products.html", "icon": "fas fa-percentage", "color": "#4CAF50"},
+                {"name": "Retail Store Traffic Estimator", "link": "retail-store-traffic-estimator.html", "icon": "fas fa-store", "color": "#FF5722"},
+                {"name": "Shipping Cost Impact on Conversion", "link": "shipping-cost-impact-on-conversion.html", "icon": "fas fa-shipping-fast", "color": "#2196F3"},
+                {"name": "Coupon Code Redemption Rate Analyzer", "link": "coupon-code-redemption-rate-analyzer.html", "icon": "fas fa-tags", "color": "#FF5722"},
+                {"name": "Bundle Pricing Profitability Calculator", "link": "bundle-pricing-profitability-calculator.html", "icon": "fas fa-box", "color": "#4CAF50"},
+                {"name": "E-commerce Profit Margin Calculator", "link": "ecommerce-profit-margin-calculator.html", "icon": "fas fa-percent", "color": "#FF5722"},
+                {"name": "Customer Lifetime Spend Estimator", "link": "customer-lifetime-spend-estimator.html", "icon": "fas fa-credit-card", "color": "#2196F3"},
+                {"name": "BOGO (Buy One Get One) Offer Impact", "link": "bogo-offer-impact.html", "icon": "fas fa-gift", "color": "#4CAF50"},
+                {"name": "Payment Method Conversion Rate Analyzer", "link": "payment-method-conversion-rate-analyzer.html", "icon": "fas fa-credit-card", "color": "#FF5722"},
+                {"name": "Mobile vs. Desktop Shopping Behavior Analyzer", "link": "mobile-vs-desktop-shopping-behavior.html", "icon": "fas fa-laptop", "color": "#4CAF50"}
                 
             ];
 
             // AI & Predictive Marketing Calculators
             const aiPredictiveMarketingCalculators = [
+                {"name": "AI-Based Conversion Rate Estimator", "link": "ai-based-conversion-rate-estimator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "AI-Powered Ad Performance Predictor", "link": "ai-powered-ad-performance-predictor.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "Customer Churn Probability Calculator", "link": "customer-churn-probability-calculator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "AI-Driven SEO Traffic Estimator", "link": "ai-driven-seo-traffic-estimator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+                {"name": "Email Engagement Score Predictor", "link": "email-engagement-score-predictor.html", "icon": "fas fa-envelope", "color": "#FF5722"},
+                {"name": "Social Media Sentiment Analyzer", "link": "social-media-sentiment-analyzer.html", "icon": "fas fa-comments", "color": "#FF5722"},
+                {"name": "Automated A/B Test Performance Estimator", "link": "automated-ab-test-performance-estimator.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+                {"name": "AI-Based Lead Scoring Model", "link": "ai-based-lead-scoring-model.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+                {"name": "AI-Generated Ad Copy Performance Predictor", "link": "ai-generated-ad-copy-performance-predictor.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+                {"name": "Predictive Customer Segmentation Analyzer", "link": "predictive-customer-segmentation-analyzer.html", "icon": "fas fa-users", "color": "#2196F3"},
+                {"name": "AI-Based Demand Forecasting Tool", "link": "ai-based-demand-forecasting-tool.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "Smart Dynamic Pricing Calculator", "link": "smart-dynamic-pricing-calculator.html", "icon": "fas fa-dollar-sign", "color": "#FF9800"},
+                {"name": "Chatbot Conversion Rate Analyzer", "link": "chatbot-conversion-rate-analyzer.html", "icon": "fas fa-robot", "color": "#FF5722"},
+                {"name": "AI-Powered Retargeting Effectiveness Estimator", "link": "ai-powered-retargeting-effectiveness-estimator.html", "icon": "fas fa-robot", "color": "#4CAF50"},
+                {"name": "Predictive Sales Funnel Optimization", "link": "predictive-sales-funnel-optimization.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "Customer Purchase Probability Model", "link": "customer-purchase-probability-model.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+                {"name": "Personalized Content Performance Calculator", "link": "personalized-content-performance-calculator.html", "icon": "fas fa-chart-bar", "color": "#FF9800"},
+                {"name": "AI-Based Lead Nurturing ROI Calculator", "link": "ai-based-lead-nurturing-roi-calculator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"}
+                
+
                
             ];
 
             // Customer Retention & Engagement Calculators
             const customerRetentionEngagementCalculators = [
+              {"name": "Loyalty Program ROI Calculator", "link": "loyalty-program-roi-calculator.html", "icon": "fas fa-cogs", "color": "#3F51B5"},
+              {"name": "Customer Lifetime Value (AI-Based)", "link": "customer-lifetime-value-ai.html", "icon": "fas fa-chart-pie", "color": "#FF9800"},
+              {"name": "Referral Program Conversion Calculator", "link": "referral-program-conversion-calculator.html", "icon": "fas fa-users", "color": "#4CAF50"},
+              {"name": "Churn Reduction Impact Estimator", "link": "churn-reduction-impact-estimator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+              {"name": "Customer Engagement Score Calculator", "link": "customer-engagement-score-calculator.html", "icon": "fas fa-chart-line", "color": "#2196F3"},
+              {"name": "Net Promoter Score (NPS) Predictor", "link": "net-promoter-score-predictor.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+              {"name": "Personalization Impact Estimator", "link": "personalization-impact-estimator.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+              {"name": "Customer Feedback Sentiment Score", "link": "customer-feedback-sentiment-score.html", "icon": "fas fa-comment-dots", "color": "#FF5722"},
+              {"name": "Customer Reactivation Campaign Calculator", "link": "customer-reactivation-campaign-calculator.html", "icon": "fas fa-sync-alt", "color": "#009688"},
+              {"name": "Customer Complaint Resolution Time Estimator", "link": "customer-complaint-resolution-time-estimator.html", "icon": "fas fa-clock", "color": "#FF5722"},
+              {"name": "Customer Retention Rate Calculator", "link": "customer-retention-rate-calculator.html", "icon": "fas fa-users", "color": "#4CAF50"},
+              {"name": "Multichannel Engagement Score Analyzer", "link": "multichannel-engagement-score-analyzer.html", "icon": "fas fa-chart-line", "color": "#673AB7"},
+              {"name": "Brand Perception Index Calculator", "link": "brand-perception-index-calculator.html", "icon": "fas fa-tachometer-alt", "color": "#2196F3"},
+              {"name": "Interactive Content Engagement Estimator", "link": "interactive-content-engagement-estimator.html", "icon": "fas fa-chart-line", "color": "#FF4081"},
+              {"name": "Mobile App Retention Rate Analyzer", "link": "mobile-app-retention-rate-analyzer.html", "icon": "fas fa-chart-line", "color": "#2196F3"},
+              {"name": "CRM Effectiveness ROI Calculator", "link": "crm-effectiveness-roi-calculator.html", "icon": "fas fa-chart-line", "color": "#2196F3"},
+              {"name": "Customer Response Time vs. Satisfaction Score", "link": "customer-response-time-vs-satisfaction-score.html", "icon": "fas fa-clock", "color": "#FF5722"},
+              {"name": "Cross-Selling & Upselling Success Predictor", "link": "cross-selling-upselling-success-predictor.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+              {"name": "Sentiment-Driven Customer Segmentation Model", "link": "sentiment-driven-customer-segmentation-model.html", "icon": "fas fa-chart-pie", "color": "#4CAF50"}
+
+
       
             ];
 
@@ -711,6 +822,19 @@
                {"name": "Marketing Efficiency Ratio Calculator", "link": "marketing-efficiency-ratio-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF9800"},
                {"name": "Demand Generation Impact Estimator", "link": "demand-generation-impact-estimator.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
                {"name": "Customer Satisfaction Index Calculator", "link": "customer-satisfaction-index-calculator.html", "icon": "fas fa-chart-pie", "color": "#FF5722"},
+               {"name": "Sentiment Analysis ROI Predictor", "link": "sentiment-analysis-roi-predictor.html", "icon": "fas fa-chart-pie", "color": "#FF9800"},
+               {"name": "Seasonal Marketing Performance Estimator", "link": "seasonal-marketing-performance-estimator.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+               {"name": "Influencer ROI Estimator", "link": "influencer-roi-estimator.html", "icon": "fas fa-chart-line", "color": "#FF9800"},
+               {"name": "Podcast Ad ROI Calculator", "link": "podcast-ad-roi-calculator.html", "icon": "fas fa-podcast", "color": "#FF5722"},
+               {"name": "QR Code Campaign Performance Analyzer", "link": "qr-code-campaign-performance-analyzer.html", "icon": "fas fa-qrcode", "color": "#009688"},
+               {"name": "Event Sponsorship ROI Calculator", "link": "event-sponsorship-roi-calculator.html", "icon": "fas fa-hand-holding-usd", "color": "#673AB7"},
+               {"name": "Trade Show Lead Generation Estimator", "link": "trade-show-lead-generation-estimator.html", "icon": "fas fa-users", "color": "#3F51B5"},
+               {"name": "Affiliate Marketing Performance Predictor", "link": "affiliate-marketing-performance-predictor.html", "icon": "fas fa-chart-line", "color": "#FF5722"},
+               {"name": "Webinar Engagement Rate Analyzer", "link": "webinar-engagement-rate-analyzer.html", "icon": "fas fa-chart-line", "color": "#4CAF50"},
+               {"name": "Community Engagement Index Calculator", "link": "community-engagement-index-calculator.html", "icon": "fas fa-users", "color": "#03A9F4"},
+               {"name": "Branded Content Performance Score", "link": "branded-content-performance-score.html", "icon": "fas fa-flag", "color": "#FFC107"},
+               {"name": "Content Repurposing ROI Estimator", "link": "content-repurposing-roi-estimator.html", "icon": "fas fa-sync-alt", "color": "#FF5722"},
+               {"name": "Influencer Fraud Detection Score", "link": "influencer-fraud-detection-score.html", "icon": "fas fa-user-check", "color": "#FF4081"}
          
             ];
 

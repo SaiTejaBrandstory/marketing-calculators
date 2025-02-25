@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Willingness to Pay (WTP) Prediction Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Willingness to Pay (WTP) Prediction Tool</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool predicts the price a customer is willing to pay based on a combination of factors such as product quality, competitor pricing, and customer income.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>WTP = (Product Quality Factor * Competitor Price Factor) + Customer Income Factor</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Product Quality Factor:</b> 0.8</p>
+        <p><b>Competitor Price Factor:</b> ₹150</p>
+        <p><b>Customer Income Factor:</b> ₹1000</p>
+        <p><b>WTP = (0.8 * 150) + 1000 = ₹1120</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Customer Willingness to Pay Prediction</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Product Quality Factor</b></td>
+                        <td><input type="number" step="0.1" id="productQuality" class="form-control" value="0.8" oninput="calculateWTP()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Competitor Price Factor</b></td>
+                        <td><input type="number" id="competitorPrice" class="form-control" value="150" oninput="calculateWTP()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Customer Income Factor</b></td>
+                        <td><input type="number" id="customerIncome" class="form-control" value="1000" oninput="calculateWTP()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Willingness to Pay (WTP)</b></td>
+                        <td><h4 class="text-success" id="wtp">1120</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>WTP Prediction Chart</b></h4>
+                <canvas id="wtpChart" style="max-width: 400px; max-height: 300px; width: 100%; height: 100%;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is WTP (Willingness to Pay)?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Willingness to Pay (WTP) is the maximum price a customer is willing to pay for a product or service based on perceived value.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is WTP calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        WTP is calculated by combining factors like product quality, competitor pricing, and the income of the customer.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Willingness to Pay (WTP) Prediction Tool. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let wtpChart;
+
+        function calculateWTP() {
+            let productQuality = parseFloat(document.getElementById('productQuality').value) || 0;
+            let competitorPrice = parseFloat(document.getElementById('competitorPrice').value) || 0;
+            let customerIncome = parseFloat(document.getElementById('customerIncome').value) || 0;
+
+            let wtp = (productQuality * competitorPrice) + customerIncome;
+
+            document.getElementById('wtp').innerText = wtp.toFixed(2);
+
+            updateChart(wtp);
+        }
+
+        function updateChart(wtp) {
+            let ctx = document.getElementById('wtpChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (wtpChart) {
+                wtpChart.destroy();
+            }
+
+            // Create new chart with updated data
+            wtpChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['WTP Prediction'],
+                    datasets: [{
+                        data: [wtp],
+                        backgroundColor: ['#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateWTP;
+    </script>
+</body>
+</html>

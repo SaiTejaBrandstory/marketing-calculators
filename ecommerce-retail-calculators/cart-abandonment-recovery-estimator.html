@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Abandonment Recovery Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Cart Abandonment Recovery Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps estimate the potential revenue recovery from cart abandonment by evaluating the recovery rate, number of abandoned carts, and the average cart value.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Cart Abandonment Recovery = (Number of Abandoned Carts * Recovery Rate * Average Cart Value)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Number of Abandoned Carts:</b> 200</p>
+        <p><b>Recovery Rate:</b> 50%</p>
+        <p><b>Average Cart Value:</b> ₹2,000</p>
+        <p><b>Cart Abandonment Recovery = (200 * 0.50 * ₹2,000) = ₹200,000</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Cart Abandonment Recovery</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Number of Abandoned Carts</b></td>
+                        <td><input type="number" id="abandonedCarts" class="form-control" value="200" oninput="calculateRecovery()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Recovery Rate (%)</b></td>
+                        <td><input type="number" id="recoveryRate" class="form-control" value="50" oninput="calculateRecovery()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Average Cart Value (in ₹)</b></td>
+                        <td><input type="number" id="avgCartValue" class="form-control" value="2000" oninput="calculateRecovery()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Cart Abandonment Recovery (in ₹)</b></td>
+                        <td><h4 class="text-success" id="recoveryValue">200000</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="recoveryChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Cart Abandonment Recovery?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Cart Abandonment Recovery refers to the potential revenue that can be recovered by re-engaging customers who abandoned their carts, based on the recovery rate.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Cart Abandonment Recovery calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The formula is: <b>(Number of Abandoned Carts * Recovery Rate * Average Cart Value)</b>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Cart Abandonment Recovery important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Cart Abandonment Recovery helps businesses estimate how much revenue can be recouped by recovering abandoned carts, allowing for more targeted marketing efforts and optimization.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Cart Abandonment Recovery Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let recoveryChart;
+
+        function calculateRecovery() {
+            let abandonedCarts = parseFloat(document.getElementById('abandonedCarts').value) || 0;
+            let recoveryRate = parseFloat(document.getElementById('recoveryRate').value) || 0;
+            let avgCartValue = parseFloat(document.getElementById('avgCartValue').value) || 0;
+
+            let recoveryValue = abandonedCarts * (recoveryRate / 100) * avgCartValue;
+
+            document.getElementById('recoveryValue').innerText = recoveryValue.toFixed(2);
+
+            updateChart(abandonedCarts, recoveryRate, avgCartValue);
+        }
+
+        function updateChart(abandonedCarts, recoveryRate, avgCartValue) {
+            let ctx = document.getElementById('recoveryChart').getContext('2d');
+            if (recoveryChart) {
+                recoveryChart.destroy();
+            }
+
+            recoveryChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Abandoned Carts', 'Recovery Rate', 'Average Cart Value'],
+                    datasets: [{
+                        data: [abandonedCarts, recoveryRate, avgCartValue],
+                        backgroundColor: ['#FF5733', '#4CAF50', '#2196F3'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateRecovery;
+    </script>
+</body>
+</html>

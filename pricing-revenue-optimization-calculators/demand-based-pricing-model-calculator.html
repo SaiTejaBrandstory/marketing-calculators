@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand-Based Pricing Model Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Demand-Based Pricing Model Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This tool helps you calculate the optimal price point based on demand elasticity, unit cost, and expected sales volume. It enables businesses to adjust pricing dynamically according to demand and maximize profit.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Optimal Price = Unit Cost * (1 + Markup Percentage)</b></p>
+        <p><b>Where Markup Percentage = (Expected Sales Volume / Total Market Demand) * Demand Elasticity</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p><b>Unit Cost:</b> ₹100</p>
+        <p><b>Expected Sales Volume:</b> 800</p>
+        <p><b>Total Market Demand:</b> 1000</p>
+        <p><b>Demand Elasticity:</b> 1.2</p>
+        <p><b>Optimal Price = 100 * (1 + ((800 / 1000) * 1.2)) = ₹196</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Demand-Based Pricing Model Calculator</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Unit Cost</b></td>
+                        <td><input type="number" id="unitCost" class="form-control" value="100" oninput="calculateOptimalPrice()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Expected Sales Volume</b></td>
+                        <td><input type="number" id="salesVolume" class="form-control" value="800" oninput="calculateOptimalPrice()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Market Demand</b></td>
+                        <td><input type="number" id="marketDemand" class="form-control" value="1000" oninput="calculateOptimalPrice()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Demand Elasticity</b></td>
+                        <td><input type="number" id="elasticity" class="form-control" value="1.2" oninput="calculateOptimalPrice()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Optimal Price</b></td>
+                        <td><h4 class="text-success" id="optimalPrice">196.00</h4></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="col-lg-6 my-4">
+                <h4><b>Price vs. Demand Chart</b></h4>
+                <canvas id="pricingChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Demand-Based Pricing?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Demand-based pricing is a pricing strategy where the price of a product or service is set based on consumer demand, and it may fluctuate with market conditions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>What is Demand Elasticity?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Demand elasticity refers to the sensitivity of demand to changes in price. A higher elasticity means that demand decreases significantly with an increase in price.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Demand-Based Pricing Model Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let pricingChart;
+
+        function calculateOptimalPrice() {
+            let unitCost = parseFloat(document.getElementById('unitCost').value) || 0;
+            let salesVolume = parseFloat(document.getElementById('salesVolume').value) || 0;
+            let marketDemand = parseFloat(document.getElementById('marketDemand').value) || 0;
+            let elasticity = parseFloat(document.getElementById('elasticity').value) || 0;
+
+            let markupPercentage = ((salesVolume / marketDemand) * elasticity);
+            let optimalPrice = unitCost * (1 + markupPercentage);
+
+            document.getElementById('optimalPrice').innerText = optimalPrice.toFixed(2);
+
+            updateChart(optimalPrice, markupPercentage);
+        }
+
+        function updateChart(optimalPrice, markupPercentage) {
+            let ctx = document.getElementById('pricingChart').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (pricingChart) {
+                pricingChart.destroy();
+            }
+
+            // Create new chart with updated data
+            pricingChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Markup Percentage', 'Optimal Price'],
+                    datasets: [{
+                        data: [markupPercentage, optimalPrice],
+                        backgroundColor: ['#FF5733', '#4CAF50'],
+                        borderColor: '#4CAF50',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateOptimalPrice;
+    </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Selling & Upselling Success Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Cross-Selling & Upselling Success Predictor</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p>
+            The Cross-Selling & Upselling Success Predictor helps businesses assess their potential success in increasing revenue through cross-selling and upselling strategies. 
+            By analyzing data on customer behavior, purchase history, and product compatibility, businesses can predict the likelihood of success in selling additional or upgraded products. 
+            This calculator uses a weighted formula based on the number of successful cross-sell/upsell attempts and the conversion rates to provide a success prediction. 
+            The result helps identify the right opportunities for maximizing customer value through relevant offerings.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Success Prediction (%) = (Number of successful cross-sell/upsell attempts * Conversion Rate * Weight Factor)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If your successful cross-sell/upsell attempts are 30, conversion rate is 0.25 (25%), and the weight factor is 0.6, the calculation would be:</p>
+        <p><b>Success Prediction = (30 * 0.25 * 0.6) = 4.5</b></p>
+
+        <h4 class="my-4">Enter Metrics:</h4>
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Metric</th>
+                            <th scope="col">Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Successful Attempts (Cross-sell/Upsell)</td>
+                            <td><input id="successfulAttempts" class="form-control" type="number" value="30" oninput="calculateSuccess()"></td>
+                        </tr>
+                        <tr>
+                            <td>Conversion Rate</td>
+                            <td><input id="conversionRate" class="form-control" type="number" value="0.25" step="0.01" oninput="calculateSuccess()"></td>
+                        </tr>
+                        <tr>
+                            <td>Weight Factor</td>
+                            <td><input id="weightFactor" class="form-control" type="number" value="0.6" step="0.1" oninput="calculateSuccess()"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Success Prediction (%)</b></td>
+                            <td><span id="successResult" class="text-primary">4.5</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Success Prediction Graph</b></h4>
+                <canvas id="successChart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is cross-selling and upselling?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Cross-selling involves recommending related or complementary products to customers, while upselling involves encouraging customers to purchase a more expensive or upgraded version of the product they are already buying.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is conversion rate important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Conversion rate is critical because it measures the effectiveness of your cross-selling and upselling efforts. A higher conversion rate indicates that customers are more likely to accept the additional or upgraded offer.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How can I improve my cross-selling and upselling strategies?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improving cross-selling and upselling strategies can be achieved by understanding your customers' needs, offering personalized recommendations, and timing the offers at the right moment during the buying process.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Cross-Selling & Upselling Success Predictor. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let successChart;
+
+        function calculateSuccess() {
+            const successfulAttempts = parseFloat(document.getElementById('successfulAttempts').value) || 0;
+            const conversionRate = parseFloat(document.getElementById('conversionRate').value) || 0;
+            const weightFactor = parseFloat(document.getElementById('weightFactor').value) || 0;
+
+            const successPrediction = (successfulAttempts * conversionRate * weightFactor);
+
+            document.getElementById('successResult').innerText = successPrediction.toFixed(2);
+            updateChart(successPrediction);
+        }
+
+        function updateChart(successPrediction) {
+            let ctx = document.getElementById('successChart').getContext('2d');
+            if (successChart) {
+                successChart.destroy();
+            }
+
+            successChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Success Prediction'],
+                    datasets: [{
+                        data: [successPrediction],
+                        backgroundColor: ['#FF9800'],
+                        borderColor: ['#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Initial calculation for default values
+        calculateSuccess();
+    </script>
+</body>
+</html>

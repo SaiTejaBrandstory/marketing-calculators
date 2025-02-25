@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Complaint Resolution Time Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Complaint Resolution Time Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p><b>Resolution Time (in hours) = (Average Response Time × Weight for Response) + (Average Resolution Time × Weight for Resolution)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If:</p>
+        <ul>
+            <li>Average Response Time = 2 hours</li>
+            <li>Average Resolution Time = 5 hours</li>
+            <li>Weight for Response = 0.3</li>
+            <li>Weight for Resolution = 0.7</li>
+        </ul>
+        <p><b>Resolution Time = (2 × 0.3) + (5 × 0.7) = 0.6 + 3.5 = 4.1 hours</b></p>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Enter Data</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Average Response Time (hrs)</b></td>
+                        <td><input type="number" id="responseTime" class="form-control" value="2" oninput="calculateResolutionTime()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Average Resolution Time (hrs)</b></td>
+                        <td><input type="number" id="resolutionTime" class="form-control" value="5" oninput="calculateResolutionTime()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Weight for Response</b></td>
+                        <td><input type="number" id="responseWeight" class="form-control" value="0.3" oninput="calculateResolutionTime()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Weight for Resolution</b></td>
+                        <td><input type="number" id="resolutionWeight" class="form-control" value="0.7" oninput="calculateResolutionTime()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Resolution Time (hrs)</b></td>
+                        <td><h4 class="text-success" id="calculatedTime">4.1</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="resolutionChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Resolution Time?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Resolution Time is the time taken to resolve a customer complaint, considering both response and resolution times.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How do weights affect the Resolution Time?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Weights determine how much influence each component (response and resolution) has on the overall resolution time. Adjusting the weights allows you to prioritize one phase over the other.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How can I reduce the Resolution Time?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To reduce the resolution time, you can optimize your response process, train your team for quicker resolutions, and utilize automation where possible.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Complaint Resolution. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let resolutionChart;
+
+        function calculateResolutionTime() {
+            let responseTime = parseFloat(document.getElementById('responseTime').value) || 0;
+            let resolutionTime = parseFloat(document.getElementById('resolutionTime').value) || 0;
+            let responseWeight = parseFloat(document.getElementById('responseWeight').value) || 0;
+            let resolutionWeight = parseFloat(document.getElementById('resolutionWeight').value) || 0;
+
+            let totalResolutionTime = (responseTime * responseWeight) + (resolutionTime * resolutionWeight);
+            document.getElementById('calculatedTime').innerText = totalResolutionTime.toFixed(2);
+
+            updateChart(responseTime, resolutionTime, totalResolutionTime);
+        }
+
+        function updateChart(responseTime, resolutionTime, totalResolutionTime) {
+            let ctx = document.getElementById('resolutionChart').getContext('2d');
+            if (resolutionChart) {
+                resolutionChart.destroy();
+            }
+
+            resolutionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Response Time', 'Resolution Time', 'Total Resolution Time'],
+                    datasets: [{
+                        label: 'Time in Hours',
+                        data: [responseTime, resolutionTime, totalResolutionTime],
+                        backgroundColor: ['#FFC107', '#4CAF50', '#2196F3']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = calculateResolutionTime;
+    </script>
+</body>
+</html>

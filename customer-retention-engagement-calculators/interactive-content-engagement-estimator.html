@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Content Engagement Estimator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Interactive Content Engagement Estimator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p><b>Content Engagement Score = (User Interactions × 0.5) + (Time Spent (min) × 0.3) + (Click-through Rate (%) × 0.2)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If you have:</p>
+        <ul>
+            <li><b>User Interactions: 500</b></li>
+            <li><b>Time Spent: 8 minutes</b></li>
+            <li><b>Click-through Rate: 12%</b></li>
+        </ul>
+        <p><b>Content Engagement Score = (500 × 0.5) + (8 × 0.3) + (12 × 0.2) = 250 + 2.4 + 2.4 = 254.8</b></p>
+
+        <h4 class="my-4">Enter Metrics:</h4>
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Metric</th>
+                            <th scope="col">Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>User Interactions</td>
+                            <td><input id="userInteractions" class="form-control" type="number" value="500" oninput="calculateEngagement()"></td>
+                        </tr>
+                        <tr>
+                            <td>Time Spent (minutes)</td>
+                            <td><input id="timeSpent" class="form-control" type="number" value="8" oninput="calculateEngagement()"></td>
+                        </tr>
+                        <tr>
+                            <td>Click-through Rate (%)</td>
+                            <td><input id="clickThroughRate" class="form-control" type="number" value="12" oninput="calculateEngagement()"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Content Engagement Score</b></td>
+                            <td><span id="engagementScore" class="text-primary">254.8</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Engagement Graph</b></h4>
+                <canvas id="engagementChart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the Content Engagement Score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The Content Engagement Score measures how engaging your content is based on interactions, time spent, and click-through rate.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is this score important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        This score helps marketers understand how well their content resonates with the audience, which can guide future content strategies.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How do the weights in the formula impact the result?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The weights reflect the relative importance of each metric. Interactions contribute the most to the engagement score, followed by time spent and click-through rate.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Interactive Content Engagement Estimator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let engagementChart;
+
+        function calculateEngagement() {
+            const userInteractions = parseFloat(document.getElementById('userInteractions').value) || 0;
+            const timeSpent = parseFloat(document.getElementById('timeSpent').value) || 0;
+            const clickThroughRate = parseFloat(document.getElementById('clickThroughRate').value) || 0;
+
+            const engagementScore = (userInteractions * 0.5) + (timeSpent * 0.3) + (clickThroughRate * 0.2);
+
+            document.getElementById('engagementScore').innerText = engagementScore.toFixed(2);
+            updateChart(userInteractions, timeSpent, clickThroughRate);
+        }
+
+        function updateChart(userInteractions, timeSpent, clickThroughRate) {
+            let ctx = document.getElementById('engagementChart').getContext('2d');
+            if (engagementChart) {
+                engagementChart.destroy();
+            }
+
+            engagementChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['User Interactions', 'Time Spent', 'Click-through Rate'],
+                    datasets: [{
+                        data: [userInteractions, timeSpent, clickThroughRate],
+                        backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+                        borderColor: ['#388E3C', '#FF9800', '#D32F2F'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Initial calculation for default values
+        calculateEngagement();
+    </script>
+</body>
+</html>

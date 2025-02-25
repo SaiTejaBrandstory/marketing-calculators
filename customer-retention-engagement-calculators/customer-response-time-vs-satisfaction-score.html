@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Response Time vs. Satisfaction Score Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Response Time vs. Satisfaction Score Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p>
+            The Customer Response Time vs. Satisfaction Score Calculator helps businesses assess the relationship between their customer service response time and customer satisfaction levels. 
+            A faster response time often leads to higher satisfaction scores, as customers appreciate timely and helpful support. 
+            This calculator allows businesses to input their average response time and customer satisfaction score to determine how effectively they are meeting customer expectations. 
+            The formula used takes response time into account, along with satisfaction levels, providing an insightful metric that can guide improvements in customer service. 
+            Whether you're a small startup or a large corporation, understanding this balance is crucial to optimizing your customer support strategies.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p><b>Customer Satisfaction Score (%) = 100 - (Response Time in minutes * Weightage Factor)</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If your average response time is 20 minutes and the weightage factor is 0.5, the calculation would be:</p>
+        <p><b>Customer Satisfaction Score = 100 - (20 * 0.5) = 90%</b></p>
+
+        <h4 class="my-4">Enter Metrics:</h4>
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Metric</th>
+                            <th scope="col">Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Response Time (in minutes)</td>
+                            <td><input id="responseTime" class="form-control" type="number" value="20" oninput="calculateSatisfaction()"></td>
+                        </tr>
+                        <tr>
+                            <td>Weightage Factor</td>
+                            <td><input id="weightageFactor" class="form-control" type="number" value="0.5" step="0.1" oninput="calculateSatisfaction()"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Customer Satisfaction Score (%)</b></td>
+                            <td><span id="satisfactionResult" class="text-primary">90%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Satisfaction Score Graph</b></h4>
+                <canvas id="satisfactionChart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is the relationship between response time and satisfaction score?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A shorter response time generally leads to a higher satisfaction score because customers expect timely resolution of their issues. 
+                        However, customer satisfaction can also depend on the quality of the solution provided.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is customer response time so important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Customer response time is critical as it directly impacts customer experience. A faster response time can enhance customer loyalty and increase the likelihood of positive reviews.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How can I improve response time?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improving response time can be achieved through better resource management, automation, and providing a self-service option like FAQs or chatbots.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Response Time vs. Satisfaction Score Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let satisfactionChart;
+
+        function calculateSatisfaction() {
+            const responseTime = parseFloat(document.getElementById('responseTime').value) || 0;
+            const weightageFactor = parseFloat(document.getElementById('weightageFactor').value) || 0;
+
+            const satisfactionScore = 100 - (responseTime * weightageFactor);
+
+            document.getElementById('satisfactionResult').innerText = satisfactionScore.toFixed(2) + '%';
+            updateChart(responseTime, satisfactionScore);
+        }
+
+        function updateChart(responseTime, satisfactionScore) {
+            let ctx = document.getElementById('satisfactionChart').getContext('2d');
+            if (satisfactionChart) {
+                satisfactionChart.destroy();
+            }
+
+            satisfactionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Response Time', 'Satisfaction Score'],
+                    datasets: [{
+                        data: [responseTime, satisfactionScore],
+                        backgroundColor: ['#FFC107', '#4CAF50'],
+                        borderColor: ['#FF9800', '#388E3C'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Initial calculation for default values
+        calculateSatisfaction();
+    </script>
+</body>
+</html>

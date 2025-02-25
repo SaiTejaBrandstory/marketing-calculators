@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Probability Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Customer Churn Probability Calculator</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            This calculator helps estimate the probability of customer churn based on their usage decrease, satisfaction, and engagement.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The churn probability is calculated using the following formula:</p>
+        <ul>
+            <li><b>Churn Probability</b> = (Usage Decrease × 0.4) + (Satisfaction × 0.3) + (Engagement × 0.3)</li>
+        </ul>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the values are:</p>
+        <ul>
+            <li><b>Usage Decrease</b>: 10</li>
+            <li><b>Satisfaction</b>: 70</li>
+            <li><b>Engagement</b>: 60</li>
+        </ul>
+        <p>The churn probability would be:</p>
+        <pre>(10 × 0.4) + (70 × 0.3) + (60 × 0.3) = 4 + 21 + 18 = 43%</pre>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Churn Probability Calculation</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Usage Decrease (%)</b></td>
+                        <td><input type="number" id="usageDecrease" class="form-control" value="10" oninput="calculateChurnProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Satisfaction (%)</b></td>
+                        <td><input type="number" id="satisfaction" class="form-control" value="70" oninput="calculateChurnProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Engagement (%)</b></td>
+                        <td><input type="number" id="engagement" class="form-control" value="60" oninput="calculateChurnProbability()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Churn Probability (%)</b></td>
+                        <td><h4 class="text-success" id="churnProbability">43</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="churnChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is churn probability?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Churn probability is the likelihood that a customer will stop using a product or service based on specific factors like usage decrease, satisfaction, and engagement.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is churn probability calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The churn probability is calculated by weighing the usage decrease, satisfaction, and engagement values using the formula: (Usage Decrease × 0.4) + (Satisfaction × 0.3) + (Engagement × 0.3).
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How can I reduce churn probability?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        To reduce churn probability, focus on improving customer engagement, addressing satisfaction concerns, and minimizing usage decrease.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Customer Churn Probability Calculator. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let churnChart;
+
+        function calculateChurnProbability() {
+            let usageDecrease = parseFloat(document.getElementById('usageDecrease').value) || 0;
+            let satisfaction = parseFloat(document.getElementById('satisfaction').value) || 0;
+            let engagement = parseFloat(document.getElementById('engagement').value) || 0;
+
+            let churnProbability = (usageDecrease * 0.4) + (satisfaction * 0.3) + (engagement * 0.3);
+            document.getElementById('churnProbability').innerText = churnProbability.toFixed(2);
+
+            updateChart(churnProbability);
+        }
+
+        function updateChart(churnProbability) {
+            let ctx = document.getElementById('churnChart').getContext('2d');
+            if (churnChart) {
+                churnChart.destroy();
+            }
+
+            churnChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Churn Probability'],
+                    datasets: [{
+                        label: 'Churn Probability (%)',
+                        data: [churnProbability],
+                        backgroundColor: ['#FF5722'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateChurnProbability;
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Sales Funnel Optimization</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Predictive Sales Funnel Optimization</h1>
+    </header>
+
+    <div class="container mt-5">
+        <p class="py-4">
+            The Predictive Sales Funnel Optimization tool helps businesses forecast their sales performance based on various stages of the sales funnel. It estimates the conversion rate from lead to customer and predicts the sales outcome based on historical data and marketing inputs. Input your funnel data below to optimize your sales process.
+        </p>
+
+        <h5><b>Formula:</b></h5>
+        <p>The formula for sales funnel optimization is:</p>
+        <p><b>Conversion Rate</b> = (Leads Converted to Sales / Total Leads) × 100</p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If the values are:</p>
+        <ul>
+            <li><b>Leads Converted to Sales</b>: 120</li>
+            <li><b>Total Leads</b>: 600</li>
+        </ul>
+        <p>The conversion rate would be:</p>
+        <pre>((120 / 600) × 100) = 20%</pre>
+
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <h4><b>Input for Sales Funnel Optimization</b></h4>
+                <table class="table table-bordered bg-light">
+                    <tr>
+                        <td><b>Leads Converted to Sales</b></td>
+                        <td><input type="number" id="convertedLeads" class="form-control" value="120" oninput="calculateOptimization()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Total Leads</b></td>
+                        <td><input type="number" id="totalLeads" class="form-control" value="600" oninput="calculateOptimization()"></td>
+                    </tr>
+                    <tr>
+                        <td><b>Conversion Rate (%)</b></td>
+                        <td><h4 class="text-success" id="conversionRate">20%</h4></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-6 my-4 d-flex justify-content-center align-items-center">
+                <canvas id="conversionRateChart" style="max-width: 400px; max-height: 400px; margin: auto;"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Sales Funnel Optimization?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Sales funnel optimization refers to the process of improving the efficiency of the sales funnel, ensuring that more leads are converted into paying customers.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>How is Conversion Rate calculated?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        The conversion rate is calculated by dividing the number of leads converted into sales by the total number of leads and then multiplying the result by 100 to get the percentage.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>Why is Sales Funnel Optimization important?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Optimizing the sales funnel ensures that marketing and sales teams are working efficiently to convert leads into customers, maximizing revenue generation.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Predictive Sales Funnel Optimization Tool. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let conversionRateChart;
+
+        function calculateOptimization() {
+            let convertedLeads = parseFloat(document.getElementById('convertedLeads').value) || 0;
+            let totalLeads = parseFloat(document.getElementById('totalLeads').value) || 0;
+
+            let conversionRate = 0;
+            if (totalLeads > 0) {
+                conversionRate = (convertedLeads / totalLeads) * 100;
+            }
+
+            document.getElementById('conversionRate').innerText = conversionRate.toFixed(2) + '%';
+            updateChart(conversionRate);
+        }
+
+        function updateChart(conversionRate) {
+            let ctx = document.getElementById('conversionRateChart').getContext('2d');
+            if (conversionRateChart) {
+                conversionRateChart.destroy();
+            }
+
+            conversionRateChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sales Funnel Conversion Rate'],
+                    datasets: [{
+                        label: 'Conversion Rate (%)',
+                        data: [conversionRate],
+                        backgroundColor: ['#4CAF50'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        window.onload = calculateOptimization;
+    </script>
+</body>
+</html>

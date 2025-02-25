@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile App Retention Rate Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="text-center py-3 bg-dark text-white">
+        <h1>Mobile App Retention Rate Analyzer</h1>
+    </header>
+
+    <div class="container mt-5">
+        <h5><b>Formula:</b></h5>
+        <p><b>Retention Rate (%) = ((Number of Active Users at End of Period - New Users) / Number of Users at Start of Period) × 100</b></p>
+
+        <h6><b>Example Calculation:</b></h6>
+        <p>If you have:</p>
+        <ul>
+            <li><b>Number of Users at Start of Period: 5000</b></li>
+            <li><b>New Users: 1500</b></li>
+            <li><b>Active Users at End of Period: 4000</b></li>
+        </ul>
+        <p><b>Retention Rate = ((4000 - 1500) / 5000) × 100 = (2500 / 5000) × 100 = 50%</b></p>
+
+        <h4 class="my-4">Enter Metrics:</h4>
+        <div class="row">
+            <div class="col-lg-6 my-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Metric</th>
+                            <th scope="col">Input</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Number of Users at Start of Period</td>
+                            <td><input id="startUsers" class="form-control" type="number" value="5000" oninput="calculateRetention()"></td>
+                        </tr>
+                        <tr>
+                            <td>New Users</td>
+                            <td><input id="newUsers" class="form-control" type="number" value="1500" oninput="calculateRetention()"></td>
+                        </tr>
+                        <tr>
+                            <td>Active Users at End of Period</td>
+                            <td><input id="endUsers" class="form-control" type="number" value="4000" oninput="calculateRetention()"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Retention Rate (%)</b></td>
+                            <td><span id="retentionRate" class="text-primary">50%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6 my-4">
+                <h4><b>Retention Rate Graph</b></h4>
+                <canvas id="retentionChart"></canvas>
+            </div>
+        </div>
+
+        <h3 class="mt-5"><b>Frequently Asked Questions (FAQs)</b></h3>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer1">
+                        <b>What is Retention Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Retention Rate measures the percentage of users who continue using your app over a defined period, indicating user engagement and satisfaction.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer2">
+                        <b>Why is Retention Rate Important?</b>
+                    </button>
+                </h2>
+                <div id="answer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        A higher retention rate indicates that users find the app valuable, which helps predict future growth and engagement, reducing churn.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer3">
+                        <b>How do I improve my Retention Rate?</b>
+                    </button>
+                </h2>
+                <div id="answer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Improving app usability, personalized notifications, and user engagement tactics can help increase retention and decrease churn.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-3 bg-dark text-white mt-5">
+        <p>&copy; 2025 Mobile App Retention Rate Analyzer. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let retentionChart;
+
+        function calculateRetention() {
+            const startUsers = parseFloat(document.getElementById('startUsers').value) || 0;
+            const newUsers = parseFloat(document.getElementById('newUsers').value) || 0;
+            const endUsers = parseFloat(document.getElementById('endUsers').value) || 0;
+
+            const retentionRate = ((endUsers - newUsers) / startUsers) * 100;
+
+            document.getElementById('retentionRate').innerText = retentionRate.toFixed(2) + '%';
+            updateChart(startUsers, newUsers, endUsers);
+        }
+
+        function updateChart(startUsers, newUsers, endUsers) {
+            let ctx = document.getElementById('retentionChart').getContext('2d');
+            if (retentionChart) {
+                retentionChart.destroy();
+            }
+
+            retentionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Start Users', 'New Users', 'End Users'],
+                    datasets: [{
+                        data: [startUsers, newUsers, endUsers],
+                        backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+                        borderColor: ['#388E3C', '#FF9800', '#D32F2F'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Initial calculation for default values
+        calculateRetention();
+    </script>
+</body>
+</html>
